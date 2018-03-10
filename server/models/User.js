@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const UserSchema = new mongoose.Schema({
     username: {type: String, required: true, index: {unique: true}},
     password: {type: String, required: true},
-    zipcodeDate: [ {startTrackDate: Date, zipcode: {type: mongoose.Schema.ObjectId, ref: 'zipcodes'}} ],
+    zipcodeDate: [ {startTrackDate: {type: Date, default: Date.now}, zipcode: {type: mongoose.Schema.ObjectId, ref: 'zipcodes'}} ],
     // zipcodes: [ {type: mongoose.Schema.ObjectId, ref: 'zipcodes'} ],
 }); 
 

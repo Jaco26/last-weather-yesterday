@@ -17,7 +17,6 @@ router.get('/', (req, res) => {
         let userInfo = {
             username: req.user.username,
             _id: req.user._id,
-            // zipcodes: req.user.zipcodes,
             zipcodeDate: req.user.zipcodeDate
         }
         res.send(userInfo);

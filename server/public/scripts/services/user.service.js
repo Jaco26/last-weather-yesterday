@@ -23,31 +23,40 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     },
 
-        self.logout = function () {
-            console.log('UserService -- logout');
-            $http.get('/api/user/logout').then(function (response) {
-                console.log('UserService -- logout -- logged out');
-                $location.path("/home");
+    self.logout = function () {
+        console.log('UserService -- logout');
+        $http.get('/api/user/logout').then(function (response) {
+            console.log('UserService -- logout -- logged out');
+            $location.path("/home");
+        });
+    }
+
+    self.submitZip = () => {
+        if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
+            alert('Enter a valid zipcode')
+        } else {
+            $http({
+                method: 'POST',
+                url: '/database/zipcode/' + self.userObject._id,
+                data: self.newZip
+            }).then(response => {
+                self.getuser();
+                self.newZip.zipcode = '';
+            }).catch(error => {
+                console.log('error');
             });
         }
+    }
 
-        self.submitZip = () => {
-            if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
-                alert('Enter a valid zipcode')
-            } else {
-                $http({
-                    method: 'POST',
-                    url: '/database/zipcode',
-                    data: self.newZip,
-                }).then(response => {
-                    self.getuser();
-                    self.newZip.zipcode = '';
-                }).catch(error => {
-                    console.log('error');
-                });
-            }
-            
-        }
-
+    // self.getUserAndZips = () => {
+    //     $http({
+    //         method: 'GET',
+    //         url: '/database/' + self.userObject._id,
+    //     }).then(response => {
+    //         self.userObject = response.data;
+    //     }).catch(error => {
+    //         console.log('Error on get user:', error);            
+    //     });
+    // }
 
 }]);
