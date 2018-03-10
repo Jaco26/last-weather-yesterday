@@ -3,4 +3,9 @@ myApp.controller('UserController', ['UserService', function (UserService) {
     let self = this;
     self.userService = UserService;
     self.userObject = UserService.userObject;
+
+    self.newZip = UserService.newZip
+
+    self.submitZip = UserService.submitZip;
+
 }]);

@@ -14,7 +14,13 @@ router.get('/', (req, res) => {
             console.log('req.isAuthenticated() true');
             console.log('returning user:', req.user);
         }
-        res.send(req.user);
+        let userInfo = {
+            username: req.user.username,
+            _id: req.user._id,
+            // zipcodes: req.user.zipcodes,
+            zipcodeDate: req.user.zipcodeDate
+        }
+        res.send(userInfo);
     } else {
         // failure best handled on the server. do redirect here.
         if (verbose) console.log('req.isAuthenticated() false');

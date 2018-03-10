@@ -10,6 +10,7 @@ const db = require('./modules/db-config');
 
 // Route includes
 const userRouter = require('./routes/user.router');
+const databaseRouter = require('./routes/database.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -23,6 +24,7 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
+app.use('/database', databaseRouter);
 
 // Serve static files
 app.use(express.static('server/public'));
