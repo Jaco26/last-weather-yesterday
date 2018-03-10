@@ -32,7 +32,7 @@ passport.use('local', new LocalStrategy({
     usernameField: 'username',
 }, ((req, username, password, done) => {
     if (verbose) console.log('trying to log in:', username, password);
-    Person.find({ username })
+    User.find({ username })
         .then((result) => {
             const user = result && result[0];
             if (verbose) console.log('using comparePassword:', password, user.password);
