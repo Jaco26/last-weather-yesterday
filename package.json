@@ -1,0 +1,30 @@
+{
+  "name": "last-weather-yesterday",
+  "version": "1.0.0",
+  "description": "Weather history",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaco26/last-weather-yesterday.git"
+  },
+  "keywords": [],
+  "author": "Jacob Albright",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jaco26/last-weather-yesterday/issues"
+  },
+  "homepage": "https://github.com/Jaco26/last-weather-yesterday#readme",
+  "dependencies": {
+    "angular": "^1.6.9",
+    "angular-route": "^1.6.9",
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "mongoose": "^5.0.9",
+    "node-cron": "^1.2.1"
+  }
+}
