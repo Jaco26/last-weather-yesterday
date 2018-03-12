@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const WeatherSchema = new mongoose.Schema({
     coord: { lon: Number, lat: Number },
     weather: [{
@@ -35,6 +36,7 @@ const WeatherSchema = new mongoose.Schema({
     name: String,
     cod: Number,
 })
+
 
 module.exports = WeatherSchema;
 
