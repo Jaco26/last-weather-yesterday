@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
     comment: String,
-    dateAdded: {type: Date, default: Date.now}
+    relatedDate: {type: Date, required: true}
 });
 
 

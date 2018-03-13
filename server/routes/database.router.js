@@ -5,6 +5,7 @@ const mongoose = require('../modules/db-config');
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
 
+
 router.post('/zipcode/:id', (req, res) => {
     let userId = req.params.id;
     let zipcodeToAdd = new Zipcode(req.body);
@@ -30,6 +31,22 @@ router.post('/zipcode/:id', (req, res) => {
         }
     });
 });
+
+// Get all zipcodes to be tracked
+router.get('/zipcode', (req, res) => {
+    Zipcode.find({}, (error, response) => {
+        if(error){
+            console.log('ERROR ON router /zipcode GET', error);
+            res.sendStatus(500);
+        } else {
+            let zipcodes = [];
+            for(let item of response){
+                zipcodes.push(item.zipcode)
+            }
+            res.send(zipcodes);
+        }
+    })
+})
 
 // router.get('/:id', (req, res) => {
 //     User.findById(req.params.id).populate('zipcodes').exec( (error, foundUser) => {

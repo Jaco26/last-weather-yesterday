@@ -2,8 +2,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {};
+
+    self.zipcode = {list: []};
     
     self.newZip = {zipcode: ''}
+
 
     self.getuser = function () {
         console.log('UserService -- getuser');
@@ -48,15 +51,24 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
     }
 
-    // self.getUserAndZips = () => {
-    //     $http({
-    //         method: 'GET',
-    //         url: '/database/' + self.userObject._id,
-    //     }).then(response => {
-    //         self.userObject = response.data;
-    //     }).catch(error => {
-    //         console.log('Error on get user:', error);            
-    //     });
-    // }
+    self.getAllZips = () => {
+        $http({
+            method: 'GET',
+            url: '/database/zipcode'
+        }).then(response => {
+            self.zipcode.list = response.data;
+            console.log(self.zipcode.list);
+        }).catch(error => {
+            console.log(error);  
+        });
+    }
 
+
+    // Init
+    self.getAllZips();
+
+
+
+    
+    
 }]);
