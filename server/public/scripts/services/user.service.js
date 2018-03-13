@@ -51,24 +51,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
     }
 
-    self.getAllZips = () => {
-        $http({
-            method: 'GET',
-            url: '/database/zipcode'
-        }).then(response => {
-            self.zipcode.list = response.data;
-            console.log(self.zipcode.list);
-        }).catch(error => {
-            console.log(error);  
-        });
-    }
-
-
-    // Init
-    self.getAllZips();
-
-
-
     
     
 }]);

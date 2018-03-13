@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 
 const WeatherSchema = new mongoose.Schema({
+    dateAdded: {type: Date, default: Date.now},
     coord: { lon: Number, lat: Number },
     weather: [{
         id: Number,
@@ -21,8 +22,8 @@ const WeatherSchema = new mongoose.Schema({
         deg: Number,
     },
     clouds: { all: Number },
-    rain: { "3h": Number },
-    snow: { "3h": Number },
+    rain: { three_hr: Number },
+    snow: { three_hr: Number },
     dt: Number,
     sys: {
         type: Number,
