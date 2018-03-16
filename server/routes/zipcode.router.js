@@ -10,8 +10,8 @@ let zipcodes = [];
 // Post a zipcode to the zipcodes collection and then
 // find user by id and update their zipcodeDate document with 
 // the ObjectId of the saved zipcode (see /models/User.js)
-router.post('/zipcode/:user-id', (req, res) => {
-    let userId = req.params.user-id;
+router.post('/zipcode/:userId', (req, res) => {
+    let userId = req.params.userId;
     let zipcodeToAdd = new Zipcode(req.body);
     zipcodeToAdd.save((error, savedZipcode) => {
         if (error) {
@@ -36,7 +36,19 @@ router.post('/zipcode/:user-id', (req, res) => {
 });
 
 
-
+// Get the user's zip codes from users collection and the weather 
+// stored in each one's document in the zipcodes collection
+router.get('/zipcode/:userId', (req, res) => {
+    // let userId = req.params.userId;
+    Zipcode.find({}).populate('users').exec( (error, foundUser) => {
+        if(error) {
+            console.log('Error on find', error);
+            res.sendStatus(500);
+        } else {
+            res.send(foundUser)
+        }
+    })
+})
 
 
 

@@ -14,7 +14,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             if (response.data.username) {
                 // user has a curret session on the server
                 self.userObject = response.data;
-                console.log('UserService -- getuser -- User Data: ', self.userObject);
+                self.getUserZips();
+                // console.log('UserService -- getuser -- User Data: ', self.userObject);
             } else {
                 console.log('UserService -- getuser -- failure');
                 // user has no session, bounce them back to the login page
@@ -40,7 +41,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         } else {
             $http({
                 method: 'POST',
-                url: '/database/zipcode/' + self.userObject._id,
+                url: `/database/zipcode/${self.userObject._id}`,
                 data: self.newZip
             }).then(response => {
                 self.getuser();
@@ -51,6 +52,18 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
     }
 
-    
+    self.getUserZips = () => {
+        $http({
+            method: 'GET',
+            url: `/database/zipcode/${self.userObject._id}`
+        }).then(response => {
+            // console.log(response.data);
+            self.userObject = {...self.userObject, zipcodeDate: response.data};
+            console.log(self.userObject);
+            
+        }).catch(error => {
+            console.log(error);            
+        });
+    }
     
 }]);
