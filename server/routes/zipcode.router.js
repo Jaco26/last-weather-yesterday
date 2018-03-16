@@ -36,16 +36,16 @@ router.post('/zipcode/:userId', (req, res) => {
 });
 
 
-// Get the user's zip codes from users collection and the weather 
-// stored in each one's document in the zipcodes collection
-router.get('/zipcode/:userId', (req, res) => {
-    // let userId = req.params.userId;
-    Zipcode.find({}).populate('users').exec( (error, foundUser) => {
+// GET all user's zipcodes and associated weather data
+router.get('/zipcode/:zipId', (req, res) => {
+    let zipId = req.params.zipId;
+    Zipcode.findById({"_id": zipId}).populate('users').exec( (error, foundZipcodes) => {
         if(error) {
             console.log('Error on find', error);
             res.sendStatus(500);
         } else {
-            res.send(foundUser)
+            console.log('foundZipcodes:', foundZipcodes);
+            res.send(foundZipcodes)
         }
     })
 })

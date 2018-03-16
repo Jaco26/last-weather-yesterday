@@ -2,8 +2,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {};
-
-    self.zipcode = {list: []};
+    self.zipcode = {list: []}
     
     self.newZip = {zipcode: ''}
 
@@ -14,8 +13,12 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             if (response.data.username) {
                 // user has a curret session on the server
                 self.userObject = response.data;
-                self.getUserZips();
-                // console.log('UserService -- getuser -- User Data: ', self.userObject);
+                self.zipcode.list = [];
+                for(let i = 0; i < self.userObject.zipcodeDate.length; i++){
+                    console.log(i);
+                    self.getUserZips(i);
+                }
+                console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
                 // user has no session, bounce them back to the login page
@@ -32,6 +35,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         $http.get('/api/user/logout').then(function (response) {
             console.log('UserService -- logout -- logged out');
             $location.path("/home");
+            self.userObject = {};
+            self.zipcode.list = [];
         });
     }
 
@@ -52,18 +57,23 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
     }
 
-    self.getUserZips = () => {
+    // GET all user's zipcodes and associated weather data
+    self.getUserZips = (index) => {
         $http({
             method: 'GET',
-            url: `/database/zipcode/${self.userObject._id}`
+            url: `/database/zipcode/${self.userObject.zipcodeDate[index].zipcode}`
         }).then(response => {
-            // console.log(response.data);
-            self.userObject = {...self.userObject, zipcodeDate: response.data};
-            console.log(self.userObject);
-            
+            self.zipcode.list = [...self.zipcode.list, response.data];
+            console.log(self.zipcode.list);
         }).catch(error => {
             console.log(error);            
         });
     }
+
+    // Init 
+  
     
 }]);
+
+
+// [...self.userObject, taco: {/*...self.userObject.zipcodeDate,*/ ...response.data }};
