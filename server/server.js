@@ -16,7 +16,7 @@ const cron = require('./modules/cron');
 // Route includes
 const userRouter = require('./routes/user.router');
 const zipcodeRouter = require('./routes/zipcode.router');
-const owmapiRouter = require('./routes/owmapi.router');
+
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -31,7 +31,7 @@ app.use(passport.session());
 /* Routes */
 app.use('/api/user', userRouter);
 app.use('/database', zipcodeRouter);
-app.use('/owmapi', owmapiRouter)
+
 
 
 // Serve static files

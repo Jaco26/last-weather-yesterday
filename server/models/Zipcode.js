@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const WeatherSchema = require('./Weather'); 
 
 const ZipcodeSchema = new mongoose.Schema({
-    zipcode: String,
+    zipcode: {type: String, unique: true},
     weather: [WeatherSchema],
 }); 
 
