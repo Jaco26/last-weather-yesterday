@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema(
                     type: Date, 
                     default: Date.now
                 }, 
-                zip: {
+                zipId: {
                     type: mongoose.Schema.ObjectId,
                     ref: 'zipcodes'
                 }

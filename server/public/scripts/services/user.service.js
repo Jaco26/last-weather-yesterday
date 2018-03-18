@@ -14,7 +14,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 // user has a curret session on the server
                 self.userObject = response.data;
                 self.zipcodes.list = [];
-                for(let i = 0; i < self.userObject.zipcodeDate.length; i++){
+                console.log(self.userObject);
+                
+                for(let i = 0; i < self.userObject.zipcode.length; i++){
                     console.log(i);
                     self.getUserZips(i);
                 }
@@ -59,7 +61,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.getUserZips = (index) => {
         $http({
             method: 'GET',
-            url: `/database/zipcode/${self.userObject.zipcodeDate[index].zipcode}`
+            url: `/database/zipcode/${self.userObject.zipcode[index].zipId}`
         }).then(response => {
             self.zipcodes.list = [...self.zipcodes.list, response.data];
             console.log(self.zipcodes.list);
