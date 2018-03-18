@@ -2,7 +2,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {};
-    self.zipcode = {list: []}
+    self.zipcodes = {list: []}
     
     self.newZip = {zipcode: ''}
 
@@ -13,7 +13,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             if (response.data.username) {
                 // user has a curret session on the server
                 self.userObject = response.data;
-                self.zipcode.list = [];
+                self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcodeDate.length; i++){
                     console.log(i);
                     self.getUserZips(i);
@@ -35,8 +35,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         $http.get('/api/user/logout').then(function (response) {
             console.log('UserService -- logout -- logged out');
             $location.path("/login");
-            self.userObject = {};
-            self.zipcode.list = [];
         });
     }
 
@@ -63,8 +61,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             method: 'GET',
             url: `/database/zipcode/${self.userObject.zipcodeDate[index].zipcode}`
         }).then(response => {
-            self.zipcode.list = [...self.zipcode.list, response.data];
-            console.log(self.zipcode.list);
+            self.zipcodes.list = [...self.zipcodes.list, response.data];
+            console.log(self.zipcodes.list);
         }).catch(error => {
             console.log(error);            
         });
@@ -77,3 +75,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
 
 
 // [...self.userObject, taco: {/*...self.userObject.zipcodeDate,*/ ...response.data }};
+
+
+

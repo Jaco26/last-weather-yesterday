@@ -21,7 +21,7 @@ router.post('/zipcode/:userId', (req, res) => {
             console.log('savedZipcode:', savedZipcode);
             User.findByIdAndUpdate(
                 { "_id": userId },
-                { $push: { zipcodeDate: { zipcode: savedZipcode._id } } },
+                { $push: { zipcode: { zip: savedZipcode._id } } },
                 (pusherror, doc) => {
                     if (pusherror) {
                         console.log('error on push zipcode to user.zipcodeDate', pusherror);

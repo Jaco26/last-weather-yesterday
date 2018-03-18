@@ -13,7 +13,7 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 
 
 // run the code inside this cron.schedule once every 2 hours
-cron.schedule('2 * * * *', function () {
+cron.schedule('0 */2 * * *', function () {
     Zipcode.find({}, (error, response) => {
         if (error) {
             console.log('ERROR ON cron.schedule', error);

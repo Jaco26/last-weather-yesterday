@@ -1,19 +1,17 @@
 const mongoose = require('mongoose');
 
-
-const CommentSchema = new mongoose.Schema(
+const PhotoSchema = new mongoose.Schema(
     {
-        comment: String,
+        photoUrl: String,
         relatedDate: {
             type: Date, 
             required: true
         },
         relatedZip: {
             type: mongoose.Schema.ObjectId,
-            ref: 'zipcodes',
+            ref: 'zipcodes'
         },
     }
 );
 
-
-module.exports = CommentSchema;
+module.exports = PhotoSchema;
