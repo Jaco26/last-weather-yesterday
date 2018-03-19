@@ -42,6 +42,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }
 
     self.submitZip = () => {
+        console.log('here', self.newZip);
+        console.log(self.userObject._id);
+        
         if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
             alert('Enter a valid zipcode')
         } else {
@@ -64,6 +67,12 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             method: 'GET',
             url: `/database/zipcode/${self.userObject.zipcode[index].zipId}`
         }).then(response => {
+            for(let item of response.data.weather) {
+                item.dt = new Date(item.dt * 1000).toLocaleString();
+            }
+            // response.data.weather.dt 
+            // console.log(response.data);
+            
             self.zipcodes.list = [...self.zipcodes.list, response.data];
             console.log(self.zipcodes.list);
         }).catch(error => {

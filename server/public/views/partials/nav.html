@@ -1,6 +1,14 @@
 
 <md-nav-bar>
+
+    <md-content><h1 class="lead">Last Weather Yesterday</h1></md-content>
+
     <md-nav-item md-nav-href="#!home">Home</md-nav-item>
     <md-nav-item md-nav-href="#!about">About</md-nav-item>
+
+    <md-content> <h1 class="lead">Hello {{vm.userService.userObject.username}}</h1>  </md-content>
+
+        <md-button class="btn btn-default" ng-click="vm.userService.logout()">Log Out</md-button>
+
 </md-nav-bar>
 

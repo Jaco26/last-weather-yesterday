@@ -1,19 +1,27 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
 
-    <h1 id="welcome" class="lead">Welcome, {{vm.userObject.username}}!</h1>
-    <button class="btn btn-default" ng-click="vm.userService.logout()">Log Out</button>
+    <!-- <h1 id="welcome" class="lead">Welcome, {{vm.userService.userObject.username}}!</h1> -->
+    <!-- <button class="btn btn-default" ng-click="vm.userService.logout()">Log Out</button> -->
 
-    <h1>Add a zipcode</h1>
+    <h2>Add a zipcode</h2>
     <label for="zipcode">Enter a zipcode you wish to track</label>
-    <input type="text" id="zipcode" ng-model="vm.newZip.zipcode">
-    <button ng-click="vm.submitZip()">Submit</button>
+    <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
+    <button ng-click="vm.userService.submitZip()">Submit</button>
 
-    
-    <ul>
-        <li ng-repeat="zipcode in vm.zipcodes.list">{{zipcode.zipcode}} {{zipcode.weather[0].name}}</li>
-    </ul>
+    <h3>Select a location</h3>
+    <select ng-model="location" ng-change="vm.getZipData(location)">
+        <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.zipcode}}</option>
+    </select>
 
+
+    <h2>Select a Date</h2>
+    <input type="date" ng-model="vm.dateToView">
+
+    <h2>Select a Time</h2>
+    <select>
+        <option ng-repeat="time in vm.currentZipData.weather"> {{time.dt}} </option>
+    </select>
 
 
 </div>
