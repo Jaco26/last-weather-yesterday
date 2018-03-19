@@ -15,7 +15,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 self.userObject = response.data;
                 self.zipcodes.list = [];
                 console.log(self.userObject);
-                
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     console.log(i);
                     self.getUserZips(i);
@@ -37,6 +36,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         $http.get('/api/user/logout').then(function (response) {
             console.log('UserService -- logout -- logged out');
             $location.path("/login");
+            self.userObject = {};
+            self.zipcode.list = [];
         });
     }
 

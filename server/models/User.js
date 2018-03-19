@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const CommentSchema = require('./Comments');
 const PhotosSchema = require('./Photos');
 
+
 const UserSchema = new mongoose.Schema(
     {
         username: {
@@ -21,7 +22,8 @@ const UserSchema = new mongoose.Schema(
                 zipId: {
                     type: mongoose.Schema.ObjectId,
                     ref: 'zipcodes'
-                }
+                },
+                isPrimary: Boolean,
             } 
         ],
         comments: [CommentSchema],
