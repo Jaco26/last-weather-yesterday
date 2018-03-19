@@ -9,6 +9,7 @@
     <input type="text" id="zipcode" ng-model="vm.newZip.zipcode">
     <button ng-click="vm.submitZip()">Submit</button>
 
+    
     <ul>
         <li ng-repeat="zipcode in vm.zipcodes.list">{{zipcode.zipcode}} {{zipcode.weather[0].name}}</li>
     </ul>
