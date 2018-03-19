@@ -4,7 +4,9 @@ myApp.controller('HomeController', ['UserService', function (UserService) {
     self.userService = UserService;
 
     self.currentZipData = {};
-    self.weatherTimeInt = {};
+    self.weatherQueryTimeInterval = {};
+    self.timeSlice = {};
+    self.timeToView = '';
 
     self.getZipData = (zip) => {
         // zip = zip.slice(0, 5);
@@ -15,6 +17,14 @@ myApp.controller('HomeController', ['UserService', function (UserService) {
         }
         console.log(self.currentZipData);
         
+    }
+
+    self.setTimeData = (time) => {
+        for(let slice of self.currentZipData.weather){
+            if(slice.dt == time){
+                self.timeSlice = slice;
+            }
+        }
     }
 
     // self.setTime = () => {

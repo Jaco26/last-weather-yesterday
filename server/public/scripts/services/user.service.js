@@ -70,9 +70,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             for(let item of response.data.weather) {
                 item.dt = new Date(item.dt * 1000).toLocaleString();
             }
-            // response.data.weather.dt 
-            // console.log(response.data);
-            
             self.zipcodes.list = [...self.zipcodes.list, response.data];
             console.log(self.zipcodes.list);
         }).catch(error => {

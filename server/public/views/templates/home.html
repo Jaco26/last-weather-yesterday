@@ -19,9 +19,11 @@
     <input type="date" ng-model="vm.dateToView">
 
     <h2>Select a Time</h2>
-    <select>
-        <option ng-repeat="time in vm.currentZipData.weather"> {{time.dt}} </option>
+    <select ng-model="time" ng-change="vm.setTimeData(time)">
+        <option  ng-repeat="time in vm.currentZipData.weather" value="{{time.dt}}"> {{time.dt}} </option>
     </select>
 
+    <p> Weather condtitions {{vm.timeSlice.weather[0].description}} </p>
+    <p> Temperature {{vm.timeSlice.main.temp}} </p>
 
 </div>
