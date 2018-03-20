@@ -14,11 +14,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 // user has a curret session on the server
                 self.userObject = response.data;
                 self.zipcodes.list = [];
-                console.log(self.userObject);
+                // console.log(self.userObject);
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
-                    console.log(i);
                     self.getUserZips(i);
                 }
+                console.log(self.userObject);
                 console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -42,8 +42,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }
 
     self.submitZip = () => {
-        console.log('here', self.newZip);
-        console.log(self.userObject._id);
+        // console.log('here', self.newZip);
+        // console.log(self.userObject._id);
         
         if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
             alert('Enter a valid zipcode')

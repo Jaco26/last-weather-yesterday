@@ -16,7 +16,10 @@
 
 
     <h2>Select a Date</h2>
-    <input type="date" ng-model="vm.dateToView">
+    <div flex-gt-xs>
+        <h4>Date-picker with min date and max date</h4>
+        <md-datepicker ng-model="vm.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
+    </div>
 
     <h2>Select a Time</h2>
     <select ng-model="time" ng-change="vm.setTimeData(time)">
@@ -26,6 +29,10 @@
     <p> Weather condtitions {{vm.timeSlice.weather[0].description}} </p>
     <p> Temperature {{vm.timeSlice.main.temp}} </p>
 
-    <canvas flex="50" id="weeklyWeatherChart" width="200" height="200"></canvas>
+    
+
+    <button ng-click="vm.hi()">Hi</button>
+
+    <canvas flex="50" id="weeklyWeatherChart" width="200" height="100"></canvas>
 
 </div>
