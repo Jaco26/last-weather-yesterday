@@ -3,7 +3,9 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
     let self = this;
     self.user = {
         username: '',
-        password: ''
+        password: '',
+        passwordConfirm: '',
+        firstZipcode: {zipcode: ''},
     };
     self.message = '';
 
@@ -33,10 +35,14 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
     };
 
     self.registerUser = function () {
-        if (self.user.username === '' || self.user.password === '') {
+        if (self.user.username === '' || self.user.password === '' || self.user.passwordConfirm === '') {
             self.message = "Choose a username and password!";
-        } else {
+        } else if (self.user.password !== self.user.passwordConfirm) {
+            self.message = "Oops! Your password didn't match your password confirmation";
+        }  else {
             console.log('sending to server...', self.user);
+
+            
             $http.post('/api/user/register', self.user).then(function (response) {
                 console.log('success');
                 $location.path('/login');
@@ -47,4 +53,9 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
                 });
         }
     }
+
+    // self.postFirstZip = (userId, ) => {
+
+    // }
+
 }]);
