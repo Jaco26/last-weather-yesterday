@@ -25,9 +25,9 @@ myApp.controller('HomeController', ['UserService', function (UserService) {
         }
     }
 
-    self.myDate = new Date();
-    self.minDate = new Date(self.userService.userObject.zipcode[0].startTrackDate); // / 1000;
-    self.maxDate = self.myDate;
+    // self.myDate = new Date();
+    // self.minDate = new Date(self.userService.userObject.zipcode[0].startTrackDate); // / 1000;
+    // self.maxDate = self.myDate;
 
     self.hi = () => {
         console.log(self.maxDate);
