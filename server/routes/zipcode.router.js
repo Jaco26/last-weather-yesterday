@@ -17,7 +17,7 @@ router.get('/zipcode/:zipId', (req, res) => {
             console.log('Error on find', error);
             res.sendStatus(500);
         } else {
-            console.log('foundZipcodes:', foundZipcodes);
+            // console.log('foundZipcodes:', foundZipcodes);
             res.send(foundZipcodes)
         }
     })

@@ -32,6 +32,14 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
                     return UserService.getuser();
                 }
             }
+        }).when('/manage', {
+            templateUrl: 'views/templates/zip.manage.html',
+            controller: 'ManageController as vm',
+            resolve: {
+                getuser: function(UserService) {
+                    return UserService.getuser();
+                }
+            }
         })
         .otherwise({
             template: '<h1>404</h1>'

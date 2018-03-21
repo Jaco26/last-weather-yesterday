@@ -117,7 +117,7 @@ function getWeatherForPrimaryZip(zipId, res, userInfo) {
             axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
             .then(response => {
                 let currentWeather = response.data;
-                console.log(currentWeather);
+                // console.log(currentWeather);
                 res.send({ currentWeather: currentWeather, userInfo: userInfo })
             }).catch(error => {
                 console.log('Error', error);

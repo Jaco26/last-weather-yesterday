@@ -5,8 +5,8 @@ const Zipcode = require('../models/Zipcode');
 const WeatherSchema = require('../models/Weather');
 
 
-// const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?q=';
+const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+// const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?q=';
 const units = '&units=imperial';
 const owmapiKey = process.env.OWMAPI_KEY;
 
@@ -23,7 +23,6 @@ cron.schedule('0 */1 * * *', function () {
         } else {
             for (let zip of response) {
                 console.log('------- ZIP of RESPONSE', zip);
-                
                 axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey + units)
                 .then(response => {
                     updateZipsWeather(zip._id, response.data)
@@ -35,61 +34,9 @@ cron.schedule('0 */1 * * *', function () {
     });
 });
 
-Zipcode.find({}, (error, response) => {
-    if (error) {
-        console.log('ERROR ON cron.schedule', error);
-    } else {
-        for (let zip of response) {
-            // axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey + units)
-            axios.get(owmapiSearchByZip + 'Minneapolis' + owmapiKey + units)
-                .then(response => {
-                    console.log('------------- RESPONSE DATA', response.data);
-                    
-                    updateZipsWeather(zip._id, response.data)
-                }).catch(error => {
-                    console.log(error);
-                });
-        }
-    }
-});
-
-
 
 function updateZipsWeather (zip_id, owmapiWeather) {
-    console.log('OWMAPI WEATHER', owmapiWeather);
-    /* Here, I'm rewiting the sys object returned from 
-    owmapi. For some reason unbeknownst to me or any of the 
-    instructors at Prime, "sys" and all of its properties would 
-    NOT write to the database. Everything else in my mongoose 
-    Schema modeled successfully...just not "sys" */
-    let mongoWeather = owmapiWeather;
-    mongoWeather.newThing = {};
-    console.log('------ MONGO WEATHER', mongoWeather);
-    
-
-    mongoWeather.newThing.type = owmapiWeather.sys.type;
-    mongoWeather.newThing.id = owmapiWeather.sys.id;
-    // mongoWeather.newThing.message = owmapiWeather.sys.message;
-    mongoWeather.newThing.country = owmapiWeather.sys.country;
-    mongoWeather.newThing.sunrise = owmapiWeather.sys.sunrise;
-    mongoWeather.newThing.sunset = owmapiWeather.sys.sunset;
-    console.log('----------- MONGO WEATHER.NEWTHING', mongoWeather.newThing);
-    
-    // console.log('WEATHER RETURNED FROM OWMAPI:', weather);
-    // console.log("WEATHER.SYS:", weather.sys);
-    
-    // // weather.taco = weather.sys;
-    // console.log(' ---------------- WEATHER:', weather);
-    // console.log(' ---------------- weather.sys.sunrise', weather.sys.sunrise);
-    
-    // let tempWeather = weather;
-    // console.log(' ---------------- TEMP WEATHER', tempWeather);
-    // console.log(' ---------------- weather.sys.sunrise', weather.sys.sunrise);
-    // tempWeather.sunrise = weather.sys.sunrise;
-    // console.log(' ---------------- TEMP WEATHER', tempWeather);
-    // console.log(' ---------------- weather.sys.sunrise', weather.sys.sunrise);
-
-    let newWeather = new Weather(mongoWeather);
+    let newWeather = new Weather(owmapiWeather);
     console.log(' ---------------- NEW WEATHER', newWeather);
     Zipcode.findByIdAndUpdate(
         {"_id": zip_id},

@@ -21,8 +21,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUserZips(i);
                 }
-                console.log(self.userObject);
-                console.log('UserService -- getuser -- User Data: ', self.userObject.username);
+                // console.log('ZIPCODE LIST:', self.zipcodes.list);
+                // console.log(self.userObject);
+                // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
                 // user has no session, bounce them back to the login page
@@ -63,27 +64,29 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
 
     // GET all user's zipcodes and associated weather data
     self.getUserZips = (index) => {
+        let zipcode = {};
         $http({
             method: 'GET',
             url: `/database/zipcode/${self.userObject.zipcode[index].zipId}`
         }).then(response => {
-            for(let item of response.data.weather) {
-                item.dt = new Date(item.dt * 1000).toLocaleString();
+            zipcode.weatherData = response.data;
+            for(let i = 0; i < response.data.weather.length; i++) {
+                let date = response.data.weather[i].dt
+                date = new Date(response.data.weather[i].dt * 1000).toLocaleString();
+                let trackDate = self.userObject.zipcode.filter(zip => {
+                    if (zip.zipId == response.data._id) {
+                        return zip.startTrackDate;
+                    }
+                });      
+                zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();   
             }
-            self.zipcodes.list = [...self.zipcodes.list, response.data];
-            console.log(self.zipcodes.list);
+            self.zipcodes.list = [...self.zipcodes.list, zipcode];
         }).catch(error => {
             console.log(error);            
         });
-    }
-
-    // Init 
-  
-    
+    } // END self.getUserZips
+   
 }]);
-
-
-// [...self.userObject, taco: {/*...self.userObject.zipcodeDate,*/ ...response.data }};
 
 
 
