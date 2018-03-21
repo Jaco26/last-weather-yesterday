@@ -8,8 +8,9 @@ const UserSchema = new mongoose.Schema(
         username: {
             type: String, 
             required: true, 
-            index: {unique: true}},
-            // unique: true,
+            index: {unique: true},
+            unique: true,
+        },
         password: {
             type: String, 
             required: true
@@ -24,7 +25,7 @@ const UserSchema = new mongoose.Schema(
                     type: mongoose.Schema.ObjectId,
                     ref: 'zipcodes'
                 },
-                isPrimary: Boolean,
+                isPrimary: {type: Boolean, default: false},
             } 
         ],
         comments: [CommentSchema],

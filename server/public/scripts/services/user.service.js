@@ -2,6 +2,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {};
+    self.primaryZipCurrentWeather = {};
     self.zipcodes = {list: []}
     
     self.newZip = {zipcode: ''}
@@ -10,11 +11,13 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.getuser = function () {
         console.log('UserService -- getuser');
         $http.get('/api/user').then(function (response) {
-            if (response.data.username) {
+            if (response.data.userInfo.username) {
                 // user has a curret session on the server
-                self.userObject = response.data;
+                self.userObject = response.data.userInfo;
+                self.primaryZipCurrentWeather = response.data.currentWeather; 
                 self.zipcodes.list = [];
-                // console.log(self.userObject);
+                console.log('USER OBJECT:', self.userObject);
+                console.log('PRIMARY ZIP CURRENT WEATHER:', self.primaryZipCurrentWeather);
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUserZips(i);
                 }
@@ -42,9 +45,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }
 
     self.submitZip = () => {
-        // console.log('here', self.newZip);
-        // console.log(self.userObject._id);
-        
         if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
             alert('Enter a valid zipcode')
         } else {

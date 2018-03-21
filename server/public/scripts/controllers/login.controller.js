@@ -54,8 +54,4 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
         }
     }
 
-    // self.postFirstZip = (userId, ) => {
-
-    // }
-
 }]);

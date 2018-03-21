@@ -4,6 +4,11 @@ const User = require('../models/User');
 const Zipcode = require('../models/Zipcode')
 const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
+const axios = require('axios');
+
+const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const units = '&units=imperial';
+const owmapiKey = process.env.OWMAPI_KEY;
 
 let verbose = false; // used to show explanations for learning
 // Handles Ajax request for user information if user is authenticated
@@ -21,8 +26,10 @@ router.get('/', (req, res) => {
             zipcode: req.user.zipcode,
             comments: req.user.comments,
             photos: req.user.photos,
-        }
-        res.send(userInfo);
+        }; 
+        let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
+        getPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
+        // res.send({userInfo: userInfo, currentWeather: currentWeather});
     } else {
         // failure best handled on the server. do redirect here.
         if (verbose) console.log('req.isAuthenticated() false');
@@ -40,6 +47,7 @@ router.post('/register', (req, res, next) => {
     const password = encryptLib.encryptPassword(req.body.password);
     if (verbose) console.log('encryptLib.encryptPassword(req.body.password) is ', password);
     const newUser = new User({ username, password });
+    newUser.zipcode.isPrimary = true;
     newUser.save()
         .then(() => {
             if (verbose) console.log('new user saved:', newUser);
@@ -66,11 +74,7 @@ router.get('/logout', (req, res) => {
 });
 
 
-
-
 function findUserByUsername (username, zipToSave, res) {
-    console.log('username', username);
-    
     let userId
     User.find({ "username": username }, (error, foundUser) => {
         if (error) {
@@ -79,8 +83,8 @@ function findUserByUsername (username, zipToSave, res) {
             userId = foundUser[0]._id;
             saveZipcode(zipToSave, userId, res);
         }
-    });
-}
+    }); // END User.find
+} // END findUserByUsername
 
 function saveZipcode (zipToSave, userId, res) {
     zipToSave.save((error, savedZipcode) => {
@@ -88,9 +92,10 @@ function saveZipcode (zipToSave, userId, res) {
             console.log('ERROR on newZip.save in POST /register', error);
             res.sendStatus(500);
         } else {
+            let primary = true;
             User.findByIdAndUpdate(
                 { "_id": userId },
-                { $push: { zipcode: { zipId: savedZipcode._id } } },
+                { $push: { zipcode: { zipId: savedZipcode._id, isPrimary: true } } },
                 (pusherror, doc) => {
                     if (pusherror) {
                         console.log('error on push zipcode to user.zipcodeDate', pusherror);
@@ -100,14 +105,27 @@ function saveZipcode (zipToSave, userId, res) {
                     }
                 }
             );
-            // res.sendStatus(200);
-            console.log('YAYYY');
-            // User.find({"username": username}, (error, foundUser))
         }
-    })
+    }); // END zipToSave.save
+} // END saveZipcode
+
+function getPrimaryZip (zipId, res, userInfo) {
+   Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
+        if (error) {
+            console.log('Error on find', error);
+        } else {
+            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
+            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
+            .then(response => {
+                let currentWeather = response.data;
+                console.log(currentWeather);
+                res.send({currentWeather: currentWeather, userInfo: userInfo})
+            }).catch(error => {
+                console.log('Error', error);
+            }); // END axios.get
+        }
+    }); // END Zipcode.findById
 }
-
-
 
 
 module.exports = router;

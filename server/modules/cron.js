@@ -5,7 +5,7 @@ const Zipcode = require('../models/Zipcode');
 const WeatherSchema = require('../models/Weather');
 
 
-const url = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const units = '&units=imperial';
 const owmapiKey = process.env.OWMAPI_KEY;
 
@@ -13,27 +13,31 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 
 
 // run the code inside this cron.schedule once every 2 hours
-cron.schedule('0 */2 * * *', function () {
+//   cron.schedule('0 */2 * * *', function ()
+// run the code inside this cron.schedule once every hour
+cron.schedule('0 */1 * * *', function () {
     Zipcode.find({}, (error, response) => {
         if (error) {
             console.log('ERROR ON cron.schedule', error);
         } else {
             for (let zip of response) {
-                axios.get(url + zip.zipcode + owmapiKey + units)
-                    .then(response => {
-                        // console.log('RESPONSE DATA', response.data);
-                        updateZipsWeather(zip._id, response.data)
-                    }).catch(error => {
-                        console.log(error);
-                    });
+                axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey + units)
+                .then(response => {
+                    updateZipsWeather(zip._id, response.data)
+                }).catch(error => {
+                    console.log(error);
+                });
             }
         }
     });
 });
 
 
+
 function updateZipsWeather (zip_id, weather) {
+    console.log('WEATHER RETURNED FROM OWMAPI:', weather);
     let newWeather = new Weather(weather);
+    console.log('NEW WEATHER', newWeather);
     Zipcode.findByIdAndUpdate(
         {"_id": zip_id},
         {$push: {weather: newWeather}},
