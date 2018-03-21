@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const SysSchema = new mongoose.Schema({
+    type: Number,
+    id: Number,
+    message: Number,
+    country: String,
+    sunrise: Number,
+    sunset: Number,
+}); 
+
+
 
 const WeatherSchema = new mongoose.Schema({
     coord: { lon: Number, lat: Number },
@@ -24,7 +34,15 @@ const WeatherSchema = new mongoose.Schema({
     rain: { "3hr": Number },
     snow: { "3hr": Number },
     dt: Number,
-    sys: {
+    // sysThing: {
+    //     type: Number,
+    //     id: Number,
+    //     message: String,
+    //     country: String,
+    //     sunrise: Number,
+    //     sunset: Number
+    // }, 
+    newSysThing: {
         type: Number,
         id: Number,
         message: String,

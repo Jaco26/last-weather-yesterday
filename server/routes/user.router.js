@@ -29,7 +29,6 @@ router.get('/', (req, res) => {
         }; 
         let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
         getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
-        // res.send({userInfo: userInfo, currentWeather: currentWeather});
     } else {
         // failure best handled on the server. do redirect here.
         if (verbose) console.log('req.isAuthenticated() false');
