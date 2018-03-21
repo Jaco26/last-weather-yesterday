@@ -8,8 +8,8 @@
     <h1>Spaawe</h1>
 
     <h3>Select a location</h3>
-    <select ng-model="location" ng-change="vm.getZipData(location)">
-        <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.zipcode}}</option>
+    <select ng-model="vm.userService.dateCtrls.location" ng-change="vm.getZipData()">
+            <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.weatherData.zipcode}}, {{zip.weatherData.weather[0].name}}</option>
     </select>
 
 
@@ -20,12 +20,12 @@
     </div>
 
     <h2>Select a Time</h2>
-    <select ng-model="time" ng-change="vm.setTimeData(time)">
-        <option  ng-repeat="time in vm.currentZipData.weather" value="{{time.dt}}"> {{time.dt}} </option>
+    <select ng-model="vm.userService.dateCtrls.time" ng-change="vm.setTimeData()">
+        <option  ng-repeat="time in vm.userService.currentZipData" value="{{time.dt}}"> {{time.dt}} </option>
     </select>
 
-    <p> Weather condtitions {{vm.timeSlice.weather[0].description}} </p>
-    <p> Temperature {{vm.timeSlice.main.temp}} </p>
+    <p> Weather condtitions {{vm.userService.timeSlice.weather[0].description}} </p>
+    <p> Temperature {{vm.userService.timeSlice.main.temp}} </p>
 
     
 

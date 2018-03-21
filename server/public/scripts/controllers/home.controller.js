@@ -3,24 +3,27 @@ myApp.controller('HomeController', ['UserService', function (UserService) {
     let self = this;
     self.userService = UserService;
 
-    self.currentZipData = {};
-    self.weatherQueryTimeInterval = {};
-    self.timeSlice = {};
     self.timeToView = '';
 
-    self.getZipData = (zip) => {
-        // zip = zip.slice(0, 5);
+    self.getZipData = () => {
+        console.log('UserService.dateCtrls.location', UserService.dateCtrls.location);
+        UserService.dateCtrls.time = '';
+        UserService.timeSlice = {}
+        zip = UserService.dateCtrls.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
-            if(zipcode.zipcode == zip){
-                self.currentZipData = zipcode;
+            if(zipcode.weatherData.zipcode == zip){
+                UserService.currentZipData = zipcode.weatherData.weather;
+                console.log('UserService.currentZipData', UserService.currentZipData);
+                
             }
         }
     }
 
-    self.setTimeData = (time) => {
-        for(let slice of self.currentZipData.weather){
+    self.setTimeData = () => {
+        let time = UserService.dateCtrls.time;
+        for(let slice of UserService.currentZipData){
             if(slice.dt == time){
-                self.timeSlice = slice;
+                 UserService.timeSlice = slice;
             }
         }
     }

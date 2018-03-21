@@ -3,9 +3,14 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     let self = this;
     self.userObject = {};
     self.primaryZipCurrentWeather = {};
-    self.zipcodes = {list: []}
-    
-    self.newZip = {zipcode: ''}
+    self.zipcodes = {list: []};
+    self.newZip = {zipcode: ''};
+
+    self.dateCtrls = {time: '', location: ''}
+
+    self.currentZipData = {};
+    self.weatherQueryTimeInterval = {};
+    self.timeSlice = {};
 
 
     self.getuser = function () {
@@ -71,8 +76,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }).then(response => {
             zipcode.weatherData = response.data;
             for(let i = 0; i < response.data.weather.length; i++) {
-                let date = response.data.weather[i].dt
-                date = new Date(response.data.weather[i].dt * 1000).toLocaleString();
+                response.data.weather[i].dt = new Date(response.data.weather[i].dt * 1000).toLocaleString();
                 let trackDate = self.userObject.zipcode.filter(zip => {
                     if (zip.zipId == response.data._id) {
                         return zip.startTrackDate;
@@ -80,12 +84,16 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 });      
                 zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();   
             }
+            console.log('ZIPCODE LIST:', self.zipcodes.list);
             self.zipcodes.list = [...self.zipcodes.list, zipcode];
         }).catch(error => {
             console.log(error);            
         });
     } // END self.getUserZips
    
+    // Init 
+    self.getuser();
+
 }]);
 
 

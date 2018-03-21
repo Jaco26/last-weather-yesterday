@@ -18,28 +18,28 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         .when('/home', {
             templateUrl: '/views/templates/home.html',
             controller: 'HomeController as vm',
-            resolve: {
-                getuser: function (UserService) {
-                    return UserService.getuser();
-                }
-            }
+            // resolve: {
+            //     getuser: function (UserService) {
+            //         return UserService.getuser();
+            //     }
+            // }
         })
         .when('/about', {
             templateUrl: '/views/templates/about.html',
             controller: 'AboutController as vm',
-            resolve: {
-                getuser: function (UserService) {
-                    return UserService.getuser();
-                }
-            }
+            // resolve: {
+            //     getuser: function (UserService) {
+            //         return UserService.getuser();
+            //     }
+            // }
         }).when('/manage', {
             templateUrl: 'views/templates/zip.manage.html',
             controller: 'ManageController as vm',
-            resolve: {
-                getuser: function(UserService) {
-                    return UserService.getuser();
-                }
-            }
+            // resolve: {
+            //     getuser: function(UserService) {
+            //         return UserService.getuser();
+            //     }
+            // }
         })
         .otherwise({
             template: '<h1>404</h1>'
