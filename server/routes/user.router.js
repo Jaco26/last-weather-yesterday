@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
             photos: req.user.photos,
         }; 
         let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
-        getPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
+        getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
         // res.send({userInfo: userInfo, currentWeather: currentWeather});
     } else {
         // failure best handled on the server. do redirect here.
@@ -109,8 +109,8 @@ function saveZipcode (zipToSave, userId, res) {
     }); // END zipToSave.save
 } // END saveZipcode
 
-function getPrimaryZip (zipId, res, userInfo) {
-   Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
+function getWeatherForPrimaryZip(zipId, res, userInfo) {
+    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
         if (error) {
             console.log('Error on find', error);
         } else {
@@ -119,7 +119,7 @@ function getPrimaryZip (zipId, res, userInfo) {
             .then(response => {
                 let currentWeather = response.data;
                 console.log(currentWeather);
-                res.send({currentWeather: currentWeather, userInfo: userInfo})
+                res.send({ currentWeather: currentWeather, userInfo: userInfo })
             }).catch(error => {
                 console.log('Error', error);
             }); // END axios.get
