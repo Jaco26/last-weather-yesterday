@@ -5,7 +5,8 @@ const Zipcode = require('../models/Zipcode');
 const WeatherSchema = require('../models/Weather');
 
 
-const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+// const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?q=';
 const units = '&units=imperial';
 const owmapiKey = process.env.OWMAPI_KEY;
 
@@ -39,7 +40,8 @@ Zipcode.find({}, (error, response) => {
         console.log('ERROR ON cron.schedule', error);
     } else {
         for (let zip of response) {
-            axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey + units)
+            // axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey + units)
+            axios.get(owmapiSearchByZip + 'Minneapolis' + owmapiKey + units)
                 .then(response => {
                     console.log('------------- RESPONSE DATA', response.data);
                     
@@ -61,13 +63,18 @@ function updateZipsWeather (zip_id, owmapiWeather) {
     NOT write to the database. Everything else in my mongoose 
     Schema modeled successfully...just not "sys" */
     let mongoWeather = owmapiWeather;
-    mongoWeather.newSysThing.type = owmapiWeather.sys.type;
-    mongoWeather.newSysThing.id = owmapiWeather.sys.id;
-    mongoWeather.newSysThing.message = owmapiWeather.sys.message;
-    mongoWeather.newSysThing.country = owmapiWeather.sys.country;
-    mongoWeather.newSysThing.sunrise = owmapiWeather.sys.sunrise;
-    mongoWeather.newSysThing.sunset = owmapiWeather.sys.sunset;
+    mongoWeather.newThing = {};
+    console.log('------ MONGO WEATHER', mongoWeather);
+    
 
+    mongoWeather.newThing.type = owmapiWeather.sys.type;
+    mongoWeather.newThing.id = owmapiWeather.sys.id;
+    // mongoWeather.newThing.message = owmapiWeather.sys.message;
+    mongoWeather.newThing.country = owmapiWeather.sys.country;
+    mongoWeather.newThing.sunrise = owmapiWeather.sys.sunrise;
+    mongoWeather.newThing.sunset = owmapiWeather.sys.sunset;
+    console.log('----------- MONGO WEATHER.NEWTHING', mongoWeather.newThing);
+    
     // console.log('WEATHER RETURNED FROM OWMAPI:', weather);
     // console.log("WEATHER.SYS:", weather.sys);
     

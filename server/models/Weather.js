@@ -34,16 +34,8 @@ const WeatherSchema = new mongoose.Schema({
     rain: { "3hr": Number },
     snow: { "3hr": Number },
     dt: Number,
-    // sysThing: {
-    //     type: Number,
-    //     id: Number,
-    //     message: String,
-    //     country: String,
-    //     sunrise: Number,
-    //     sunset: Number
-    // }, 
-    newSysThing: {
-        type: Number,
+    sys: {
+        type: {type: Number},
         id: Number,
         message: String,
         country: String,
