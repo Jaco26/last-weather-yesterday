@@ -16,9 +16,9 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {
                 UserService.selectedZipData = zip.weatherData.weather;
-                console.log('UserService.selectedZipData', UserService.selectedZipData);
             }
         }
+        UserService.selectedZipData.startTrackDate = startTrackDate;
         $location.path('/details');
     }
 

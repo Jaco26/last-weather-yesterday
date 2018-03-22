@@ -1,25 +1,23 @@
 myApp.controller('DetailsController', ['UserService', '$location', function (UserService, $location) {
-    console.log('UserController created');
+    // console.log('DetailsController created');
     let self = this;
     self.userService = UserService;
-
-    self.timeToView = '';
+    self.today = new Date();
+    self.minDate = new Date(UserService.selectedZipData.startTrackDate);
 
     self.goBack = () => {
         $location.path('/dashboard');
     }
 
-
     self.getZipData = () => {
-        console.log('UserService.selectedLocation.location', UserService.selectedLocation.location);
         UserService.selectedTime.time = '';
         UserService.timeSlice = {}
         zip = UserService.selectedLocation.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
+            console.log(UserService.zipcodes.list);
+            
             if(zipcode.weatherData.zipcode == zip){
-                UserService.selectedZipData = zipcode.weatherData.weather;
-                console.log('UserService.selectedZipData', UserService.selectedZipData);
-                
+                UserService.selectedZipData = zipcode.weatherData.weather;                
             }
         }
     }
@@ -32,6 +30,11 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
             }
         }
     }
+
+
+
+
+
 
     self.showAlert = function (ev) {
         // Appending dialog to document.body to cover sidenav in docs app

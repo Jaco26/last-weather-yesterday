@@ -5,10 +5,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
-    self.selectedLocation = {location: ''}; // Holds 
-    self.selectedTime = { time: ''}; // 
-    self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location)
-    self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time)
+    self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weater data
+    self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
+    self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
+    self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
+    self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
 
@@ -79,7 +80,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 });      
                 zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();   
             }
-            console.log('ZIPCODE LIST:', self.zipcodes.list);
+            // console.log('ZIPCODE LIST:', self.zipcodes.list);
             self.zipcodes.list = [...self.zipcodes.list, zipcode];
         }).catch(error => {
             console.log(error);            
