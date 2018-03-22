@@ -1,36 +1,44 @@
-<div ng-include="'views/partials/nav.html'"></div>
-<div class="container">
+<md-content>
+    <div ng-include="'views/partials/nav.html'"></div>
+</md-content>
 
-    <!-- <h1 id="welcome" class="lead">Welcome, {{vm.userService.userObject.username}}!</h1> -->
-    <!-- <button class="btn btn-default" ng-click="vm.userService.logout()">Log Out</button> -->
 
+<md-content layout="row" layout-padding>
+    <md-card flex="50">
+        <md-card-content>
+            <h3>Select a location</h3>
+            <select ng-model="vm.userService.dateCtrls.location" ng-change="vm.getZipData()">
+                <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.weatherData.zipcode}}, {{zip.weatherData.weather[0].name}}</option>
+            </select>
+
+
+            <h2>Select a Date</h2>
+            <div flex-gt-xs>
+                <h4>Date-picker with min date and max date</h4>
+                <md-datepicker ng-model="vm.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
+            </div>
+
+            <h2>Select a Time</h2>
+            <select ng-model="vm.userService.dateCtrls.time" ng-change="vm.setTimeData()">
+                <option ng-repeat="time in vm.userService.currentZipData" value="{{time.dt}}"> {{time.dt}} </option>
+            </select>
+        </md-card-content>
+    </md-card>
+
+    <md-card flex="50">
+        <md-card-content>
+            <div> General: <ul style="list-style: none;">
+                <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
+            </ul> </div>
+            <p> Temperature: {{vm.userService.timeSlice.main.temp}} </p>
+            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} </p>
+            <p> Humidity: {{vm.userService.timeSlice.main.humidity}} </p>
+            <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph </p>
+            <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
+            <p> Visibility: {{vm.userService.timeSlice.visibility}} </p>
+        </md-card-content>
+    </md-card>
+</md-content>
+<!-- END row -->
    
-    <h1>Spaawe</h1>
 
-    <h3>Select a location</h3>
-    <select ng-model="vm.userService.dateCtrls.location" ng-change="vm.getZipData()">
-            <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.weatherData.zipcode}}, {{zip.weatherData.weather[0].name}}</option>
-    </select>
-
-
-    <h2>Select a Date</h2>
-    <div flex-gt-xs>
-        <h4>Date-picker with min date and max date</h4>
-        <md-datepicker ng-model="vm.myDate" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.maxDate"></md-datepicker>
-    </div>
-
-    <h2>Select a Time</h2>
-    <select ng-model="vm.userService.dateCtrls.time" ng-change="vm.setTimeData()">
-        <option  ng-repeat="time in vm.userService.currentZipData" value="{{time.dt}}"> {{time.dt}} </option>
-    </select>
-
-    <p> Weather condtitions {{vm.userService.timeSlice.weather[0].description}} </p>
-    <p> Temperature {{vm.userService.timeSlice.main.temp}} </p>
-
-    
-
-    <button ng-click="vm.hi()">Hi</button>
-
-    <canvas flex="50" id="weeklyWeatherChart" width="200" height="100"></canvas>
-
-</div>
