@@ -1,4 +1,4 @@
-myApp.controller('ManageController', ['UserService', '$mdDialog', function (UserService, $mdDialog) {
+myApp.controller('DashboardController', ['UserService', '$mdDialog', function (UserService, $mdDialog) {
     const self = this;
     self.userService = UserService;
 
