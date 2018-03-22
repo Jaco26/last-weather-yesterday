@@ -1,9 +1,14 @@
-myApp.controller('HomeController', ['UserService', function (UserService) {
+myApp.controller('DetailsController', ['UserService', '$location', function (UserService, $location) {
     console.log('UserController created');
     let self = this;
     self.userService = UserService;
 
     self.timeToView = '';
+
+    self.goBack = () => {
+        $location.path('/dashboard');
+    }
+
 
     self.getZipData = () => {
         console.log('UserService.dateCtrls.location', UserService.dateCtrls.location);

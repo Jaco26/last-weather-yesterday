@@ -5,7 +5,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
     console.log('myApp -- config')
     $routeProvider
         .when('/', {
-            redirectTo: 'home'
+            redirectTo: 'dashboard'
         })
         .when('/login', {
             templateUrl: '/views/templates/login.html',
@@ -15,9 +15,9 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
             templateUrl: '/views/templates/register.html',
             controller: 'LoginController as vm'
         })
-        .when('/home', {
-            templateUrl: '/views/templates/home.html',
-            controller: 'HomeController as vm',
+        .when('/details', {
+            templateUrl: '/views/templates/details.html',
+            controller: 'DetailsController as vm',
             // resolve: {
             //     getuser: function (UserService) {
             //         return UserService.getuser();

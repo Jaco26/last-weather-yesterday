@@ -24,6 +24,9 @@
                 <option ng-repeat="time in vm.userService.currentZipData" value="{{time.dt}}"> {{time.dt}} </option>
             </select>
         </md-card-content>
+        <md-card-actions>
+            <md-button ng-click="vm.goBack()">Back</md-button>
+        </md-card-actions>
     </md-card>
 
     <md-card flex="50">

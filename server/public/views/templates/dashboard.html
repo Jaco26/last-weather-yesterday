@@ -2,26 +2,30 @@
     <div ng-include="'views/partials/nav.html'"></div>
 </md-content>
 
-<md-content layout-padding flex="50">
-    <h2>My zipcodes</h2>
-    <table>
-        <thead>
-            <th>Zip code</th>
-            <th>City/Town</th>
-            <th>Tracking Since</th>
-        </thead>
-        <tbody>
-            <tr ng-repeat="zip in vm.userService.zipcodes.list">
-                <td> {{zip.weatherData.zipcode}} </td>
-                <td> {{zip.weatherData.weather[0].name}} </td>
-                <td> {{zip.startTrackDate}} </td>
-                <!-- <td>
-                    <button ng-click></button>
-                </td> -->
-            </tr>
-        </tbody>
-    </table>
+
+<!-- md-cards with zipcodes -->
+<md-content layout="row">
+    <div layout="column" flex="50" class="zipcode-card-container">
+        <md-card id="card-{{$index}}" layout="row" flex="40" ng-repeat="zip in vm.userService.zipcodes.list" ng-click="vm.showDetails(zip.weatherData.zipcode, zip.startTrackDate)" ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)">
+            <md-card-content layout="column" flex="30">
+                <h5>Zip Code</h5>
+                <p> {{zip.weatherData.zipcode}} </p>
+            </md-card-content>
+            <md-card-content layout="column" flex="30">
+                <h5>City/Town</h5>
+                <p> {{zip.weatherData.weather[0].name}} </p>
+            </md-card-content>
+            <md-card-content layout="column" flex="30">
+                <h5>Tracking Since</h5>
+                <p> {{zip.startTrackDate}} </p>
+            </md-card-content>
+        </md-card>
+    </div>
+    <!-- END .zipcode-card-container -->
+    
+
 </md-content>
+
 
 <md-content layout-padding>
     <div id="dialogContainer">
@@ -41,3 +45,6 @@
         </md-dialog>
     </div>
 </div>
+
+
+<!-- Current weather -->

@@ -22,7 +22,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
                         console.log('success: ', response.data);
                         // location works with SPA (ng-route)
                         self.getuser();
-                        $location.path('/home');
+                        $location.path('/dashboard');
                     } else {
                         console.log('failure error: ', response);
                         self.message = "Incorrect credentials. Please try again.";

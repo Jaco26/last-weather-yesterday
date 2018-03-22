@@ -1,4 +1,4 @@
-myApp.controller('DashboardController', ['UserService', '$mdDialog', function (UserService, $mdDialog) {
+myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location', function (UserService, $mdDialog , $location) {
     const self = this;
     self.userService = UserService;
 
@@ -10,6 +10,22 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', function (U
             clickOutsideToClose: true
         });
     };
+
+    self.showDetails = (zipcode, startTrackDate) => {
+        console.log('ZIPCODE', zipcode, 'START TRACK DATE', startTrackDate);
+        $location.path('/details');
+    }
+
+    self.menter = (x) => {
+        let card = document.querySelector(`#card-${x}`);
+        card.style.backgroundColor = '#99ffdd';
+        card.style.cursor = 'pointer';
+        
+    }
+
+    self.mleave = (x) => {
+        document.querySelector(`#card-${x}`).style.backgroundColor = 'white'   
+    }
 
     
 }]); // END ManageController
