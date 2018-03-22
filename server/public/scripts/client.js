@@ -35,6 +35,7 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         }).when('/dashboard', {
             templateUrl: 'views/templates/dashboard.html',
             controller: 'DashboardController as vm',
+            
             // resolve: {
             //     getuser: function(UserService) {
             //         return UserService.getuser();

@@ -31,5 +31,5 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         document.querySelector(`#card-${x}`).style.backgroundColor = 'white'   
     }
 
-    
+    // UserService.timeSlice = {};
 }]); // END ManageController

@@ -13,6 +13,7 @@ const owmapiKey = process.env.OWMAPI_KEY;
 let verbose = false; // used to show explanations for learning
 // Handles Ajax request for user information if user is authenticated
 router.get('/', (req, res) => {
+    let userIsLoaded = req.params.userIsLoaded;
     // check if logged in
     if (req.isAuthenticated()) {
         // send back user object from database
@@ -27,14 +28,38 @@ router.get('/', (req, res) => {
             comments: req.user.comments,
             photos: req.user.photos,
         }; 
-        let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
-        getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
+        if(!userIsLoaded){
+            console.log('----------- CALLING OWMAPI');
+            let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
+            getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
+        }
     } else {
         // failure best handled on the server. do redirect here.
         if (verbose) console.log('req.isAuthenticated() false');
         res.sendStatus(403);
     }
 });
+
+function getWeatherForPrimaryZip(zipId, res, userInfo) {
+    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
+        if (error) {
+            console.log('Error on find', error);
+        } else {
+            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
+            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
+                .then(response => {
+                    let currentWeather = response.data;
+                    console.log('CURRENT WEATHER!!!!', currentWeather);
+                    res.send({ currentWeather: currentWeather, userInfo: userInfo })
+                }).catch(error => {
+                    console.log('Error', error);
+                }); // END axios.get
+        }
+    }); // END Zipcode.findById
+}
+
+
+
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
@@ -108,23 +133,6 @@ function saveZipcode (zipToSave, userId, res) {
     }); // END zipToSave.save
 } // END saveZipcode
 
-function getWeatherForPrimaryZip(zipId, res, userInfo) {
-    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
-        if (error) {
-            console.log('Error on find', error);
-        } else {
-            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
-            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
-            .then(response => {
-                let currentWeather = response.data;
-                // console.log(currentWeather);
-                res.send({ currentWeather: currentWeather, userInfo: userInfo })
-            }).catch(error => {
-                console.log('Error', error);
-            }); // END axios.get
-        }
-    }); // END Zipcode.findById
-}
 
 
 module.exports = router;

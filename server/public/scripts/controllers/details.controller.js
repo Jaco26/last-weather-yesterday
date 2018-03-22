@@ -6,6 +6,7 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
 
     self.goBack = () => {
+        UserService.timeSlice = {};
         $location.path('/dashboard');
     }
 
@@ -14,8 +15,7 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
         UserService.timeSlice = {}
         zip = UserService.selectedLocation.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
-            console.log(UserService.zipcodes.list);
-            
+            // console.log(UserService.zipcodes.list);
             if(zipcode.weatherData.zipcode == zip){
                 UserService.selectedZipData = zipcode.weatherData.weather;                
             }
@@ -30,11 +30,6 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
             }
         }
     }
-
-
-
-
-
 
     self.showAlert = function (ev) {
         // Appending dialog to document.body to cover sidenav in docs app

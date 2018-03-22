@@ -14,7 +14,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
 
 
     self.getuser = function () {
-        console.log('UserService -- getuser');
+        console.log('HEYYYYY UserService -- getuser');
+        // let url = '/api/user'
+        // if(self.userObject.username){
+        //     url = '/api/user/'+ self.userObject.username;
+        // }
         $http.get('/api/user').then(function (response) {
             if (response.data.userInfo.username) {
                 // user has a curret session on the server
@@ -87,9 +91,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
    
-    // Init 
-    self.getuser();
-
+   
 }]);
 
 
