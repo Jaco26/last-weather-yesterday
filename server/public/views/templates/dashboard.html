@@ -6,19 +6,17 @@
 <!-- md-cards with zipcodes -->
 <md-content layout="row">
     <div layout="column" flex="50" class="zipcode-card-container">
-        <md-card id="card-{{$index}}" layout="row" flex="40" ng-repeat="zip in vm.userService.zipcodes.list" ng-click="vm.showDetails(zip.weatherData.zipcode, zip.startTrackDate)" ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)">
-            <md-card-content layout="column" flex="30">
-                <h5>Zip Code</h5>
-                <p> {{zip.weatherData.zipcode}} </p>
+        <md-card id="card-{{$index}}" layout="row" flex="40" ng-repeat="zip in vm.userService.zipcodes.list"  ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)">
+            <md-card-content layout="column" >
+                <ul style="list-style: none; padding-left: 0px;">
+                    <li><b>Zip Code: </b> {{zip.weatherData.zipcode}}</li>
+                    <li><b>City/Town: </b> {{zip.weatherData.weather[0].name}}</li>
+                    <li><b>Tracking Since: </b> {{zip.startTrackDate}}</li>
+                </ul>
             </md-card-content>
-            <md-card-content layout="column" flex="30">
-                <h5>City/Town</h5>
-                <p> {{zip.weatherData.weather[0].name}} </p>
-            </md-card-content>
-            <md-card-content layout="column" flex="30">
-                <h5>Tracking Since</h5>
-                <p> {{zip.startTrackDate}} </p>
-            </md-card-content>
+            <md-card-controls layout="column">
+                <md-button ng-click="vm.showDetails(zip.weatherData.zipcode, zip.weatherData.weather[0].name, zip.startTrackDate)">View History</md-button>
+            </md-card-controls> 
         </md-card>
     </div>
     <!-- END .zipcode-card-container -->

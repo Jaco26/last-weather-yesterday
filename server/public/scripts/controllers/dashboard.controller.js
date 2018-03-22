@@ -11,16 +11,23 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         });
     };
 
-    self.showDetails = (zipcode, startTrackDate) => {
-        console.log('ZIPCODE', zipcode, 'START TRACK DATE', startTrackDate);
+    self.showDetails = (zipcode, city, startTrackDate) => {
+        // console.log('ZIPCODE', zipcode, 'START TRACK DATE', startTrackDate);
+        UserService.dateCtrls.location = `${city}, ${zipcode}`;
+        // console.log(UserService.dateCtrls.location);
+        for (let zip of UserService.zipcodes.list) {
+            if (zip.weatherData.zipcode == zipcode) {
+                UserService.currentZipData = zip.weatherData.weather;
+                console.log('UserService.currentZipData', UserService.currentZipData);
+            }
+        }
         $location.path('/details');
     }
 
     self.menter = (x) => {
         let card = document.querySelector(`#card-${x}`);
-        card.style.backgroundColor = '#99ffdd';
-        card.style.cursor = 'pointer';
-        
+        card.style.backgroundColor = '#bbffee40';
+        // card.style.cursor = 'pointer';
     }
 
     self.mleave = (x) => {

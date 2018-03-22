@@ -7,11 +7,7 @@
 <md-content layout="row" layout-padding>
     <md-card flex="50">
         <md-card-content>
-            <h3>Select a location</h3>
-            <select ng-model="vm.userService.dateCtrls.location" ng-change="vm.getZipData()">
-                <option ng-repeat="zip in vm.userService.zipcodes.list">{{zip.weatherData.zipcode}}, {{zip.weatherData.weather[0].name}}</option>
-            </select>
-
+            <h3>{{vm.userService.dateCtrls.location}}</h3>
 
             <h2>Select a Date</h2>
             <div flex-gt-xs>
