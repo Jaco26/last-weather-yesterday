@@ -1,16 +1,15 @@
 myApp.service('UserService', ['$http', '$location', function ($http, $location) {
     console.log('UserService Loaded');
     let self = this;
-    self.userObject = {};
-    self.primaryZipCurrentWeather = {};
-    self.zipcodes = {list: []};
-    self.newZip = {zipcode: ''};
-
-    self.dateCtrls = {time: '', location: ''}
-
-    self.currentZipData = {};
-    self.weatherQueryTimeInterval = {};
-    self.timeSlice = {};
+    self.userObject = {}; // Holds username, _id, comments, zipcodes, and photos array
+    self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
+    self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
+    self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
+    self.selectedLocation = {location: ''}; // Holds 
+    self.selectedTime = { time: ''}; // 
+    self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location)
+    self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time)
+    // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
 
     self.getuser = function () {
@@ -21,13 +20,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 self.userObject = response.data.userInfo;
                 self.primaryZipCurrentWeather = response.data.currentWeather; 
                 self.zipcodes.list = [];
-                console.log('USER OBJECT:', self.userObject);
-                console.log('PRIMARY ZIP CURRENT WEATHER:', self.primaryZipCurrentWeather);
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUserZips(i);
                 }
-                // console.log('ZIPCODE LIST:', self.zipcodes.list);
-                // console.log(self.userObject);
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');

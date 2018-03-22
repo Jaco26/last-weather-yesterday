@@ -7,7 +7,7 @@
 <md-content layout="row" layout-padding>
     <md-card flex="50">
         <md-card-content>
-            <h3>{{vm.userService.dateCtrls.location}}</h3>
+            <h3>{{vm.userService.selectedLocation.location}}</h3>
 
             <h2>Select a Date</h2>
             <div flex-gt-xs>
@@ -16,8 +16,8 @@
             </div>
 
             <h2>Select a Time</h2>
-            <select ng-model="vm.userService.dateCtrls.time" ng-change="vm.setTimeData()">
-                <option ng-repeat="time in vm.userService.currentZipData" value="{{time.dt}}"> {{time.dt}} </option>
+            <select ng-model="vm.userService.selectedTime.time" ng-change="vm.setTimeData()">
+                <option ng-repeat="time in vm.userService.selectedZipData" value="{{time.dt}}"> {{time.dt}} </option>
             </select>
         </md-card-content>
         <md-card-actions>
@@ -35,7 +35,7 @@
             <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
             <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph </p>
             <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
-            <p> Visibility: {{vm.userService.timeSlice.visibility}} meters </p>
+            <p> Visibility: {{Math.ceil(vm.userService.timeSlice.visibility *  0.00062137)}} miles </p>
         </md-card-content>
     </md-card>
 </md-content>

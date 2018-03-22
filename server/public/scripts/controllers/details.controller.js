@@ -11,22 +11,22 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
 
 
     self.getZipData = () => {
-        console.log('UserService.dateCtrls.location', UserService.dateCtrls.location);
-        UserService.dateCtrls.time = '';
+        console.log('UserService.selectedLocation.location', UserService.selectedLocation.location);
+        UserService.selectedTime.time = '';
         UserService.timeSlice = {}
-        zip = UserService.dateCtrls.location.slice(0,5);
+        zip = UserService.selectedLocation.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
             if(zipcode.weatherData.zipcode == zip){
-                UserService.currentZipData = zipcode.weatherData.weather;
-                console.log('UserService.currentZipData', UserService.currentZipData);
+                UserService.selectedZipData = zipcode.weatherData.weather;
+                console.log('UserService.selectedZipData', UserService.selectedZipData);
                 
             }
         }
     }
 
     self.setTimeData = () => {
-        let time = UserService.dateCtrls.time;
-        for(let slice of UserService.currentZipData){
+        let time = UserService.selectedTime.time;
+        for(let slice of UserService.selectedZipData){
             if(slice.dt == time){
                  UserService.timeSlice = slice;
             }

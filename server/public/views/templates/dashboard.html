@@ -2,7 +2,13 @@
     <div ng-include="'views/partials/nav.html'"></div>
 </md-content>
 
-
+<md-content layout>
+    <div id="dialogContainer">
+        <md-button style="background-color: grey;" class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
+            Add Zip Code
+        </md-button>
+    </div>
+</md-content>
 <!-- md-cards with zipcodes -->
 <md-content layout="row">
     <div layout="column" flex="50" class="zipcode-card-container">
@@ -20,22 +26,16 @@
         </md-card>
     </div>
     <!-- END .zipcode-card-container -->
-    
-
-
 </md-content>
 
 
-<md-content layout-padding>
-    <div id="dialogContainer">
-        <md-button class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
-            Add Zip Code
-        </md-button>
-    </div>
+<md-content>
+    <divlayout="row" ng-include="'views/partials/charts.html'"></div>
 </md-content>
+
 
 <div style="visibility: hidden">
-    <div class="md-dialog-container" id="myDialog">
+    <div class="md-dialog-container" id="add-zip">
         <md-dialog layout-padding="">
             <h2>Add a zipcode</h2>
             <label for="zipcode">Enter a zipcode you wish to track</label>
