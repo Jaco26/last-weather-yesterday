@@ -40,7 +40,9 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
             self.message = "Choose a username and password!";
         } else if (self.user.password !== self.user.passwordConfirm) {
             self.message = "Oops! Your password didn't match your password confirmation";
-        }  else {
+        } else if (self.user.firstZipcode.zipcode.match(/\D/) || self.user.firstZipcode.zipcode.length !== 5) {
+            self.message = 'Enter a valid zipcode';
+        } else {
             console.log('sending to server...', self.user);
 
             

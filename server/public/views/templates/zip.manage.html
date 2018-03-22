@@ -1,10 +1,5 @@
 <div ng-include="'views/partials/nav.html'"></div>
 
-<h2>Add a zipcode</h2>
-<label for="zipcode">Enter a zipcode you wish to track</label>
-<input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
-<button ng-click="vm.userService.submitZip()">Submit</button>
-
 <h2>My zipcodes</h2>
 <table>
     <thead>
@@ -20,5 +15,24 @@
             <td> <button ng-click></button> </td>
         </tr>
     </tbody>
-    
 </table>
+
+<md-content layout-padding>
+    <div id="dialogContainer">
+        <md-button class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
+            Add Zip Code
+        </md-button>
+    </div>
+</md-content>
+
+
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="myDialog">
+        <md-dialog layout-padding="">
+            <h2>Add a zipcode</h2>
+            <label for="zipcode">Enter a zipcode you wish to track</label>
+            <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
+            <button ng-click="vm.userService.submitZip()">Submit</button>
+        </md-dialog>
+    </div>
+</div>

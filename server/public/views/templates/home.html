@@ -1,5 +1,6 @@
 <md-content>
     <div ng-include="'views/partials/nav.html'"></div>
+    
 </md-content>
 
 
@@ -30,15 +31,17 @@
             <div> General: <ul style="list-style: none;">
                 <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
             </ul> </div>
-            <p> Temperature: {{vm.userService.timeSlice.main.temp}} </p>
-            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} </p>
-            <p> Humidity: {{vm.userService.timeSlice.main.humidity}} </p>
+            <p> Temperature: {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} hPa </p>
+            <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
             <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph </p>
             <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
-            <p> Visibility: {{vm.userService.timeSlice.visibility}} </p>
+            <p> Visibility: {{vm.userService.timeSlice.visibility}} meters </p>
         </md-card-content>
     </md-card>
 </md-content>
 <!-- END row -->
-   
+
+
+
 
