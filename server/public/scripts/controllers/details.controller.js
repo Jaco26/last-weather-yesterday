@@ -2,8 +2,11 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
     // console.log('DetailsController created');
     let self = this;
     self.userService = UserService;
+    self.makeChart = UserService.makeChart;
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
+
+
 
     self.goBack = () => {
         UserService.timeSlice = {};
@@ -29,7 +32,7 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
                  UserService.timeSlice = slice;
             }
         }
-    }
+    }; // END self.cutTimeSlice
 
     self.bakeDatePie = () => {
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
@@ -39,7 +42,27 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
                 UserService.datePie.selectedDatesWeather.push(clump);
             }
         }
+        self.makeChart();
+    }; // END self.bakeDatePie
+
+    self.makeChart = () => {
+        const ctx = document.getElementById('temp');
+        const tempChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
+                datasets: [
+                    {
+                        label: 'temperature ˚F',
+                        // backgroundColor: 'none',
+                        data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+                    },
+                ]
+            },
+        });
     }
+
+
 
     self.showAlert = function (ev) {
         // Appending dialog to document.body to cover sidenav in docs app

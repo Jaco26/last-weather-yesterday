@@ -11,6 +11,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
     self.datePie = {selectedDatesWeather: []};
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
+    // self.makeChart; // Is function in chart.controller.js
     
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
