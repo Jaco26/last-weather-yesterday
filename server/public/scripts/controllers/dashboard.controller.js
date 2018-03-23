@@ -24,7 +24,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
 
     self.menter = (x) => {
         let card = document.querySelector(`#card-${x}`);
-        card.style.backgroundColor = '#bbffee40';
+        card.style.backgroundColor = '#ffffff10';
     }
 
     self.mleave = (x) => {

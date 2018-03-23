@@ -9,7 +9,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
     self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
+    self.datePie = {selectedDatesWeather: []};
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
+    
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
 

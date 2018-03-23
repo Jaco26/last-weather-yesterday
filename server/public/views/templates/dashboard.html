@@ -1,4 +1,4 @@
-<div ng-init="vm.userService.getuser(); vm.userService.timeSlice = {}"></div>
+<div ng-init="vm.userService.getuser(); vm.userService.timeSlice = {}; vm.userService.selectedTime.time = {}"></div>
 
 <md-content>
     <div ng-include="'views/partials/nav.html'"></div>
@@ -23,7 +23,7 @@
                 </ul>
             </md-card-content>
             <md-card-controls layout="column">
-                <md-button ng-click="vm.showDetails(zip.weatherData.zipcode, zip.weatherData.weather[0].name, zip.startTrackDate)">View History</md-button>
+                <md-button class="md-raised" ng-click="vm.showDetails(zip.weatherData.zipcode, zip.weatherData.weather[0].name, zip.startTrackDate)">View History</md-button>
             </md-card-controls> 
         </md-card>
     </div>

@@ -22,11 +22,21 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
         }
     }
 
-    self.setTimeData = () => {
+    self.cutTimeSlice = () => {
         let time = UserService.selectedTime.time;
         for(let slice of UserService.selectedZipData){
             if(slice.dt == time){
                  UserService.timeSlice = slice;
+            }
+        }
+    }
+
+    self.bakeDatePie = () => {
+        let selectedDate = new Date(UserService.selectedDate.date).toDateString();
+        for(let clump of UserService.selectedZipData){
+            clumpDate = new Date(clump.dt.slice(0, clump.dt.indexOf(','))).toDateString();
+            if(clumpDate == selectedDate){
+                UserService.datePie.selectedDatesWeather.push(clump);
             }
         }
     }
