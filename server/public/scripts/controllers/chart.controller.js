@@ -6,23 +6,38 @@ myApp.controller('ChartController', ['UserService',  function(UserService) {
     const tempChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['temperature ˚F'],
+            labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
             datasets: [
                 {
                     label: 'temperature ˚F',
                     backgroundColor: 'lightgray',
-                    backgroundColor: 'darkgray',
+                    // backgroundColor: 'darkgray',
                     data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+                    // data: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
                 },
             ]
         },
-        options: {
-            
-        }
+        // options: {
+        //     scales: {
+        //         yAxes: [{
+        //             // ticks: {
+        //             //     max: 60,
+        //             //     min: 0,
+        //             //     stepSize: 5,
+        //             // },
+        //         }],
+        //         xAxes: {
+        //             ticks: {
+                        
+        //             }
+        //         }
+
+        //     }
+        // }
        
     })
 
-    console.log(UserService.datePie.selectedDatesWeather.map(item => item.main.temp));
+    console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
     
     
 

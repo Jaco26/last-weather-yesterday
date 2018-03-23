@@ -35,11 +35,16 @@
             <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
             <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph </p>
             <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
-            <p> Visibility: {{Math.ceil(vm.userService.timeSlice.visibility *  0.00062137)}} miles </p>
+            <p> Visibility: {{vm.userService.timeSlice.visibility *  0.00062137}} miles </p>
         </md-card-content>
     </md-card>
 </md-content>
 <!-- END row -->
+
+<md-content>
+    <div layout="row" ng-include="'views/partials/charts.html'"></div>
+</md-content>
+
 
 
 
