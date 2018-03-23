@@ -26,7 +26,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             if (response.data.userInfo.username) {
                 // user has a curret session on the server
                 self.userObject = response.data.userInfo;
-                self.primaryZipCurrentWeather = response.data.currentWeather; 
+                // self.primaryZipCurrentWeather = response.data.currentWeather; 
                 self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUserZips(i);

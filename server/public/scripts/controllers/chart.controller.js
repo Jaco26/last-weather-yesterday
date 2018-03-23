@@ -4,7 +4,7 @@ myApp.controller('ChartController', ['UserService',  function(UserService) {
 
     UserService.makeChart = self.makeChart;
 
-    self.makeChart = () => {
+    // self.makeChart = () => {
         const ctx = document.getElementById('temp');
         const tempChart = new Chart(ctx, {
             type: 'line',
@@ -19,7 +19,7 @@ myApp.controller('ChartController', ['UserService',  function(UserService) {
                 ]
             },
         });
-    }
+    // }
    
 
 }]); // END ChartController

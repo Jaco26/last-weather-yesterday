@@ -21,7 +21,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
                     if (response.status == 200) {
                         console.log('success: ', response.data);
                         // location works with SPA (ng-route)
-                        self.getuser();
+                        // self.getuser();
                         $location.path('/dashboard');
                     } else {
                         console.log('failure error: ', response);

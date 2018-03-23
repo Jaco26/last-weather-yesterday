@@ -1,12 +1,10 @@
-myApp.controller('DetailsController', ['UserService', '$location', function (UserService, $location) {
+myApp.controller('DetailsController', ['UserService', '$location', '$scope', function (UserService, $location, $scope) {
     // console.log('DetailsController created');
     let self = this;
     self.userService = UserService;
     self.makeChart = UserService.makeChart;
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
-
-
 
     self.goBack = () => {
         UserService.timeSlice = {};
@@ -27,41 +25,66 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
 
     self.cutTimeSlice = () => {
         let time = UserService.selectedTime.time;
-        for(let slice of UserService.selectedZipData){
-            if(slice.dt == time){
+        // console.log(time);;
+        for(let slice of UserService.datePie.selectedDatesWeather){
+            // console.log(slice.dt.slice(slice.dt.indexOf(',') + 1));
+            if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
                  UserService.timeSlice = slice;
             }
         }
+        console.log(UserService.timeSlice);
     }; // END self.cutTimeSlice
 
     self.bakeDatePie = () => {
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
-        for(let clump of UserService.selectedZipData){
-            clumpDate = new Date(clump.dt.slice(0, clump.dt.indexOf(','))).toDateString();
-            if(clumpDate == selectedDate){
-                UserService.datePie.selectedDatesWeather.push(clump);
+        if(UserService.selectedZipData[0]){
+            UserService.datePie.selectedDatesWeather = [];
+            for (let clump of UserService.selectedZipData) {
+                clumpDate = new Date(clump.dt.slice(0, clump.dt.indexOf(','))).toDateString();
+                if (clumpDate == selectedDate) {
+                    UserService.datePie.selectedDatesWeather.push(clump);
+                }
             }
+            console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
+            
+            self.makeChart();
+        } else {
+            alert('No data')
         }
-        self.makeChart();
     }; // END self.bakeDatePie
 
+    
+
     self.makeChart = () => {
+        let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
         const ctx = document.getElementById('temp');
         const tempChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
+                // labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
+                labels: timesArray,
                 datasets: [
                     {
                         label: 'temperature ˚F',
-                        // backgroundColor: 'none',
+                        borderColor: 'pink',
                         data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+                        fill: false
                     },
                 ]
             },
+            options: {
+                onClick: function(targetEvent, timesArray){
+                    // console.log(timesArray[0]._xScale.ticks[timesArray[0]._index]);
+                    $scope.$apply(function () {
+                        //my non angular code
+                        UserService.selectedTime.time = timesArray[0]._xScale.ticks[timesArray[0]._index];
+                        self.cutTimeSlice();
+                    });
+                    
+                }
+            }
         });
     }
-
 
 
     self.showAlert = function (ev) {
@@ -80,15 +103,4 @@ myApp.controller('DetailsController', ['UserService', '$location', function (Use
         );
     };
 
-    
-
-
-
-
-
-    // self.myDate = new Date();
-    // self.minDate = new Date(self.userService.userObject.zipcode[0].startTrackDate); // / 1000;
-    // self.maxDate = self.myDate;
-
-    
 }]);

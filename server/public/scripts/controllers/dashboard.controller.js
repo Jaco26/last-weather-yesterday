@@ -31,5 +31,14 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         document.querySelector(`#card-${x}`).style.backgroundColor = 'white'   
     }
 
-    // UserService.timeSlice = {};
+    // ngInit
+    self.init = () => {
+        UserService.getuser();
+        UserService.timeSlice = {};
+        UserService.selectedTime.time = {};
+        UserService.selectedDate.date = '';
+    }
+
+
+
 }]); // END ManageController
