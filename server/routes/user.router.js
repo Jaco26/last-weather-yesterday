@@ -13,7 +13,7 @@ const owmapiKey = process.env.OWMAPI_KEY;
 let verbose = false; // used to show explanations for learning
 // Handles Ajax request for user information if user is authenticated
 router.get('/', (req, res) => {
-    let userIsLoaded = req.params.userIsLoaded;
+    // let userIsLoaded = req.params.userIsLoaded;
     // check if logged in
     if (req.isAuthenticated()) {
         // send back user object from database
@@ -28,11 +28,12 @@ router.get('/', (req, res) => {
             comments: req.user.comments,
             photos: req.user.photos,
         }; 
-        if(!userIsLoaded){
-            console.log('----------- CALLING OWMAPI');
-            let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
-            getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
-        }
+        // if(!userIsLoaded){
+        //     console.log('----------- CALLING OWMAPI');
+        //     let primaryZipObj = userInfo.zipcode.filter(zip => zip.isPrimary);
+        //     getWeatherForPrimaryZip(primaryZipObj[0].zipId, res, userInfo);
+        // // }
+        res.send({ userInfo: userInfo });
     } else {
         // failure best handled on the server. do redirect here.
         if (verbose) console.log('req.isAuthenticated() false');
