@@ -30,82 +30,76 @@ router.get('/zipcode/:zipId', (req, res) => {
 router.post('/zipcode/:userId', (req, res) => {
     let userId = req.params.userId;
     let zipcodeToAdd = new Zipcode(req.body);
-    // findZip(zipcodeToAdd, userId);
-    zipcodeToAdd.save((error, savedZipcode) => {
-        if (error) {
-            console.log('error on post zipcode', error);
-            res.sendStatus(500);     
-        } else {
-            console.log('savedZipcode:', savedZipcode);
-            User.findByIdAndUpdate(
-                { "_id": userId },
-                { $push: { zipcode: { zipId: savedZipcode._id } } },
-                (pusherror, doc) => {
-                    if (pusherror) {
-                        console.log('error on push zipcode to user.zipcodeDate', pusherror);
-                        res.sendStatus(500);
-                    } else {
-                        res.sendStatus(201);
-                    }
-                }
-            );
-        }
-    });
+    findZipcode(zipcodeToAdd, userId, res);
+
 });
 
 
-function findZip(zipcode, userId) {
+function findZipcode(zipcodeToAdd, userId, res) {
     // console.log(zipcode);
-    Zipcode.find({ "zipcode": zipcode.zipcode }, (error, foundZipcode) => {
+    Zipcode.find({ "zipcode": zipcodeToAdd.zipcode }, (error, foundZipcode) => {
         if (error) {
             console.log('ERROR ON UNIQUE ZIP TEST', error);
         } else {
             if (foundZipcode[0]) {
-                // console.log('ZIPCODE IS NOOOOOOTTTTTT UNIQUE', foundZipcode);
-                checkAlreadyTracking(foundZipcode._id);
-                // associateToUser(foundZipcode, userId);
+                console.log('------------------ ZIPCODE IS NOOOOOOTTTTTT UNIQUE', foundZipcode);
+                checkAlreadyTracking(foundZipcode[0], userId, res);
             } else {
-                // console.log('ZIPCODE IS UNIQUE', foundZipcode);
-
+                console.log('------------------ ZIPCODE IS UNIQUE', foundZipcode);
+                saveZipcode(zipcodeToAdd, userId, res);
             }
         }
     });
 }
 
-
-function checkAlreadyTracking(zipcodeId) {
-    console.log(zipcodeId);
-    
-    User.find({"zipId": zipcodeId}, (error, foundZip) => {
-        if(error) {
-            console.log('ERROR ON CHECKALREADYTRACKING:', error);
-        } else {
-            if(foundZip[0]){
-                console.log('FOUND ZIP:', foundZip);   
-            } else {
-                console.log('NOT ALREADY TRACKING'); 
-            }
-                    
-        }
-    })
+// IF zipcodeToAdd DOES NOT EXIST in database, save it
+// if successful on save, associate to the user who entered it
+function saveZipcode (zipcodeToAdd, userId, res) {
+    zipcodeToAdd.save((error, savedZipcode) => {
+       if (error) {
+           console.log('error on post zipcode', error);
+           res.sendStatus(500);     
+       } else {
+           console.log('------------- savedZipcode:', savedZipcode);
+           associateToUser(savedZipcode, userId, res);
+       }
+   });
 }
 
+function checkAlreadyTracking(zipcodeToCheck, userId, res) {
+    User.find({"_id": userId}, (error, foundUser) => {        
+        if(error) {
+            console.log('--------------------ERROR ON checkAlreadyTracking:', error);
+        } else {
+            let zipIdRe = new RegExp (zipcodeToCheck._id);
+            let foundZipcode = foundUser[0].zipcode.filter(item => zipIdRe.test(item.zipId))[0];
+            if(foundZipcode){
+                console.log('------- ALREADY TRACKING:', foundZipcode);   
+                res.sendStatus(403); // Forbidden, might not be the best code but...https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403 
+            } else {
+                // console.log(foundDocs.zipcode.id(zipcode._id));
+                console.log('------ NOT ALREADY TRACKING', foundZip); 
+                associateToUser(zipcode, userId, res)
+            }    
+        }
+    });
+}
 
-function associateToUser(zipToAssociate, userId) {
+function associateToUser(zipToAssociate, userId, res) {
     User.findByIdAndUpdate(
         { "_id": userId },
         { $push: { zipcode: { zipId: zipToAssociate._id } } },
         (pusherror, doc) => {
             if (pusherror) {
-                console.log('error on push zipcode to user.zipcodeDate', pusherror);
+                console.log('------------ error on push zipcode to user.zipcodeDate', pusherror);
                 res.sendStatus(500);
             } else {
+                console.log('--------------- associated to user!', doc);
                 res.sendStatus(201);
             }
         }
     );
 }
-
 
 
 module.exports = router;

@@ -55,10 +55,12 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 url: `/database/zipcode/${self.userObject._id}`,
                 data: self.newZip
             }).then(response => {
+                response.status == 201 ? alert("We've begun tracking " + self.newZip.zipcode + " for you!"): null;
                 self.getuser();
                 self.newZip.zipcode = '';
             }).catch(error => {
-                console.log('error');
+                error.status == 403 ? alert("You're already tracking that zipcode"): null;
+                console.log('error', error);
             });
         }
     }
