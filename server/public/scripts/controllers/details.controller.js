@@ -45,7 +45,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
                     UserService.datePie.selectedDatesWeather.push(clump);
                 }
             }
-            console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
+            // console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
             
             self.makeChart();
         } else {
@@ -56,6 +56,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     
 
     self.makeChart = () => {
+        Chart.defaults.global.elements.point.hitRadius = 15;
         let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
         const ctx = document.getElementById('temp');
         const tempChart = new Chart(ctx, {
@@ -73,34 +74,24 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
                 ]
             },
             options: {
-                onClick: function(targetEvent, timesArray){
+                onClick: function(event, timesArray){
+                    // console.log(event);
+                    
                     // console.log(timesArray[0]._xScale.ticks[timesArray[0]._index]);
                     $scope.$apply(function () {
                         //my non angular code
                         UserService.selectedTime.time = timesArray[0]._xScale.ticks[timesArray[0]._index];
                         self.cutTimeSlice();
                     });
-                    
+                },
+                tooltips: {
+                    // position: 'nearest',
+                    mode: 'index',
+                    intersect: true,
                 }
             }
         });
     }
 
-
-    self.showAlert = function (ev) {
-        // Appending dialog to document.body to cover sidenav in docs app
-        // Modal dialogs should fully cover application
-        // to prevent interaction outside of dialog
-        $mdDialog.show(
-            $mdDialog.alert()
-                .parent(angular.element(document.querySelector('#dialogContainer')))
-                .clickOutsideToClose(true)
-                .title('This is an alert title')
-                .textContent('You can specify some description text in here.')
-                .ariaLabel('Alert Dialog Demo')
-                .ok('Got it!')
-                .targetEvent(ev)
-        );
-    };
 
 }]);

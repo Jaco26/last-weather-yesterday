@@ -9,24 +9,17 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
     self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
-    self.datePie = {selectedDatesWeather: []};
+    self.datePie = {selectedDatesWeather: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
-    // self.makeChart; // Is function in chart.controller.js
-    
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
 
     self.getuser = function () {
         console.log('HEYYYYY UserService -- getuser');
-        // let url = '/api/user'
-        // if(self.userObject.username){
-        //     url = '/api/user/'+ self.userObject.username;
-        // }
         $http.get('/api/user').then(function (response) {
             if (response.data.userInfo.username) {
                 // user has a curret session on the server
                 self.userObject = response.data.userInfo;
-                // self.primaryZipCurrentWeather = response.data.currentWeather; 
                 self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUserZips(i);

@@ -5,24 +5,16 @@
 
 <md-content layout="row" layout-padding>
     <md-card flex="50">
-
-        <md-card-actions>
-            <md-button ng-click="vm.goBack()">Back</md-button>
-        </md-card-actions>
-
         <md-card-content>
-            <h3>{{vm.userService.selectedLocation.location}}</h3>
-
+            <div layout="row">
+                <h3 flex="50">{{vm.userService.selectedLocation.location}}</h3>
+                <md-button ng-click="vm.goBack()">Back</md-button>
+            </div>  
+           
             <h2>Select a Date</h2>
             <div flex-gt-xs>
-                <h4>Date-picker with min date and max date</h4>
                 <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
             </div>
-
-            <h2>Select a Time</h2>
-            <select ng-model="vm.userService.selectedTime.time" ng-change="vm.cutTimeSlice()">
-                <option ng-repeat="time in vm.userService.selectedZipData" value="{{time.dt}}"> {{time.dt}} </option>
-            </select>
         </md-card-content>
 
         <md-content flex>
@@ -33,6 +25,7 @@
 
     <md-card flex="50">
         <md-card-content>
+            <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
             <div> General: <ul style="list-style: none;">
                 <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
             </ul> </div>
