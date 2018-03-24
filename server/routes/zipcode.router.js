@@ -31,7 +31,6 @@ router.post('/zipcode/:userId', (req, res) => {
     let userId = req.params.userId;
     let zipcodeToAdd = new Zipcode(req.body);
     findZipcode(zipcodeToAdd, userId, res);
-
 });
 
 
@@ -71,21 +70,24 @@ function checkAlreadyTracking(zipcodeToCheck, userId, res) {
         if(error) {
             console.log('--------------------ERROR ON checkAlreadyTracking:', error);
         } else {
+            // console.log('In else of checkAlreadyTracking: FOUND USER:', foundUser);
             let zipIdRe = new RegExp (zipcodeToCheck._id);
             let foundZipcode = foundUser[0].zipcode.filter(item => zipIdRe.test(item.zipId))[0];
+            console.log('-------- foundZipcode', foundZipcode);
             if(foundZipcode){
                 console.log('------- ALREADY TRACKING:', foundZipcode);   
                 res.sendStatus(403); // Forbidden, might not be the best code but...https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403 
             } else {
-                // console.log(foundDocs.zipcode.id(zipcode._id));
-                console.log('------ NOT ALREADY TRACKING', foundZip); 
-                associateToUser(zipcode, userId, res)
-            }    
+                console.log('------ NOT ALREADY TRACKING', foundZipcode); 
+                associateToUser(zipcodeToCheck, userId, res)
+            }   
         }
     });
 }
 
 function associateToUser(zipToAssociate, userId, res) {
+    console.log('in associateToUser');
+    
     User.findByIdAndUpdate(
         { "_id": userId },
         { $push: { zipcode: { zipId: zipToAssociate._id } } },
