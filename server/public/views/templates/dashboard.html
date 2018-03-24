@@ -36,10 +36,12 @@
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="add-zip">
         <md-dialog layout-padding="">
-            <h2>Add a zipcode</h2>
-            <label for="zipcode">Enter a zipcode you wish to track</label>
-            <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
-            <button ng-click="vm.userService.submitZip()">Submit</button>
+            <form ng-submit="vm.userService.submitZip()">
+                    <h2>Add a zipcode</h2>
+                    <label for="zipcode">Enter a zipcode you wish to track</label>
+                    <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
+                    <input type="submit" name="submit" value="Submit">
+            </form>
         </md-dialog>
     </div>
 </div>

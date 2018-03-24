@@ -7,7 +7,8 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
             contentElement: '#add-zip',
             parent: angular.element(document.body),
             targetEvent: ev,
-            clickOutsideToClose: true
+            clickOutsideToClose: true,
+            escapeToClose: true
         });
     };
 

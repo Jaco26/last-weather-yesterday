@@ -44,8 +44,6 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
             self.message = 'Enter a valid zipcode';
         } else {
             console.log('sending to server...', self.user);
-
-            
             $http.post('/api/user/register', self.user).then(function (response) {
                 console.log('success');
                 $location.path('/login');
