@@ -29,7 +29,7 @@ router.get('/zipcode/:zipId', (req, res) => {
 // the ObjectId of the saved zipcode (see /models/User.js)
 router.post('/zipcode/:userId', (req, res) => {
     let userId = req.params.userId;
-    let zipcodeToAdd = new Zipcode(req.body);
+    let zipcodeToAdd = new Zipcode(req.body); // new instance of Zipcode model
     findZipcode(zipcodeToAdd, userId, res);
 });
 
