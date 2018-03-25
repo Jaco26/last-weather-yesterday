@@ -11,6 +11,13 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         $location.path('/dashboard');
     }
 
+    self.rerouteOnRefresh = () => {
+        if(!UserService.selectedZipData[0]){
+            $location.path('/dashboard');
+        }
+
+    }
+
     self.getZipData = () => {
         UserService.selectedTime.time = '';
         UserService.timeSlice = {}

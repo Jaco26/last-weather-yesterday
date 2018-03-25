@@ -19,8 +19,12 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 UserService.selectedZipData = zip.weatherData.weather;
             }
         }
-        UserService.selectedZipData.startTrackDate = startTrackDate;
-        $location.path('/details');
+        if(UserService.selectedZipData[0]){
+            UserService.selectedZipData.startTrackDate = startTrackDate;
+            $location.path('/details');
+        } else {
+            alert('There\'s nothing here! Come back in an hour and you should see something...');
+        }
     }
 
     self.menter = (x) => {
