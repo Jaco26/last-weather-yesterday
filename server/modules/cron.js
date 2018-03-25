@@ -76,6 +76,8 @@ function convertOwmapiResponseData (data) {
 }
 
 function getWeather (baseUrl, zipcode, apiKey) {
+    console.log(baseUrl + zipcode + apiKey);
+    
     axios.get(baseUrl + zipcode.zipcode + apiKey) // apparently kelvin temperatures are much more accurate...
         .then(response => {
             weather = convertOwmapiResponseData(response.data)
@@ -85,21 +87,29 @@ function getWeather (baseUrl, zipcode, apiKey) {
         });
 }
 
-// run the code inside this cron.schedule once every 2 hours
-//   cron.schedule('0 */2 * * *', function ()
+// run the code inside this cron.schedule once every hour
+//   cron.schedule('0 */1 * * *', function ()
 // run the code inside this cron.schedule once every hour
 cron.schedule('0 */1 * * *', function () {
     Zipcode.find({}, (error, response) => {
         if (error) {
             console.log('ERROR ON cron.schedule', error);
         } else {
+            let date = new Date();
+            console.log('----------In find zipcode', date.toLocaleString());
+            
             for (let zip of response) {
                 // console.log('------- ZIP of RESPONSE', zip);
-                getWeather(owmapiSearchByZip + zip.Zipcode + owmapiKey);
+                getWeather(owmapiSearchByZip, zip, owmapiKey);
             }
         }
     });
 });
+
+// cron.schedule('* * * * *', function() {
+//     console.log('minute----- min');
+    
+// })
 
 function updateZipsWeather (zip_id, owmapiWeather) {
     console.log('--------------- owmapiWeather', owmapiWeather);
