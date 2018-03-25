@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB Name
-const databaseName = 'weatherHistory';
+const databaseName = 'lastWeatherYesterday';
 
 // Mongo connection URI
 let mongoURI = '';

@@ -38,24 +38,6 @@ router.get('/', (req, res) => {
     }
 });
 
-function getWeatherForPrimaryZip(zipId, res, userInfo) {
-    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
-        if (error) {
-            console.log('Error on find', error);
-        } else {
-            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
-            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
-                .then(response => {
-                    let currentWeather = response.data;
-                    console.log('CURRENT WEATHER!!!!', currentWeather);
-                    res.send({ currentWeather: currentWeather, userInfo: userInfo })
-                }).catch(error => {
-                    console.log('Error', error);
-                }); // END axios.get
-        }
-    }); // END Zipcode.findById
-}
-
 
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
@@ -77,12 +59,28 @@ router.post('/register', (req, res, next) => {
         .catch((err) => { next(err); });
 });
 
+function findUserByUsername(username, zipToSave, res) {
+    // let userId;
+    User.find({ "username": username }, (error, foundUser) => {
+        if (error) {
+            console.log('ERROR', error);
+        } else {
+            let userId = foundUser[0]._id;
+            findZipcode(zipToSave, userId, res);
+        }
+    }); // END User.find
+} // END findUserByUsername
+
+
+
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
     if (verbose) console.log('logging in, req.body:', req.body);
+    
     res.sendStatus(200);
 });
 
@@ -94,17 +92,25 @@ router.get('/logout', (req, res) => {
 });
 
 
-function findUserByUsername (username, zipToSave, res) {
-    // let userId;
-    User.find({ "username": username }, (error, foundUser) => {
+
+function getWeatherForPrimaryZip(zipId, res, userInfo) {
+    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
         if (error) {
-            console.log('ERROR', error);
+            console.log('Error on find', error);
         } else {
-            let userId = foundUser[0]._id;
-            findZipcode(zipToSave, userId, res);
+            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
+            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
+                .then(response => {
+                    let currentWeather = response.data;
+                    console.log('CURRENT WEATHER!!!!', currentWeather);
+                    res.send({ currentWeather: currentWeather, userInfo: userInfo })
+                }).catch(error => {
+                    console.log('Error', error);
+                }); // END axios.get
         }
-    }); // END User.find
-} // END findUserByUsername
+    }); // END Zipcode.findById
+}
+
 
 
 module.exports = router;

@@ -1,3 +1,5 @@
+<!-- <div ng-init="vm.userService.init()"></div> -->
+
 <md-content>
     <div ng-include="'views/partials/nav.html'"></div>
 </md-content>
@@ -25,6 +27,7 @@
 
     <md-card flex="50">
         <md-card-content>
+            <h3> {{vm.userService.timeSlice.sys.sunrise}} </h3>
             <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
             <div> General: <ul style="list-style: none;">
                 <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>

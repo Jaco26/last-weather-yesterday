@@ -89,6 +89,13 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
    
+    // ngInit
+    self.init = () => {
+        self.getuser();
+        self.timeSlice = {};
+        self.selectedTime.time = {};
+        self.selectedDate.date = '';
+    }
    
 }]);
 
