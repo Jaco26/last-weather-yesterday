@@ -28,19 +28,19 @@ const WeatherSchema = new mongoose.Schema({
     visibility: Number,
     wind: {
         speed: Number,
-        deg: Number,
+        deg: String,
     },
     clouds: { all: Number },
     rain: { "3hr": Number },
     snow: { "3hr": Number },
-    dt: Number,
+    dt: Date,
     sys: {
         type: {type: Number},
         id: Number,
         message: String,
         country: String,
-        sunrise: Number,
-        sunset: Number
+        sunrise: Date,
+        sunset: Date
     },
     id: Number,
     name: String,

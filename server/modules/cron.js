@@ -14,12 +14,12 @@ const Weather = mongoose.model('Weather', WeatherSchema);
 
 function kelvinToFahrenheit(kelvin) {
     let fahrenheit = kelvin * 9 / 5 - 459.67;
-    return Math.round(fahrenheit);
+    return Math.round(fahrenheit * 10) / 10;
 }
 
 function metersPerSecondToMph (vInMps) {
     let mph =  vInMps * 2.2369;
-    return Math.round(mph)
+    return Math.round(mph * 10) / 10;
 }
 
 function unixTimestampToJsDate(timestamp) {
@@ -75,6 +75,16 @@ function convertOwmapiResponseData (data) {
     return convertedData;
 }
 
+function getWeather (baseUrl, zipcode, apiKey) {
+    axios.get(baseUrl + zipcode.zipcode + apiKey) // apparently kelvin temperatures are much more accurate...
+        .then(response => {
+            weather = convertOwmapiResponseData(response.data)
+            updateZipsWeather(zipcode._id, weather)
+        }).catch(error => {
+            console.log(error);
+        });
+}
+
 // run the code inside this cron.schedule once every 2 hours
 //   cron.schedule('0 */2 * * *', function ()
 // run the code inside this cron.schedule once every hour
@@ -84,20 +94,15 @@ cron.schedule('0 */1 * * *', function () {
             console.log('ERROR ON cron.schedule', error);
         } else {
             for (let zip of response) {
-                console.log('------- ZIP of RESPONSE', zip);
-                axios.get(owmapiSearchByZip + zip.zipcode + owmapiKey /* + units */) // apparently kelvin temperatures are much more accurate...
-                .then(response => {
-                    weather = convertOwmapiResponseData(response.data)
-                    updateZipsWeather(zip._id, weather)
-                }).catch(error => {
-                    console.log(error);
-                });
+                // console.log('------- ZIP of RESPONSE', zip);
+                getWeather(owmapiSearchByZip + zip.Zipcode + owmapiKey);
             }
         }
     });
 });
 
 function updateZipsWeather (zip_id, owmapiWeather) {
+    console.log('--------------- owmapiWeather', owmapiWeather);
     let newWeather = new Weather(owmapiWeather);
     console.log(' ---------------- NEW WEATHER', newWeather);
     Zipcode.findByIdAndUpdate(
