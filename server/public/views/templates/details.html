@@ -27,7 +27,9 @@
 
     <md-card flex="50">
         <md-card-content>
-            <h3> {{vm.userService.timeSlice.sys.sunrise}} </h3>
+            <h3> Date: {{vm.userService.datePie.date.date}} </h3>
+            <h3> Sunrise: {{vm.userService.datePie.date.sunrise}} </h3>
+            <h3> Sunset: {{vm.userService.datePie.date.sunset}}  </h3>
             <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
             <div> General: <ul style="list-style: none;">
                 <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>

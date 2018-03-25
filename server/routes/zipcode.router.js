@@ -11,13 +11,13 @@ const findZipcode = require('../modules/validate-zip-submissions');
 // GET all user's zipcodes and associated weather data
 router.get('/zipcode/:zipId', (req, res) => {
     let zipId = req.params.zipId;
-    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcodes) => {
-        if (error) {
-            console.log('Error on find', error);
+    Zipcode.findById({ "_id": zipId }).populate('users').exec((err, response) => {
+        if (err) {
+            console.log('Error on find', err);
             res.sendStatus(500);
         } else {
-            // console.log('foundZipcodes:', foundZipcodes);
-            res.send(foundZipcodes)
+            // console.log('foundZipcodes:', response);
+            res.send(response)
         }
     })
 })

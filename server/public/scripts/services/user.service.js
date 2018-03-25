@@ -9,7 +9,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
     self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
-    self.datePie = {selectedDatesWeather: []}; // Holds all weather objects for a selected date...these come from selectedZipData
+    self.datePie = {date: {}, selectedDatesWeather: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
@@ -22,8 +22,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 self.userObject = response.data.userInfo;
                 self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
-                    self.getUserZips(i);
-                }
+                    self.getUsersZipcodeData(i);
+                }               
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -66,23 +66,17 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }
 
     // GET all user's zipcodes and associated weather data
-    self.getUserZips = (index) => {
+    self.getUsersZipcodeData = (index) => {
         let zipcode = {};
         $http({
             method: 'GET',
             url: `/database/zipcode/${self.userObject.zipcode[index].zipId}`
         }).then(response => {
             zipcode.weatherData = response.data;
-            for(let i = 0; i < response.data.weather.length; i++) {
-                response.data.weather[i].dt = new Date(response.data.weather[i].dt * 1000).toLocaleString();
-                let trackDate = self.userObject.zipcode.filter(zip => {
-                    if (zip.zipId == response.data._id) {
-                        return zip.startTrackDate;
-                    }
-                });      
-                zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();   
+            for (let chunk of response.data.weather) {
+                let trackDate = self.userObject.zipcode.filter(zip => zip.zipId == response.data._id ? zip.startTrackDate : null);
+                zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();
             }
-            // console.log('ZIPCODE LIST:', self.zipcodes.list);
             self.zipcodes.list = [...self.zipcodes.list, zipcode];
         }).catch(error => {
             console.log(error);            

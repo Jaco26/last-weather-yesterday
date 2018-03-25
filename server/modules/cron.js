@@ -22,6 +22,11 @@ function metersPerSecondToMph (vInMps) {
     return Math.round(mph * 10) / 10;
 }
 
+function metersToMiles (meters) {
+    let miles = meters / 1610;
+    return Math.round(miles * 10) / 10;
+}
+
 function unixTimestampToJsDate(timestamp) {
     return new Date(timestamp * 1000);
 }
@@ -71,6 +76,7 @@ function convertOwmapiResponseData (data) {
     data.sys.sunrise = unixTimestampToJsDate(data.sys.sunrise);
     data.sys.sunset = unixTimestampToJsDate(data.sys.sunset);
     data.wind.deg = windDirectionInDegreesToCompassInitials(data.wind.deg);
+    data.visibility = metersToMiles(data.visibility);
     let convertedData = data;
     return convertedData;
 }
