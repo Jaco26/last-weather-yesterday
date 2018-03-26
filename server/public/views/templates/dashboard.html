@@ -12,7 +12,7 @@
     </div>
 </md-content>
 <!-- md-cards with zipcodes -->
-<md-content layout="row">
+<md-content layout="row" layout-padding layout-align="center" layout-xs="column">
     <div layout="column" flex="50" class="zipcode-card-container">
         <md-card id="card-{{$index}}" layout="row" flex="40" ng-repeat="zip in vm.userService.zipcodes.list"  ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)">
             <md-card-content layout="column" >
