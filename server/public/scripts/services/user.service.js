@@ -82,6 +82,19 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             console.log(error);            
         });
     } // END self.getUserZips
+
+    self.cutTimeSlice = () => {
+        let time = self.selectedTime.time;
+        for(let chunk of self.datePie.selectedDatesWeather){
+            if (chunk.dt.slice(chunk.dt.indexOf(',') + 2) == time) {
+                self.timeSlice = chunk;
+            }
+        }
+    }
+
+    self.makeChart = (ctx, config) => {
+        return new Chart(ctx, config)
+    }
    
     // ngInit
     self.init = () => {

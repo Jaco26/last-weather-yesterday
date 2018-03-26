@@ -5,6 +5,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.makeChart = UserService.makeChart;
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
+    
 
     self.goBack = () => {
         UserService.timeSlice = {};
@@ -31,14 +32,14 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         }
     }
 
-    self.cutTimeSlice = () => {
-        let time = UserService.selectedTime.time;
-        for(let slice of UserService.datePie.selectedDatesWeather){
-            if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
-                 UserService.timeSlice = slice;
-            }
-        }
-    }; // END self.cutTimeSlice
+    // self.cutTimeSlice = () => {
+    //     let time = UserService.selectedTime.time;
+    //     for(let slice of UserService.datePie.selectedDatesWeather){
+    //         if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
+    //              UserService.timeSlice = slice;
+    //         }
+    //     }
+    // }; // END self.cutTimeSlice
 
     self.bakeDatePie = () => {
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
@@ -59,49 +60,11 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
             // console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
             console.log(UserService.datePie.date.date);
-            self.makeChart();
         } else {
             alert('No data')
         }
     }; // END self.bakeDatePie
 
-    
-
-    self.makeChart = () => {
-        Chart.defaults.global.elements.point.hitRadius = 15;
-        console.log('------ UserService.datePie.selectedDatesWeather', UserService.datePie.selectedDatesWeather);
-        
-        let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
-        const ctx = document.getElementById('temp');
-        const tempChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                // labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
-                labels: timesArray,
-                datasets: [
-                    {
-                        label: 'temperature ˚F',
-                        borderColor: 'pink',
-                        data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
-                        fill: false
-                    },
-                ]
-            },
-            options: {
-                onClick: function(event, timesArray){
-                    $scope.$apply(function () {
-                        //my non angular code
-                        UserService.selectedTime.time = timesArray[0]._xScale.ticks[timesArray[0]._index];
-                        self.cutTimeSlice();
-                    });
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: true,
-                }
-            }
-        });
-    }
 
 
 }]);
