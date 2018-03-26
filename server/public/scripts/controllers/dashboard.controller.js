@@ -13,6 +13,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     };
 
     self.showDetails = (zipcode, city, startTrackDate) => {
+        UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {

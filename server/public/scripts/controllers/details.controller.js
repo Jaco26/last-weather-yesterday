@@ -14,8 +14,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.rerouteOnRefresh = () => {
         if(!UserService.selectedZipData[0]){
             $location.path('/dashboard');
+        } else {
+            self.bakeDatePie();
         }
-
     }
 
     self.getZipData = () => {
@@ -41,6 +42,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
 
     self.bakeDatePie = () => {
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
+        console.log('selectedDate', selectedDate);
+        
         if(UserService.selectedZipData[0]){
             UserService.datePie.selectedDatesWeather = [];
             for (let clump of UserService.selectedZipData) {
@@ -56,7 +59,6 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
             // console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
             console.log(UserService.datePie.date.date);
-            
             self.makeChart();
         } else {
             alert('No data')
