@@ -12,7 +12,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.datePie = {date: {}, selectedDatesWeather: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
-
+    self.tempChart;
+    self.tempChartConfig;
+    self.tempChartCtx;
 
     self.getuser = function () {
         console.log('HEYYYYY UserService -- getuser');
@@ -92,8 +94,31 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
     }
 
-    self.makeChart = (ctx, config) => {
-        return new Chart(ctx, config)
+    self.bakeDatePie = () => {
+        let selectedDate = new Date(self.selectedDate.date).toDateString();
+        if(self.selectedZipData[0]) {
+            self.datePie.selectedDatesWeather = [];
+            for(let clump of self.selectedZipData){
+                clumpDate = new Date(clump.dt).toDateString(); // This is different than I had it in the controller...
+                if(clumpDate == selectedDate) {
+                    clump.dt = new Date(clump.dt).toLocaleString();
+                    self.datePie.selectedDatesWeather.push(clump);
+                }
+            }
+            self.datePie.date.date = new Date(self.datePie.selectedDatesWeather[0].dt).toDateString();
+            self.datePie.date.sunrise = new Date(self.datePie.selectedDatesWeather[0].sunrise).toLocaleTimeString();
+            self.datePie.date.sunset = new Date(self.datePie.selectedDatesWeather[0].sunset).toLocaleTimeString();
+        } else {
+            alert('no data')
+        }
+    }
+
+    self.makeChart = (ctx, config, chart) => {
+        chart = new Chart(ctx, config)
+    }
+
+    self.updateChart = (chart, config) => {
+        chart.reset(config);
     }
    
     // ngInit

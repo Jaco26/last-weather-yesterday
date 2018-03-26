@@ -3,9 +3,9 @@ myApp.controller('TempchartController', ['UserService', '$scope', function(UserS
     self.UserService = UserService;
     // self.chart = {ctx: '', config: {}} 
     
-    self.hello = 'Hello Hi'
-    self.ctx = document.getElementById('temp');
-    self.config = {
+    
+    UserService.tempChartCtx = document.getElementById('temp');
+    UserService.tempChartConfig = {
         type: 'line',
         data: {
         labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
@@ -35,6 +35,7 @@ myApp.controller('TempchartController', ['UserService', '$scope', function(UserS
         }
     }
 
-    UserService.makeChart(self.ctx, self.config);
+    UserService.makeChart(UserService.tempChartCtx, UserService.tempChartConfig, UserService.tempChart);
+    
 
 }])
