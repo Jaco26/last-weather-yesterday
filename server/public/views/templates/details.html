@@ -2,55 +2,95 @@
 
 <div ng-include="'views/partials/nav.html'"></div>
 
-<md-content flex layout layout-xs="column" layout-padding layout-align="center" >
+<md-content layout layout-xs="column" layout-align="center start" >
+   
+    <md-content flex="20" id="text-data">
+        
+        <md-card>
+            <md-card-content flex="none">
+                <div layout>
+                    <h3 flex="70">{{vm.userService.selectedLocation.location}}</h3>
+                    <md-button ng-click="vm.goBack()">Back</md-button>
+                </div>
+                <div layout>
+                    <h3>Select a date:</h3>
+                    <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card id="sunrise-sunset">
+            <md-card-content flex="none">
+                <p><strong>Date:</strong> {{vm.userService.datePie.date.date}}</p>
+                <p><strong>Sunrise:</strong> {{vm.userService.datePie.date.sunrise}}</p>
+                <p><strong>Sunset:</strong> {{vm.userService.datePie.date.sunset}}</p>
+            </md-card-content>
+        </md-card>
+
+        <md-card>
+            <md-card-content flex="none">
+                <h4> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
+                <div>
+                    <strong>General:</strong>
+                    <div ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </div>
+                </div>
+            </md-card-content>
+        </md-card>
+
+        <md-card>
+            <md-card-content flex="none" layout-padding>
+                <p> <strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+                <p> <strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
+                <p> <strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
+                <p> <strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
+                <p> <strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
+                <p> <strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
+            </md-card-content>
+        </md-card>
+
+    </md-content>
     
-    <md-card flex-sm="60" >
-        <md-card-content>
-            <div layout="row">
-                <h3 flex="50">{{vm.userService.selectedLocation.location}}</h3>
-                <md-button ng-click="vm.goBack()">Back</md-button>
-            </div>  
-           
-            <h2>Select a Date</h2>
-            <div flex-gt-xs>
-                <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
-            </div>
-        </md-card-content>
+    <md-content flex="80" id="charts">
 
-        <md-card-content>
-            <h3> Date: {{vm.userService.datePie.date.date}} </h3>
-            <h3> Sunrise: {{vm.userService.datePie.date.sunrise}} </h3>
-            <h3> Sunset: {{vm.userService.datePie.date.sunset}} </h3>
-            <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
-            <div> General:
-                <ul style="list-style: none;">
-                    <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
-                </ul>
-            </div>
-            <p> Temperature: {{vm.userService.timeSlice.main.temp}}&deg;F </p>
-            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} hPa </p>
-            <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
-            <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
-            <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
-            <p> Visibility: {{vm.userService.timeSlice.visibility}} miles </p>
-        </md-card-content>  
+        <div layout>
+            <md-card flex="50">
+                <canvas id="temp"></canvas>
+            </md-card>
+            
+            <md-card flex="50">
+                <canvas id="pressure"></canvas>
+            </md-card>
+        </div>
+        
+        <div layout>
+            <md-card flex="50">
+                <canvas id="clouds"></canvas>
+            </md-card>
 
-    </md-card>
+            <md-card flex="50">
+                <canvas id="windspeed"></canvas>
+            </md-card>
+        </div>
 
-    <md-card flex-md="30">
-        <md-content flex-xs="100" flex-lg="50">
+        
+
+    </md-content>
+  
+
+    <!-- <md-card flex-sm="60" flex-md="50" flex-lg="40" flex-xl="30" >
+        <md-content layout-lg="column" flex-xs="100" >
             <canvas id="temp"></canvas>
         </md-content>
-        <md-content flex-xs="100" flex-lg="50">
+        <md-content layout-lg="column" flex-xs="100">
             <canvas id="pressure"></canvas>
         </md-content>
-        <md-content flex-xs="100" flex-lg="50">
+        <md-content layout-lg="column" flex-xs="100" >
             <canvas id="clouds"></canvas>
         </md-content>
-        <md-content flex-xs="100" flex-lg="50">
+        <md-content layout-lg="column" flex-xs="100" >
             <canvas id="windspeed"></canvas>
         </md-content>
-    </md-card>
+    </md-card> -->
     
 </md-content>
 <!-- END row -->
