@@ -26,31 +26,18 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.nextDay = () => {
-        // let now = new Date();
         let thisDay = UserService.selectedDate.date;
-        if (!UserService.datePie.selectedDatesWeather[0].main) {
-            console.log('HEY');
-            
-            UserService.selectedDate.date = thisDay.setDate(thisDay.getDate() - 1);
-            self.bakeDatePie();
-        } else {
-            let nextDay = thisDay.setDate(thisDay.getDate() + 1);
-            UserService.selectedDate.date = new Date(nextDay);
-            self.bakeDatePie();
-        }
+        let nextDay = thisDay.setDate(thisDay.getDate() + 1);
+        UserService.selectedDate.date = new Date(nextDay);
+        self.bakeDatePie();
     }
+
 
     self.prevDay = () => {
         let thisDay = UserService.selectedDate.date;
-        if(!UserService.datePie.selectedDatesWeather[0].main) {
-            console.log('HEY');
-            UserService.selectedDate.date = thisDay.setDate(thisDay.getDate() + 1);
-            self.bakeDatePie();
-        } else {
-            let prevDay = thisDay.setDate(thisDay.getDate() - 1);
-            UserService.selectedDate.date = new Date(prevDay);
-            self.bakeDatePie();
-        }
+        let prevDay = thisDay.setDate(thisDay.getDate() - 1);
+        UserService.selectedDate.date = new Date(prevDay);
+        self.bakeDatePie();
     }
 
     self.getZipData = () => {

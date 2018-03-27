@@ -5,7 +5,6 @@
 <md-content flex="90" layout layout-xs="column" layout-align="center" >
    
     <md-content flex="20" id="text-data">
-
         <md-card>
             <md-card-content flex="none">
                 <!-- <div layout> -->
@@ -53,42 +52,27 @@
     </md-content>
     <!-- END #text-data -->
     
-    <md-content flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
-
-        <!-- <md-toolbar layout="column">
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-            <md-button flex>hi</md-button>
-        </md-toolbar> -->
-        <div >
-            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
+    <md-content id="charts" layout-md="column" layout-sm="column" flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
+        <div layout-lg="row" layout-xl="row">
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
                 <canvas flex id="temp"></canvas>
             </md-card>
-            
-            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
+      
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
                 <canvas flex id="pressure"></canvas>
             </md-card>
         </div>
-        
-        <div >
-            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
+            
+        <div layout-lg="row" layout-xl="row">
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
                 <canvas flex id="clouds"></canvas>
             </md-card>
-
-            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
+      
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
                 <canvas flex id="windspeed"></canvas>
             </md-card>
         </div>
+            
 
     </md-content>
     <!-- END #charts -->

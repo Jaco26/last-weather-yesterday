@@ -5,6 +5,12 @@
     min-width: 300px;
 }
 
-.chart-container-card {
-    min-width: 500px !important; 
+#charts {
+    min-width: 600px;
 }
+
+
+
+/* .chart-container-card {
+    min-width: 500px !important; 
+} */
