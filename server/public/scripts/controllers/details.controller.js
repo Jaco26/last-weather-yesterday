@@ -5,6 +5,32 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.makeChart = UserService.makeChart;
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
+    self.chartData = [
+        {
+            // ctx: document.getElementById('temp'),
+            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+            chartLabel: 'Temperature ˚F',
+            chartColor: 'pink'
+        },
+        {
+            // ctx: document.getElementById('pressure'),
+            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.pressure),
+            chartLabel: 'Atmospheric Pressure (hPa)',
+            chartColor: 'lightblue'
+        },
+        {
+            // ctx: document.getElementById('clouds'),
+            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.clouds.all),
+            chartLabel: '% Cloud Cover',
+            chartColor: 'gray'
+        },
+        {
+            // ctx: document.getElementById('windspeed'),
+            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.wind.speed),
+            chartLabel: 'Windspeed (miles/hour)',
+            chartColor: 'lightgreen'
+        }
+    ];
 
     self.goBack = () => {
         UserService.timeSlice = {};
@@ -47,8 +73,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         if(UserService.selectedZipData[0]){
             UserService.datePie.selectedDatesWeather = [];
             for (let clump of UserService.selectedZipData) {
-                // console.log('-------- clump in bake date pie', clump);
-                clumpDate = new Date(clump.dt.slice(0, clump.dt.indexOf(','))).toDateString();
+                let clumpDate = new Date(clump.dt).toDateString()
                 if (clumpDate == selectedDate) {
                     clump.dt = new Date(clump.dt).toLocaleString();
                     UserService.datePie.selectedDatesWeather.push(clump);
@@ -59,36 +84,63 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
             // console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
             console.log(UserService.datePie.date.date);
-            self.makeChart();
+            console.log(UserService.datePie.selectedDatesWeather);
+            // self.makeChart(self.chartData[0].ctx, self.chartData[0].dataPoints, self.chartData[0].chartLabel, self.chartData[0].chartColor)
+            for(let i = 0; i < self.chartData.length; i++){
+                self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
+            }
+            
         } else {
             alert('No data')
         }
     }; // END self.bakeDatePie
 
-    
 
-    self.makeChart = () => {
-        Chart.defaults.global.elements.point.hitRadius = 15;
-        console.log('------ UserService.datePie.selectedDatesWeather', UserService.datePie.selectedDatesWeather);
+    self.makeChart = (i, chartLabel, chartColor) => {
         
+        Chart.defaults.global.elements.point.hitRadius = 15;     
+
+        let ctxArray = [
+            { ctx: document.getElementById('temp') }, 
+            { ctx: document.getElementById('pressure') }, 
+            { ctx: document.getElementById('clouds') }, 
+            { ctx: document.getElementById('windspeed') } 
+        ];
+        let dataPointsArray = [
+            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.temp) },
+            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.pressure) },
+            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.clouds.all) },
+            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.wind.speed) },
+        ];
+
         let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
-        const ctx = document.getElementById('temp');
-        const tempChart = new Chart(ctx, {
+        // let ctx = document.getElementById('temp');
+        let ctx = ctxArray[i].ctx;
+        // console.log(ctx);
+        // console.log('dataPoints', dataPoints);
+        // console.log('chartLabel', chartLabel);
+    
+        
+        let tempChart = new Chart(ctx, {
             type: 'line',
             data: {
                 // labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
                 labels: timesArray,
                 datasets: [
                     {
-                        label: 'temperature ˚F',
-                        borderColor: 'pink',
-                        data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+                        // label: 'temperature ˚F',
+                        label: chartLabel,
+                        // borderColor: 'pink',
+                        borderColor: chartColor,
+                        // data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
+                        data: dataPointsArray[i].dataPoints,
                         fill: false
                     },
                 ]
             },
             options: {
-                onClick: function(event, timesArray){
+                events: ['click'],
+                onClick: function (event, timesArray) {
                     $scope.$apply(function () {
                         //my non angular code
                         UserService.selectedTime.time = timesArray[0]._xScale.ticks[timesArray[0]._index];
@@ -96,6 +148,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
                     });
                 },
                 tooltips: {
+                    enabled: false,
                     mode: 'index',
                     intersect: true,
                 }
