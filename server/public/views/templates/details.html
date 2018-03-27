@@ -2,9 +2,9 @@
 
 <div ng-include="'views/partials/nav.html'"></div>
 
-<md-content layout layout-xs="column" layout-padding layout-align="center" >
+<md-content flex layout layout-xs="column" layout-padding layout-align="center" >
     
-    <md-card flex-md="70" >
+    <md-card flex-sm="60" >
         <md-card-content>
             <div layout="row">
                 <h3 flex="50">{{vm.userService.selectedLocation.location}}</h3>
@@ -17,6 +17,27 @@
             </div>
         </md-card-content>
 
+        <md-card-content>
+            <h3> Date: {{vm.userService.datePie.date.date}} </h3>
+            <h3> Sunrise: {{vm.userService.datePie.date.sunrise}} </h3>
+            <h3> Sunset: {{vm.userService.datePie.date.sunset}} </h3>
+            <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
+            <div> General:
+                <ul style="list-style: none;">
+                    <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
+                </ul>
+            </div>
+            <p> Temperature: {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} hPa </p>
+            <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
+            <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
+            <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
+            <p> Visibility: {{vm.userService.timeSlice.visibility}} miles </p>
+        </md-card-content>  
+
+    </md-card>
+
+    <md-card flex-md="30">
         <md-content flex-xs="100" flex-lg="50">
             <canvas id="temp"></canvas>
         </md-content>
@@ -29,28 +50,8 @@
         <md-content flex-xs="100" flex-lg="50">
             <canvas id="windspeed"></canvas>
         </md-content>
-           
-        
-
     </md-card>
-
-    <md-card flex-md="30">
-        <md-card-content>
-            <h3> Date: {{vm.userService.datePie.date.date}} </h3>
-            <h3> Sunrise: {{vm.userService.datePie.date.sunrise}} </h3>
-            <h3> Sunset: {{vm.userService.datePie.date.sunset}}  </h3>
-            <h3> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h3>
-            <div> General: <ul style="list-style: none;">
-                <li ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </li>
-            </ul> </div>
-            <p> Temperature: {{vm.userService.timeSlice.main.temp}}&deg;F </p>
-            <p> Pressure: {{vm.userService.timeSlice.main.pressure}} hPa </p>
-            <p> Humidity: {{vm.userService.timeSlice.main.humidity}}% </p>
-            <p> Wind Speed: {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
-            <p> Cloud Cover: {{vm.userService.timeSlice.clouds.all}}% </p>
-            <p> Visibility: {{vm.userService.timeSlice.visibility}} miles </p>
-        </md-card-content>
-    </md-card>
+    
 </md-content>
 <!-- END row -->
 
