@@ -1,12 +1,10 @@
 <div ng-init="vm.rerouteOnRefresh()"></div>
 
-<md-content>
-    <div ng-include="'views/partials/nav.html'"></div>
-</md-content>
+<div ng-include="'views/partials/nav.html'"></div>
 
-
-<md-content layout="row" layout-padding layout-align="center" layout-xs="column">
-    <md-card layout="column" flex="50">
+<md-content layout layout-xs="column" layout-padding layout-align="center" >
+    
+    <md-card flex-md="70" >
         <md-card-content>
             <div layout="row">
                 <h3 flex="50">{{vm.userService.selectedLocation.location}}</h3>
@@ -19,16 +17,24 @@
             </div>
         </md-card-content>
 
-        <md-content flex>
+        <md-content flex-xs="100" flex-lg="50">
             <canvas id="temp"></canvas>
+        </md-content>
+        <md-content flex-xs="100" flex-lg="50">
             <canvas id="pressure"></canvas>
+        </md-content>
+        <md-content flex-xs="100" flex-lg="50">
             <canvas id="clouds"></canvas>
+        </md-content>
+        <md-content flex-xs="100" flex-lg="50">
             <canvas id="windspeed"></canvas>
         </md-content>
+           
+        
 
     </md-card>
 
-    <md-card flex="50">
+    <md-card flex-md="30">
         <md-card-content>
             <h3> Date: {{vm.userService.datePie.date.date}} </h3>
             <h3> Sunrise: {{vm.userService.datePie.date.sunrise}} </h3>
@@ -49,8 +55,5 @@
 <!-- END row -->
 
 
-<!-- <md-content>
-    <div layout="row" ng-include="'views/partials/charts.html'"></div>
-</md-content> -->
 
 

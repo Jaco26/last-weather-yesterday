@@ -6,30 +6,10 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
     self.chartData = [
-        {
-            // ctx: document.getElementById('temp'),
-            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
-            chartLabel: 'Temperature ˚F',
-            chartColor: 'pink'
-        },
-        {
-            // ctx: document.getElementById('pressure'),
-            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.pressure),
-            chartLabel: 'Atmospheric Pressure (hPa)',
-            chartColor: 'lightblue'
-        },
-        {
-            // ctx: document.getElementById('clouds'),
-            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.clouds.all),
-            chartLabel: '% Cloud Cover',
-            chartColor: 'gray'
-        },
-        {
-            // ctx: document.getElementById('windspeed'),
-            // dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.wind.speed),
-            chartLabel: 'Windspeed (miles/hour)',
-            chartColor: 'lightgreen'
-        }
+        { chartLabel: 'Temperature ˚F', chartColor: 'pink' },
+        { chartLabel: 'Atmospheric Pressure (hPa)', chartColor: 'lightblue' },
+        { chartLabel: '% Cloud Cover', chartColor: 'gray' },
+        { chartLabel: 'Windspeed (miles/hour)', chartColor: 'lightgreen' }
     ];
 
     self.goBack = () => {
@@ -67,9 +47,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }; // END self.cutTimeSlice
 
     self.bakeDatePie = () => {
+        UserService.timeSlice = {};
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
-        console.log('selectedDate', selectedDate);
-        
         if(UserService.selectedZipData[0]){
             UserService.datePie.selectedDatesWeather = [];
             for (let clump of UserService.selectedZipData) {
@@ -82,10 +61,6 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.date = new Date(UserService.datePie.selectedDatesWeather[0].dt).toDateString();
             UserService.datePie.date.sunrise = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunrise).toLocaleTimeString();
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
-            // console.log(UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)));
-            console.log(UserService.datePie.date.date);
-            console.log(UserService.datePie.selectedDatesWeather);
-            // self.makeChart(self.chartData[0].ctx, self.chartData[0].dataPoints, self.chartData[0].chartLabel, self.chartData[0].chartColor)
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             }
@@ -97,9 +72,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
 
 
     self.makeChart = (i, chartLabel, chartColor) => {
-        
         Chart.defaults.global.elements.point.hitRadius = 15;     
-
         let ctxArray = [
             { ctx: document.getElementById('temp') }, 
             { ctx: document.getElementById('pressure') }, 
@@ -112,27 +85,16 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.clouds.all) },
             { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.wind.speed) },
         ];
-
         let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
-        // let ctx = document.getElementById('temp');
         let ctx = ctxArray[i].ctx;
-        // console.log(ctx);
-        // console.log('dataPoints', dataPoints);
-        // console.log('chartLabel', chartLabel);
-    
-        
-        let tempChart = new Chart(ctx, {
+        return new Chart(ctx, {
             type: 'line',
             data: {
-                // labels: UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)),
                 labels: timesArray,
                 datasets: [
                     {
-                        // label: 'temperature ˚F',
                         label: chartLabel,
-                        // borderColor: 'pink',
                         borderColor: chartColor,
-                        // data: UserService.datePie.selectedDatesWeather.map(item => item.main.temp),
                         data: dataPointsArray[i].dataPoints,
                         fill: false
                     },
@@ -155,6 +117,4 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             }
         });
     }
-
-
 }]);
