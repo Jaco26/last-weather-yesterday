@@ -2,7 +2,7 @@
 
 <div ng-include="'views/partials/nav.html'"></div>
 
-<md-content layout layout-xs="column" layout-align="center start" >
+<md-content flex="90" layout layout-xs="column" layout-align="center" >
    
     <md-content flex="20" id="text-data">
         
@@ -49,48 +49,32 @@
         </md-card>
 
     </md-content>
+    <!-- END #text-data -->
     
-    <md-content flex="80" id="charts">
+    <md-content flex="80" id="charts" layout-align="center end">
 
-        <div layout>
-            <md-card flex="50">
-                <canvas id="temp"></canvas>
+        <div layout flex>
+            <md-card flex="45">
+                <canvas flex id="temp"></canvas>
             </md-card>
             
-            <md-card flex="50">
-                <canvas id="pressure"></canvas>
+            <md-card flex="45">
+                <canvas flex id="pressure"></canvas>
             </md-card>
         </div>
         
-        <div layout>
-            <md-card flex="50">
-                <canvas id="clouds"></canvas>
+        <div layout flex>
+            <md-card flex="45">
+                <canvas flex id="clouds"></canvas>
             </md-card>
 
-            <md-card flex="50">
-                <canvas id="windspeed"></canvas>
+            <md-card flex="45">
+                <canvas flex id="windspeed"></canvas>
             </md-card>
         </div>
-
-        
 
     </md-content>
-  
-
-    <!-- <md-card flex-sm="60" flex-md="50" flex-lg="40" flex-xl="30" >
-        <md-content layout-lg="column" flex-xs="100" >
-            <canvas id="temp"></canvas>
-        </md-content>
-        <md-content layout-lg="column" flex-xs="100">
-            <canvas id="pressure"></canvas>
-        </md-content>
-        <md-content layout-lg="column" flex-xs="100" >
-            <canvas id="clouds"></canvas>
-        </md-content>
-        <md-content layout-lg="column" flex-xs="100" >
-            <canvas id="windspeed"></canvas>
-        </md-content>
-    </md-card> -->
+    <!-- END #charts -->
     
 </md-content>
 <!-- END row -->
