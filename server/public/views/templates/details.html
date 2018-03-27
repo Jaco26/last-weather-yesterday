@@ -15,8 +15,8 @@
                 <div layout> -->
                     <h3>Select a date:</h3>
                     <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
-                    <md-button ng-click="vm.nextDay()"> next day </md-button>
                     <md-button ng-click="vm.prevDay()"> previous day </md-button>
+                    <md-button ng-click="vm.nextDay()"> next day </md-button>
                 <!-- </div> -->
             </md-card-content>
         </md-card>
@@ -53,7 +53,7 @@
     </md-content>
     <!-- END #text-data -->
     
-    <md-content flex="80" id="charts" layout-align="center end">
+    <md-content flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
 
         <!-- <md-toolbar layout="column">
             <md-button flex>hi</md-button>
@@ -66,22 +66,26 @@
             <md-button flex>hi</md-button>
             <md-button flex>hi</md-button>
         </md-toolbar> -->
-        <div layout flex>
-            <md-card flex="45">
+        <div >
+            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
                 <canvas flex id="temp"></canvas>
             </md-card>
             
-            <md-card flex="45">
+            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
                 <canvas flex id="pressure"></canvas>
             </md-card>
         </div>
         
-        <div layout flex>
-            <md-card flex="45">
+        <div >
+            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
                 <canvas flex id="clouds"></canvas>
             </md-card>
 
-            <md-card flex="45">
+            <!-- <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45"> -->
+            <md-card class="chart-container-card" flex-xs="100" flex-sm="100" flex-md="100" flex="45">
                 <canvas flex id="windspeed"></canvas>
             </md-card>
         </div>

@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv').config();
 
-
 const passport = require('./strategies/user.strategy');
 const sessionConfig = require('./modules/session-middleware');
 
@@ -16,7 +15,6 @@ const cron = require('./modules/cron');
 // Route includes
 const userRouter = require('./routes/user.router');
 const zipcodeRouter = require('./routes/zipcode.router');
-
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -32,11 +30,8 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/database', zipcodeRouter);
 
-
-
 // Serve static files
 app.use(express.static('server/public'));
-
 
 const port = process.env.PORT || 5001;
 app.listen(port, () => {

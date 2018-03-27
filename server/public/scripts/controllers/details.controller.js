@@ -26,27 +26,31 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.nextDay = () => {
-        console.log('BEFORE ---- ', UserService.selectedDate.date);
+        // let now = new Date();
         let thisDay = UserService.selectedDate.date;
-        let nextDay = thisDay.setDate(thisDay.getDate() + 1);
-        console.log('AFTER ---- ', nextDay);
-        UserService.selectedDate.date = new Date(nextDay);
-        console.log('UserService.selectedDate.date ------', UserService.selectedDate.date);
-        self.bakeDatePie();
-        // UserService.selectedDate.date = moment(UserService.selectedDate.date).add(1, 'days').calendar();
-        // console.log('AFTER ---- ', UserService.selectedDate.date);
+        if (!UserService.datePie.selectedDatesWeather[0].main) {
+            console.log('HEY');
+            
+            UserService.selectedDate.date = thisDay.setDate(thisDay.getDate() - 1);
+            self.bakeDatePie();
+        } else {
+            let nextDay = thisDay.setDate(thisDay.getDate() + 1);
+            UserService.selectedDate.date = new Date(nextDay);
+            self.bakeDatePie();
+        }
     }
 
     self.prevDay = () => {
-        console.log('BEFORE ---- ', UserService.selectedDate.date);
         let thisDay = UserService.selectedDate.date;
-        let prevDay = thisDay.setDate(thisDay.getDate() - 1);
-        console.log('AFTER ---- ', prevDay);
-        UserService.selectedDate.date = new Date(prevDay);
-        console.log('UserService.selectedDate.date ------', UserService.selectedDate.date);
-        self.bakeDatePie();
-        // UserService.selectedDate.date = moment(UserService.selectedDate.date).add(1, 'days').calendar();
-        // console.log('AFTER ---- ', UserService.selectedDate.date);
+        if(!UserService.datePie.selectedDatesWeather[0].main) {
+            console.log('HEY');
+            UserService.selectedDate.date = thisDay.setDate(thisDay.getDate() + 1);
+            self.bakeDatePie();
+        } else {
+            let prevDay = thisDay.setDate(thisDay.getDate() - 1);
+            UserService.selectedDate.date = new Date(prevDay);
+            self.bakeDatePie();
+        }
     }
 
     self.getZipData = () => {
@@ -87,8 +91,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
-            }
-            
+            } 
         } else {
             alert('No data')
         }

@@ -4,3 +4,7 @@
     background-color: cyan;
     min-width: 300px;
 }
+
+.chart-container-card {
+    min-width: 500px !important; 
+}
