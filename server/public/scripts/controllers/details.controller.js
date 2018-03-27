@@ -25,6 +25,30 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         }
     }
 
+    self.nextDay = () => {
+        console.log('BEFORE ---- ', UserService.selectedDate.date);
+        let thisDay = UserService.selectedDate.date;
+        let nextDay = thisDay.setDate(thisDay.getDate() + 1);
+        console.log('AFTER ---- ', nextDay);
+        UserService.selectedDate.date = new Date(nextDay);
+        console.log('UserService.selectedDate.date ------', UserService.selectedDate.date);
+        self.bakeDatePie();
+        // UserService.selectedDate.date = moment(UserService.selectedDate.date).add(1, 'days').calendar();
+        // console.log('AFTER ---- ', UserService.selectedDate.date);
+    }
+
+    self.prevDay = () => {
+        console.log('BEFORE ---- ', UserService.selectedDate.date);
+        let thisDay = UserService.selectedDate.date;
+        let prevDay = thisDay.setDate(thisDay.getDate() - 1);
+        console.log('AFTER ---- ', prevDay);
+        UserService.selectedDate.date = new Date(prevDay);
+        console.log('UserService.selectedDate.date ------', UserService.selectedDate.date);
+        self.bakeDatePie();
+        // UserService.selectedDate.date = moment(UserService.selectedDate.date).add(1, 'days').calendar();
+        // console.log('AFTER ---- ', UserService.selectedDate.date);
+    }
+
     self.getZipData = () => {
         UserService.selectedTime.time = '';
         UserService.timeSlice = {}

@@ -5,17 +5,19 @@
 <md-content flex="90" layout layout-xs="column" layout-align="center" >
    
     <md-content flex="20" id="text-data">
-        
+
         <md-card>
             <md-card-content flex="none">
-                <div layout>
+                <!-- <div layout> -->
                     <h3 flex="70">{{vm.userService.selectedLocation.location}}</h3>
                     <md-button ng-click="vm.goBack()">Back</md-button>
-                </div>
-                <div layout>
+                <!-- </div>
+                <div layout> -->
                     <h3>Select a date:</h3>
                     <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
-                </div>
+                    <md-button ng-click="vm.nextDay()"> next day </md-button>
+                    <md-button ng-click="vm.prevDay()"> previous day </md-button>
+                <!-- </div> -->
             </md-card-content>
         </md-card>
 
@@ -53,6 +55,17 @@
     
     <md-content flex="80" id="charts" layout-align="center end">
 
+        <!-- <md-toolbar layout="column">
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+            <md-button flex>hi</md-button>
+        </md-toolbar> -->
         <div layout flex>
             <md-card flex="45">
                 <canvas flex id="temp"></canvas>
