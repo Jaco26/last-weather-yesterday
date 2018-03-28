@@ -12,6 +12,7 @@ const CommentSchema = new mongoose.Schema(
             type: mongoose.Schema.ObjectId,
             ref: 'zipcodes',
         },
+        dateAdded: Date,
     }
 );
 

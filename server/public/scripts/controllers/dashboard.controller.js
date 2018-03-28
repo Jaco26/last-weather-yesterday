@@ -15,12 +15,16 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     self.showDetails = (zipcode, city, startTrackDate) => {
         UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
+        console.log(UserService.userObject.zipcode);
+        
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {
-                UserService.selectedZipData = zip.weatherData.weather;
+                console.log('zip.weatherData', zip.weatherData);
+                UserService.selectedZipData.zipId = zip.weatherData._id
+                UserService.selectedZipData.weather = zip.weatherData.weather;
             }
         }
-        if(UserService.selectedZipData[0]){
+        if(UserService.selectedZipData.weather[0]){
             UserService.selectedZipData.startTrackDate = startTrackDate;
             $location.path('/details');
         } else {

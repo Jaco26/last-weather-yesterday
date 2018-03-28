@@ -5,9 +5,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
-    self.newComment = {comment: '', relatedDate: new Date(self.datePie.date.date), relatedZip: self.selectedLocation.location};
-
-
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weater data
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
@@ -26,7 +23,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUsersZipcodeData(i);
-                }               
+                }              
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -37,6 +34,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             console.log('UserService -- getuser -- failure: ', response);
             $location.path("/login");
         });
+        
     },
 
     self.logout = function () {
@@ -86,7 +84,27 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
 
-    self.submitComment = () => 
+    self.submitComment = (newComment) => {
+        let commentPackage = {
+            comment: newComment.comment,
+            relatedDate: new Date(self.selectedDate.date).toLocaleDateString(),
+            relatedZip: self.selectedZipData.zipId,
+            dateAdded: new Date().toLocaleString(),
+        }
+        $http({
+            method: 'POST', 
+            url: `api/user/comment/${self.userObject._id}`,
+            data: commentPackage,
+        }).then(response => {
+            response.status == 201 ? alert('Note added!'): null;
+            self.getuser();
+            self.newComment.comment = '';
+        }).catch(err => {
+            console.log(err);
+            alert(err.status + ' ' + err.statusText);
+        })
+          
+    }
    
     // ngInit
     self.init = () => {

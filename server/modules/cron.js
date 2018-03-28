@@ -96,6 +96,7 @@ function getWeather (baseUrl, zipcode, apiKey) {
 // run the code inside this cron.schedule once every hour
 //   cron.schedule('0 */1 * * *', function ()
 // run the code inside this cron.schedule once every hour
+// cron.schedule('0 */1 * * *', function () {
 cron.schedule('0 */1 * * *', function () {
     Zipcode.find({}, (error, response) => {
         if (error) {

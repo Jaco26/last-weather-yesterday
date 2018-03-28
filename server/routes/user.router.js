@@ -3,9 +3,14 @@ const encryptLib = require('../modules/encryption');
 const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 const axios = require('axios');
+const mongoose = require('mongoose');
+// Schemas
+const CommentSchema = require('../models/Comments');
 // Models
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
+const Comment = mongoose.model('Comment', CommentSchema);
+
 // database zipcode submission validation module
 const findZipcode = require('../modules/validate-zip-submissions');
 
@@ -72,8 +77,6 @@ function findUserByUsername(username, zipToSave, res) {
 } // END findUserByUsername
 
 
-
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
@@ -91,6 +94,28 @@ router.get('/logout', (req, res) => {
     res.sendStatus(200);
 });
 
+
+router.post('/comment/:userId', (req, res) => {
+    if(req.isAuthenticated()){
+        let userId = req.params.userId;
+        console.log('---------userId', userId);
+        
+        let newComment = new Comment(req.body);
+        User.findByIdAndUpdate(
+            {"_id": userId},
+            {$push: {comments: newComment}},
+            (err, response) => {
+            if(err){
+                console.log('------------ ERROR on POST /comment/:userId', err);          
+                res.sendStatus(500);      
+            } else {
+                console.log('-------- RESPONSE from POST /comment/:userId', response);
+                res.sendStatus(201);
+            }
+        });
+    }
+    
+}); // 
 
 
 function getWeatherForPrimaryZip(zipId, res, userInfo) {

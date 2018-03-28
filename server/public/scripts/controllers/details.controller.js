@@ -5,6 +5,10 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.selectedDatesTimes = [];
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
+    self.newComment = { comment: '' };
+    self.submitComment = UserService.submitComment;
+
+
     self.chartData = [
         { chartLabel: 'Temperature ˚F', chartColor: 'pink' },
         { chartLabel: 'Atmospheric Pressure (hPa)', chartColor: 'lightblue' },
@@ -18,7 +22,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.rerouteOnRefresh = () => {
-        if(!UserService.selectedZipData[0]){
+        if(!UserService.selectedZipData.weather){
             $location.path('/dashboard');
         } else {
             self.bakeDatePie();
@@ -45,9 +49,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         UserService.timeSlice = {}
         zip = UserService.selectedLocation.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
-            // console.log(UserService.zipcodes.list);
             if(zipcode.weatherData.zipcode == zip){
-                UserService.selectedZipData = zipcode.weatherData.weather;                
+                UserService.selectedZipData.weather = zipcode.weatherData.weather;                
             }
         }
     }
@@ -73,9 +76,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.bakeDatePie = () => {
         UserService.timeSlice = {};
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
-        if(UserService.selectedZipData[0]){
+        if(UserService.selectedZipData.weather){
             UserService.datePie.selectedDatesWeather = [];
-            for (let clump of UserService.selectedZipData) {
+            for (let clump of UserService.selectedZipData.weather) {
                 let clumpDate = new Date(clump.dt).toDateString()
                 if (clumpDate == selectedDate) {
                     clump.dt = new Date(clump.dt).toLocaleString();
@@ -94,6 +97,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         }
     }; // END self.bakeDatePie
 
+    
 
     self.makeChart = (i, chartLabel, chartColor) => {
         Chart.defaults.global.elements.point.hitRadius = 15;     
