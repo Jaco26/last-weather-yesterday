@@ -5,6 +5,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
+    self.newComment = {comment: '', relatedDate: new Date(self.datePie.date.date), relatedZip: self.selectedLocation.location};
+
+
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weater data
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
@@ -82,6 +85,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             console.log(error);            
         });
     } // END self.getUserZips
+
+    self.submitComment = () => 
    
     // ngInit
     self.init = () => {

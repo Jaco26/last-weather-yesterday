@@ -29,92 +29,100 @@
 <!-- End time selector buttons -->
 
 
-
-<md-content flex="90" layout layout-xs="column" layout-align="center" >
    
+<md-content layout="row">
     <!-- Start #text-data -->
-    <md-content flex layout="row" id="text-data">
+    <md-content flex="30" layout="column" id="text-data">
     
-        <!-- <md-card flex="15" id="sunrise-sunset"> -->
-            <!-- <md-card-content flex="none">
-                <p><strong>Date:</strong> {{vm.userService.datePie.date.date}}</p>
-                <p><strong>Sunrise:</strong> {{vm.userService.datePie.date.sunrise}}</p>
-                <p><strong>Sunset:</strong> {{vm.userService.datePie.date.sunset}}</p>
-            </md-card-content> -->
-        <!-- </md-card> -->
-
-        <md-card>
-            <md-card-content flex="15">
+        <md-card layout flex="30">
+            <md-card-content flex="20">
                 <h4> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
                 <div>
                     <strong>General:</strong>
                     <div ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </div>
                 </div>
             </md-card-content>
-        </md-card>
-
-        <md-card>
-            <md-card-content flex="15" layout-padding>
-                <p> <strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
-                <p> <strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
-                <p> <strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
-                <p> <strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
-                <p> <strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
-                <p> <strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
+    
+            <md-card-content flex-offset="10" layout-padding>
+                <p>
+                    <strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+                <p>
+                    <strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
+                <p>
+                    <strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
+                <p>
+                    <strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
+                <p>
+                    <strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
+                <p>
+                    <strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
             </md-card-content>
         </md-card>
-
+    
+    
         <md-card>
-            <input type="text" name="" id="" >
+            <h3>Notes</h3>
+            <p>Make a note about what you did on this day</p>
+            <input type="text" ng-model="">
         </md-card>
-
+    
     </md-content>
     <!-- END #text-data -->
 
-    <!-- Start #notes -->
-    <md-content layout="row">
-        <!-- <md-card>
-            <md-input type="text" name="" id="" md-placeholder="comments">
-        </md-card> -->
-    </md-content>
-
-</md-content>
 
 
+    <md-content id="charts" layout="column" >
+        <md-card layout="column" flex="70">
 
+            <md-card-content layout="column" flex="50">
+                <canvas  id="temp"></canvas>
+            </md-card-content>
+        
+            <md-card-content layout="column" flex="50">
+                <canvas  id="pressure"></canvas>
+            </md-card-content>
+        
+            <md-card-content layout="column" flex="50">
+                <canvas  id="clouds"></canvas>
+            </md-card-content>
+        
+            <md-card-content layout="column" flex="50">
+                <canvas  id="windspeed"></canvas>
+            </md-card-content>
+        </md-card>
+        
+        
 
-
-
-
-
-
-
-
-
-
-<md-content id="charts" layout="column" >
-    <!-- <div  layout-lg="row" layout-xl="row"> -->
-        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+        <!-- <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="temp"></canvas>
         </md-card>
 
-        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+        <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="pressure"></canvas>
         </md-card>
-    <!-- </div> -->
 
-    <!-- <div layout-lg="row" layout-xl="row"> -->
-        <md-card  flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+        <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="clouds"></canvas>
         </md-card>
 
-        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+        <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="windspeed"></canvas>
-        </md-card>
-    <!-- </div> -->
-</md-content>
+        </md-card> -->
+    
+    </md-content>
 
+</md-content>
 <!-- END row -->
+
+
+
+  
+
+
+
+
+
+
 
 
 
