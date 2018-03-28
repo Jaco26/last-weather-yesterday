@@ -8,8 +8,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weater data
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
-    self.selectedZipData = {}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
-    self.datePie = {date: {}, selectedDatesWeather: []}; // Holds all weather objects for a selected date...these come from selectedZipData
+    self.selectedZipData = {comments: [], photos: []}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
+    self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
@@ -24,6 +24,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUsersZipcodeData(i);
                 }              
+                // console.log(self.userObject);
+                
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');

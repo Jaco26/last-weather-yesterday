@@ -63,12 +63,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         } else {
             time = UserService.selectedTime.time;
         }
-        // let time = UserService.selectedTime.time;
-        console.log('time', time);
-        
         for(let slice of UserService.datePie.selectedDatesWeather){
             if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
-                 UserService.timeSlice = slice;
+                UserService.timeSlice = slice;
             }
         }
     }; // END self.cutTimeSlice
@@ -87,7 +84,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             }
             UserService.datePie.date.date = new Date(UserService.datePie.selectedDatesWeather[0].dt).toDateString();
             UserService.datePie.date.sunrise = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunrise).toLocaleTimeString();
-            UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString();
+            UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString(); 
+            UserService.datePie.comments = UserService.selectedZipData.comments.filter(item => new Date(item.relatedDate).toLocaleString() == new Date(UserService.datePie.date.date).toLocaleString());
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
@@ -96,8 +94,6 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             alert('No data')
         }
     }; // END self.bakeDatePie
-
-    
 
     self.makeChart = (i, chartLabel, chartColor) => {
         Chart.defaults.global.elements.point.hitRadius = 15;     
