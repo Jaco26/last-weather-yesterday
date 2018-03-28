@@ -2,7 +2,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     // console.log('DetailsController created');
     let self = this;
     self.userService = UserService;
-    self.makeChart = UserService.makeChart;
+    self.selectedDatesTimes = [];
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
     self.chartData = [
@@ -52,8 +52,17 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         }
     }
 
-    self.cutTimeSlice = () => {
-        let time = UserService.selectedTime.time;
+    self.cutTimeSlice = (timePassedIn) => {
+        let time
+        if(timePassedIn) {
+            UserService.selectedTime.time = timePassedIn;
+            time = UserService.selectedTime.time;
+        } else {
+            time = UserService.selectedTime.time;
+        }
+        // let time = UserService.selectedTime.time;
+        console.log('time', time);
+        
         for(let slice of UserService.datePie.selectedDatesWeather){
             if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
                  UserService.timeSlice = slice;
@@ -79,6 +88,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
+            self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));            
         } else {
             alert('No data')
         }

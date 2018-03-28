@@ -1,7 +1,7 @@
 /* Details.html styles */
 
 #text-data {
-    background-color: cyan;
+    /* background-color: cyan; */
     min-width: 300px;
 }
 
@@ -9,8 +9,15 @@
     min-width: 600px;
 }
 
+.md-toolbar-tools {
+    background-color: #616161;
+}
 
-
-/* .chart-container-card {
-    min-width: 500px !important; 
-} */
+.time-buttons {
+    /* background-color: #d6d6d6; */
+    font-size: 10px;
+    padding: 0px;
+    margin: 0px;
+    height: 30px;
+    width: 30px;
+}

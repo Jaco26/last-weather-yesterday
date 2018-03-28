@@ -2,9 +2,14 @@
 
 <div ng-include="'views/partials/nav.html'"></div>
 
+<!-- <md-content>
+   
+</md-content> -->
+
 <md-content flex="90" layout layout-xs="column" layout-align="center" >
    
-    <md-content flex="20" id="text-data">
+    <!-- Start #text-data -->
+    <md-content flex="20" layout="column" id="text-data">
         <md-card>
             <md-card-content flex="none">
                 <!-- <div layout> -->
@@ -51,8 +56,41 @@
 
     </md-content>
     <!-- END #text-data -->
+
+    <!-- Start time selector buttons -->
+    <md-content layout="column">
+        <md-button flex="none" class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes" aria-label="time">
+        {{time}} </md-button>
+    </md-content>
+    <!-- End time selector buttons -->
+
+
+    <md-content id="charts" layout="column" >
+        <!-- <div  layout-lg="row" layout-xl="row"> -->
+            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+                <canvas id="temp"></canvas>
+            </md-card>
     
-    <md-content id="charts" layout-md="column" layout-sm="column" flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
+            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+                <canvas id="pressure"></canvas>
+            </md-card>
+        <!-- </div> -->
+    
+        <!-- <div layout-lg="row" layout-xl="row"> -->
+            <md-card  flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+                <canvas id="clouds"></canvas>
+            </md-card>
+    
+            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+                <canvas id="windspeed"></canvas>
+            </md-card>
+        <!-- </div> -->
+    </md-content>
+
+
+
+    <!-- Start # charts -->
+    <!-- <md-content id="charts" layout-md="column" layout-sm="column" flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
         <div layout-lg="row" layout-xl="row">
             <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
                 <canvas flex id="temp"></canvas>
@@ -72,9 +110,7 @@
                 <canvas flex id="windspeed"></canvas>
             </md-card>
         </div>
-            
-
-    </md-content>
+    </md-content> -->
     <!-- END #charts -->
     
 </md-content>
