@@ -6,7 +6,10 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.today = new Date();
     self.minDate = new Date(UserService.selectedZipData.startTrackDate);
     self.newComment = { comment: '' };
-    self.submitComment = UserService.submitComment;
+    self.updateComment = {comment: ''};
+
+    self.postComment = UserService.postComment;
+    self.updateComment = UserService.updateComment;
 
 
     self.chartData = [
@@ -15,6 +18,13 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         { chartLabel: '% Cloud Cover', chartColor: 'gray' },
         { chartLabel: 'Windspeed (miles/hour)', chartColor: 'lightgreen' }
     ];
+
+    // self.edit = (i) => {
+        
+    //     console.log(UserService.datePie.comments[i]);
+       
+        
+    // }
 
     self.goBack = () => {
         UserService.timeSlice = {};

@@ -86,7 +86,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
 
-    self.submitComment = (newComment) => {
+    self.postComment = (newComment) => {
         let commentPackage = {
             comment: newComment.comment,
             relatedDate: new Date(self.selectedDate.date).toLocaleDateString(),
@@ -107,6 +107,13 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         })
           
     }
+
+    self.updateComment = (index, updatedComment) => {
+        let commentId = self.datePie.comments[index]._id
+        console.log('index', commentId);
+        console.log('updatedComment - - - - ', updatedComment );
+        
+    }
    
     // ngInit
     self.init = () => {
@@ -114,6 +121,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         self.timeSlice = {};
         self.selectedTime.time = {};
         self.selectedDate.date = '';
+        self.selectedZipData.comments = [];
     }
    
 }]);
