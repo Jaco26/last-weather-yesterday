@@ -1,17 +1,19 @@
 /* Details.html styles */
 
-#text-data {
-    /* background-color: cyan; */
+/* #text-data {
+    background-color: cyan;
     min-width: 300px;
-}
-
+} */
+/* 
 #charts {
     min-width: 600px;
+} */
+
+md-toolbar {
+    background-color: #525252 !important;
 }
 
-.md-toolbar-tools {
-    background-color: #616161;
-}
+
 
 .time-buttons {
     /* background-color: #d6d6d6; */
@@ -21,3 +23,4 @@
     height: 30px;
     width: 30px;
 }
+

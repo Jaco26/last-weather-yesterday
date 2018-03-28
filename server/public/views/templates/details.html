@@ -2,39 +2,49 @@
 
 <div ng-include="'views/partials/nav.html'"></div>
 
-<!-- <md-content>
-   
-</md-content> -->
+<md-content>
+    <md-toolbar class="md-toolbar-tools" layout="row">
+        <h3 flex>{{vm.userService.selectedLocation.location}}</h3>
+        <div layout="row" flex="40">
+            <span flex>{{vm.userService.datePie.date.date}}</span>
+            <span flex> <strong>Sunrise:</strong> {{vm.userService.datePie.date.sunrise}}</span>
+            <span flex><strong>Sunset:</strong> {{vm.userService.datePie.date.sunset}}</span>
+        </div>      
+    </md-toolbar>
+
+
+    <md-label for="choose-date">Select a date:</md-label>
+    <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date"
+        md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
+    <md-button ng-click="vm.prevDay()"> previous day </md-button>
+    <md-button ng-click="vm.nextDay()"> next day </md-button>
+    
+</md-content>
+
+<!-- Start time selector buttons -->
+<md-content layout="row">
+    <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes" aria-label="time">
+        {{time}} </md-button>
+</md-content>
+<!-- End time selector buttons -->
+
+
 
 <md-content flex="90" layout layout-xs="column" layout-align="center" >
    
     <!-- Start #text-data -->
-    <md-content flex="20" layout="column" id="text-data">
-        <md-card>
-            <md-card-content flex="none">
-                <!-- <div layout> -->
-                    <h3 flex="70">{{vm.userService.selectedLocation.location}}</h3>
-                    <md-button ng-click="vm.goBack()">Back</md-button>
-                <!-- </div>
-                <div layout> -->
-                    <h3>Select a date:</h3>
-                    <md-datepicker ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
-                    <md-button ng-click="vm.prevDay()"> previous day </md-button>
-                    <md-button ng-click="vm.nextDay()"> next day </md-button>
-                <!-- </div> -->
-            </md-card-content>
-        </md-card>
-
-        <md-card id="sunrise-sunset">
-            <md-card-content flex="none">
+    <md-content flex layout="row" id="text-data">
+    
+        <!-- <md-card flex="15" id="sunrise-sunset"> -->
+            <!-- <md-card-content flex="none">
                 <p><strong>Date:</strong> {{vm.userService.datePie.date.date}}</p>
                 <p><strong>Sunrise:</strong> {{vm.userService.datePie.date.sunrise}}</p>
                 <p><strong>Sunset:</strong> {{vm.userService.datePie.date.sunset}}</p>
-            </md-card-content>
-        </md-card>
+            </md-card-content> -->
+        <!-- </md-card> -->
 
         <md-card>
-            <md-card-content flex="none">
+            <md-card-content flex="15">
                 <h4> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
                 <div>
                     <strong>General:</strong>
@@ -44,7 +54,7 @@
         </md-card>
 
         <md-card>
-            <md-card-content flex="none" layout-padding>
+            <md-card-content flex="15" layout-padding>
                 <p> <strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
                 <p> <strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
                 <p> <strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
@@ -54,66 +64,56 @@
             </md-card-content>
         </md-card>
 
+        <md-card>
+            <input type="text" name="" id="" >
+        </md-card>
+
     </md-content>
     <!-- END #text-data -->
 
-    <!-- Start time selector buttons -->
-    <md-content layout="column">
-        <md-button flex="none" class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes" aria-label="time">
-        {{time}} </md-button>
-    </md-content>
-    <!-- End time selector buttons -->
-
-
-    <md-content id="charts" layout="column" >
-        <!-- <div  layout-lg="row" layout-xl="row"> -->
-            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas id="temp"></canvas>
-            </md-card>
-    
-            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas id="pressure"></canvas>
-            </md-card>
-        <!-- </div> -->
-    
-        <!-- <div layout-lg="row" layout-xl="row"> -->
-            <md-card  flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas id="clouds"></canvas>
-            </md-card>
-    
-            <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas id="windspeed"></canvas>
-            </md-card>
-        <!-- </div> -->
+    <!-- Start #notes -->
+    <md-content layout="row">
+        <!-- <md-card>
+            <md-input type="text" name="" id="" md-placeholder="comments">
+        </md-card> -->
     </md-content>
 
-
-
-    <!-- Start # charts -->
-    <!-- <md-content id="charts" layout-md="column" layout-sm="column" flex-xs="noshrink" flex-sm="noshrink" flex="80" id="charts" layout-align="center end" >
-        <div layout-lg="row" layout-xl="row">
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas flex id="temp"></canvas>
-            </md-card>
-      
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas flex id="pressure"></canvas>
-            </md-card>
-        </div>
-            
-        <div layout-lg="row" layout-xl="row">
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas flex id="clouds"></canvas>
-            </md-card>
-      
-            <md-card class="chart-container-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
-                <canvas flex id="windspeed"></canvas>
-            </md-card>
-        </div>
-    </md-content> -->
-    <!-- END #charts -->
-    
 </md-content>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<md-content id="charts" layout="column" >
+    <!-- <div  layout-lg="row" layout-xl="row"> -->
+        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+            <canvas id="temp"></canvas>
+        </md-card>
+
+        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+            <canvas id="pressure"></canvas>
+        </md-card>
+    <!-- </div> -->
+
+    <!-- <div layout-lg="row" layout-xl="row"> -->
+        <md-card  flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+            <canvas id="clouds"></canvas>
+        </md-card>
+
+        <md-card flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+            <canvas id="windspeed"></canvas>
+        </md-card>
+    <!-- </div> -->
+</md-content>
+
 <!-- END row -->
 
 
