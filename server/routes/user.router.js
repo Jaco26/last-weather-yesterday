@@ -15,7 +15,6 @@ const Comment = mongoose.model('Comment', CommentSchema);
 const findZipcode = require('../modules/validate-zip-submissions');
 
 const owmapiSearchByZip = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const units = '&units=imperial';
 const owmapiKey = process.env.OWMAPI_KEY;
 
 let verbose = false; // used to show explanations for learning
@@ -76,6 +75,26 @@ function findUserByUsername(username, zipToSave, res) {
     }); // END User.find
 } // END findUserByUsername
 
+// function getWeatherForPrimaryZip(zipId, res, userInfo) {
+//     Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
+//         if (error) {
+//             console.log('Error on find', error);
+//         } else {
+//             console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
+//             axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey)
+//                 .then(response => {
+//                     let currentWeather = response.data;
+//                     console.log('CURRENT WEATHER!!!!', currentWeather);
+//                     res.send({ currentWeather: currentWeather, userInfo: userInfo })
+//                 }).catch(error => {
+//                     console.log('Error', error);
+//                 }); // END axios.get
+//         }
+//     }); // END Zipcode.findById
+// }
+
+
+
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -99,7 +118,6 @@ router.post('/comment/:userId', (req, res) => {
     if(req.isAuthenticated()){
         let userId = req.params.userId;
         console.log('---------userId', userId);
-        
         let newComment = new Comment(req.body);
         User.findByIdAndUpdate(
             {"_id": userId},
@@ -114,27 +132,65 @@ router.post('/comment/:userId', (req, res) => {
             }
         });
     }
-    
-}); // 
+}); 
+
+router.put('/comment/:userId', (req, res) => {
+    if(req.isAuthenticated()){
+        let userId = req.params.userId;
+        // let newComment = new Comment(req.body);
+        let commentId = req.body.commentId;
+        let newComment = req.body.updatedComment
+        User.findById(userId, (err, response) => {
+            if(err){
+                console.log('--------------- ERROR on FINDBYID /comment/:userId');
+                res.sendStatus(500);                
+            } else {
+                console.log(' ------------- RESPONSE on FINDBYID /comment/:userId', response);
+                Comment.findByIdAndUpdate(
+                    {"_id": commentId},
+                    {$set: {comment: newComment}},
+                    (err, response) => {
+                        if(err){
+                            console.log('ERROR on COMMENT.findByIdAndUpdate - -- - - ', err);
+                            res.sendStatus(500);                            
+                        } else {
+                            res.sendStatus(201);
+                        }
+                    }
+                )
+            }
+        });
+    }
+});
 
 
-function getWeatherForPrimaryZip(zipId, res, userInfo) {
-    Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
-        if (error) {
-            console.log('Error on find', error);
-        } else {
-            console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
-            axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey + units)
-                .then(response => {
-                    let currentWeather = response.data;
-                    console.log('CURRENT WEATHER!!!!', currentWeather);
-                    res.send({ currentWeather: currentWeather, userInfo: userInfo })
-                }).catch(error => {
-                    console.log('Error', error);
-                }); // END axios.get
-        }
-    }); // END Zipcode.findById
-}
+router.delete('/comment/:commentId', (req, res) => {
+    if(req.isAuthenticated()){
+        let userId = req.user._id;
+        let commentId = req.params.commentId;
+        User.findById(userId, (err, response) => {
+            if(err){
+                console.log('ERROR on FINDBYID', err);
+                res.sendStatus(500);
+            } else {
+                console.log('----- response from DELETE user findbyID', response);
+                Comment.findById(
+                    {"_id": commentId}, 
+                    (err, response) => {
+                    if(err) {
+                        console.log('ERROR on FINDBYIDANDREMOVE -- - - - -', err);
+                        res.sendStatus(500);
+                    } else {
+                        console.log('response --- - - - ', response);
+                        console.log('commentId --- - - - ', commentId);
+                        res.sendStatus(200);
+                    }
+                });
+            }
+        });
+    }
+});
+
 
 
 

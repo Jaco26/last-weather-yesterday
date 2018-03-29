@@ -59,7 +59,7 @@
             </md-card-content>
         </md-card>
     
-    
+        <!-- COMMENTS -->
         <md-card>
             <h3>Notes</h3>
             <p>Make a note about what you did on this day</p>
@@ -68,18 +68,18 @@
             <ul>
                 <li ng-repeat="comment in vm.userService.datePie.comments">
                     <div ng-hide="comment.beingEdited">
-                        {{comment.comment}} <md-button ng-click="comment.beingEdited = true">edit</md-button>
-                        <!-- {{comment.comment}} <md-button ng-click="vm.edit($index)">edit</md-button> -->
+                        {{comment.comment}} 
+                        <md-button ng-click="comment.beingEdited = true">Edit</md-button>
+                        <md-button ng-click="vm.deleteComment($index)">Delete</md-button>
                     </div>
 
                     <input ng-model="comment.comment" ng-show="comment.beingEdited" ng-value="comment.comment" >
                     <md-button ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment)">update</md-button>
                     <md-button ng-show="comment.beingEdited" ng-click="comment.beingEdited = false">Cancel</md-button>
                  </li>
-              
             </ul>
-            <!-- <p ng-repeat="comment in vm.userService.datePie.comments"> {{comment.comment}}  </p> -->
         </md-card>
+        <!-- END COMMENTS -->
     
     </md-content>
     <!-- END #text-data -->
@@ -87,7 +87,7 @@
 
 
     <md-content id="charts" layout="column" >
-        <md-card layout="column" flex="70">
+<!--         
 
             <md-card-content layout="column" flex="50">
                 <canvas  id="temp"></canvas>
@@ -104,11 +104,11 @@
             <md-card-content layout="column" flex="50">
                 <canvas  id="windspeed"></canvas>
             </md-card-content>
-        </md-card>
+ 
         
-        
+         -->
 
-        <!-- <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
+        <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="temp"></canvas>
         </md-card>
 
@@ -122,7 +122,7 @@
 
         <md-card class="canvas-card" flex-xs="100" flex-sm="80" flex-md="100" flex-lg="45" flex-xl="45">
             <canvas id="windspeed"></canvas>
-        </md-card> -->
+        </md-card>
     
     </md-content>
 
