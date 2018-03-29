@@ -94,27 +94,27 @@ router.get('/logout', (req, res) => {
 });
 
 
-router.post('/comment/:userId', (req, res) => {
-    if(req.isAuthenticated()){
-        let userId = req.params.userId;
-        console.log('---------userId', userId);
+// router.post('/comment/:userId', (req, res) => {
+//     if(req.isAuthenticated()){
+//         let userId = req.params.userId;
+//         console.log('---------userId', userId);
         
-        let newComment = new Comment(req.body);
-        User.findByIdAndUpdate(
-            {"_id": userId},
-            {$push: {comments: newComment}},
-            (err, response) => {
-            if(err){
-                console.log('------------ ERROR on POST /comment/:userId', err);          
-                res.sendStatus(500);      
-            } else {
-                console.log('-------- RESPONSE from POST /comment/:userId', response);
-                res.sendStatus(201);
-            }
-        });
-    }
+//         let newComment = new Comment(req.body);
+//         User.findByIdAndUpdate(
+//             {"_id": userId},
+//             {$push: {comments: newComment}},
+//             (err, response) => {
+//             if(err){
+//                 console.log('------------ ERROR on POST /comment/:userId', err);          
+//                 res.sendStatus(500);      
+//             } else {
+//                 console.log('-------- RESPONSE from POST /comment/:userId', response);
+//                 res.sendStatus(201);
+//             }
+//         });
+//     }
     
-}); // 
+// }); // 
 
 
 function getWeatherForPrimaryZip(zipId, res, userInfo) {

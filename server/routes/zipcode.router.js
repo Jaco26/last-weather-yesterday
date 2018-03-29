@@ -5,7 +5,7 @@ const mongoose = require('../modules/db-config');
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
 // database zipcode submission validation module
-const findZipcode = require('../modules/validate-zip-submissions');
+const validateZipcodeAndSave = require('../modules/validate-zip-submissions');
 
 
 // GET all user's zipcodes and associated weather data
@@ -19,17 +19,21 @@ router.get('/:zipId', (req, res) => {
             // console.log('foundZipcodes:', response);
             res.send(response)
         }
-    })
-})
+    });
+});
 
 
 // Post a zipcode to the zipcodes collection and then
 // find user by id and update their zipcodeDate document with 
 // the ObjectId of the saved zipcode (see /models/User.js)
 router.post('/:userId', (req, res) => {
-    let userId = req.params.userId;
-    let zipcodeToAdd = new Zipcode(req.body); // new instance of Zipcode model
-    findZipcode(zipcodeToAdd, userId, res);
+    if(req.isAuthenticated()) {
+        let userId = req.params.userId;
+        let zipcodeToAdd = new Zipcode(req.body); // new instance of Zipcode model
+        validateZipcodeAndSave(zipcodeToAdd, userId, res);
+    } else {
+        res.sendStatus(403);
+    }  
 });
 
 

@@ -86,6 +86,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
 
+
+
     self.postComment = (newComment) => {
         let commentPackage = {
             comment: newComment.comment,
@@ -95,10 +97,10 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         }
         $http({
             method: 'POST', 
-            url: `api/user/comment/${self.userObject._id}`,
+            url: `api/comment/${self.userObject._id}`,
             data: commentPackage,
         }).then(response => {
-            response.status == 201 ? alert('Note added!'): null;
+            // response.status == 201 ? alert('Note added!'): null;
             self.getuser();
             self.newComment.comment = '';
         }).catch(err => {

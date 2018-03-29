@@ -29,12 +29,18 @@ const UserSchema = new mongoose.Schema(
         ],
         comments: [
             {
-                commentId: mongoose.Schema.ObjectId,
+                commentId: {
+                    type: mongoose.Schema.ObjectId,
+                    ref: 'comments',
+                }
             }
         ],
         photos: [
             {
-                photoId: mongoose.Schema.ObjectId,
+                photoId: {
+                    type: mongoose.Schema.ObjectId,
+                    ref: 'photos',
+                }
             }
         ],
 }); 

@@ -86,25 +86,26 @@
 
 
 
-    <md-content id="charts" layout="column" >
-        <md-card layout="column" flex="70">
-
-            <md-card-content layout="column" flex="50">
+    <md-content id="charts">
+        <div layout="row">
+            <md-card flex>
                 <canvas  id="temp"></canvas>
-            </md-card-content>
+            </md-card->
         
-            <md-card-content layout="column" flex="50">
+            <md-card flex>
                 <canvas  id="pressure"></canvas>
-            </md-card-content>
-        
-            <md-card-content layout="column" flex="50">
+            </md-card->
+        </div>
+
+        <div layout="row">
+            <md-card flex>
                 <canvas  id="clouds"></canvas>
-            </md-card-content>
+            </md-card->
         
-            <md-card-content layout="column" flex="50">
+            <md-card flex>
                 <canvas  id="windspeed"></canvas>
-            </md-card-content>
-        </md-card>
+            </md-card>
+        </div>
         
         
 
