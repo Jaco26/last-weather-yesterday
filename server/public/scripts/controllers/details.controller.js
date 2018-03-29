@@ -8,7 +8,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.newComment = { comment: '' };
     self.updateComment = {comment: ''};
 
-    self.postComment = UserService.postComment;
+    self.addComment = UserService.addComment;
     self.updateComment = UserService.updateComment;
     self.deleteComment = UserService.deleteComment;
 

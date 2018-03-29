@@ -86,7 +86,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         });
     } // END self.getUserZips
 
-    self.postComment = (newComment) => {
+    self.addComment = (newComment) => {
         let commentPackage = {
             comment: newComment.comment,
             relatedDate: new Date(self.selectedDate.date).toLocaleDateString(),
@@ -94,7 +94,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             dateAdded: new Date().toLocaleString(),
         }
         $http({
-            method: 'POST', 
+            method: 'PUT', 
             url: `api/user/comment/${self.userObject._id}`,
             data: commentPackage,
         }).then(response => {

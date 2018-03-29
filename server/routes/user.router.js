@@ -114,23 +114,32 @@ router.get('/logout', (req, res) => {
 });
 
 
-router.post('/comment/:userId', (req, res) => {
+router.put('/comment/:userId', (req, res) => {
     if(req.isAuthenticated()){
         let userId = req.params.userId;
         console.log('---------userId', userId);
         let newComment = new Comment(req.body);
-        User.findByIdAndUpdate(
-            {"_id": userId},
-            {$push: {comments: newComment}},
-            (err, response) => {
+        newComment.save( (err, savedComment) => {
             if(err){
-                console.log('------------ ERROR on POST /comment/:userId', err);          
-                res.sendStatus(500);      
+                console.log('ERROR on newComment.save', err);
+                res.sendStatus(500);                
             } else {
-                console.log('-------- RESPONSE from POST /comment/:userId', response);
-                res.sendStatus(201);
+                console.log('savedComment', savedComment);
+                User.findByIdAndUpdate(
+                    { "_id": userId },
+                    { $push: {comments: savedComment} },
+                    (err, response) => {
+                        if (err) {
+                            console.log('------------ ERROR on POST /comment/:userId', err);
+                            res.sendStatus(500);
+                        } else {
+                            console.log('-------- RESPONSE from POST /comment/:userId', response);
+                            res.sendStatus(201);
+                        }
+                    });
             }
-        });
+        })
+        
     }
 }); 
 
