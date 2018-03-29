@@ -9,7 +9,7 @@ const CommentSchema = require('../models/Comments');
 // Models
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
-const Comment = mongoose.model('Comment', CommentSchema);
+const Comment = mongoose.model('Comment', CommentSchema, 'users');
 
 // database zipcode submission validation module
 const findZipcode = require('../modules/validate-zip-submissions');
@@ -143,33 +143,68 @@ router.put('/comment/:userId', (req, res) => {
     }
 }); 
 
-router.put('/comment/:userId', (req, res) => {
-    if(req.isAuthenticated()){
-        let userId = req.params.userId;
-        // let newComment = new Comment(req.body);
-        let commentId = req.body.commentId;
-        let newComment = req.body.updatedComment
-        User.findById(userId, (err, response) => {
-            if(err){
-                console.log('--------------- ERROR on FINDBYID /comment/:userId');
-                res.sendStatus(500);                
-            } else {
-                console.log(' ------------- RESPONSE on FINDBYID /comment/:userId', response);
-                Comment.findByIdAndUpdate(
-                    {"_id": commentId},
-                    {$set: {comment: newComment}},
-                    (err, response) => {
-                        if(err){
-                            console.log('ERROR on COMMENT.findByIdAndUpdate - -- - - ', err);
-                            res.sendStatus(500);                            
-                        } else {
-                            res.sendStatus(201);
-                        }
-                    }
-                )
-            }
-        });
-    }
+router.put('/edit-comment/:userId', (req, res) => {
+//    console.log('req.body --------- ', req.body);
+   if(req.isAuthenticated()) {
+       let userId = req.params.userId;
+       let updatedComment = req.body;
+       console.log('updatedComment-----=====', updatedComment);
+       
+       Comment.findByIdAndUpdate( 
+           {"_id": updatedComment._id},
+           {$set: updatedComment},
+           (err, savedUpdatedComment) => {
+           if(err) {
+               console.log('ERROR on updatedComment.save', err);
+                res.sendStatus(500);               
+           } else {
+               console.log(savedUpdatedComment);
+               
+            //    User.findByIdAndUpdate(
+            //        {"_id": userId},
+            //        {$set: {comments: updatedComment}},
+            //        (err, response) => {
+            //            if(err) {
+            //                console.log('ERROR on $set : {comments: updatedComment}', err);
+            //                res.sendStatus(500);
+            //            } else {
+            //                 console.log(response);
+            //                 res.sendStatus(200);
+            //            }
+            //        }
+            //    )
+           }
+       })
+   }
+   
+
+
+    // if(req.isAuthenticated()){
+    //     let userId = req.params.userId;
+    //     // let newComment = new Comment(req.body);
+    //     let commentId = req.body.commentId;
+    //     let newComment = req.body.updatedComment
+    //     User.findById(userId, (err, response) => {
+    //         if(err){
+    //             console.log('--------------- ERROR on FINDBYID /comment/:userId');
+    //             res.sendStatus(500);                
+    //         } else {
+    //             console.log(' ------------- RESPONSE on FINDBYID /comment/:userId', response);
+    //             Comment.findByIdAndUpdate(
+    //                 {"_id": commentId},
+    //                 {$set: {comment: newComment}},
+    //                 (err, response) => {
+    //                     if(err){
+    //                         console.log('ERROR on COMMENT.findByIdAndUpdate - -- - - ', err);
+    //                         res.sendStatus(500);                            
+    //                     } else {
+    //                         res.sendStatus(201);
+    //                     }
+    //                 }
+    //             )
+    //         }
+    //     });
+    // }
 });
 
 

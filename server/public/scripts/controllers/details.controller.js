@@ -99,7 +99,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
-            self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));            
+            self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));     
+            console.log(UserService.selectedZipData.comments);
+                   
         } else {
             alert('No data')
         }

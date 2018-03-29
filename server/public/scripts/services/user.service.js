@@ -108,14 +108,14 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
           
     }
 
-    self.updateComment = (index, updatedComment) => {
-        let commentId = self.datePie.comments[index]._id
-        console.log('index', commentId);
+    self.updateComment = (index) => {
+        let updatedComment = self.datePie.comments[index];
+        // console.log('index', commentId);
         console.log('updatedComment - - - - ', updatedComment );
         $http({
             method: 'PUT',
-            url: `/api/user/comment/${self.userObject._id}`,
-            data: {commentId: commentId, updatedComment: updatedComment},
+            url: `/api/user/edit-comment/${self.userObject._id}`,
+            data: {updatedComment},
         }).then(response => {
             self.getuser();
         }).catch(err => {
