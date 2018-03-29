@@ -23,9 +23,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 self.zipcodes.list = [];
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUsersZipcodeData(i);
-                }              
-                // console.log(self.userObject);
-                
+                }     
+                for(let i = 0; i < self.userObject.comments.length; i++){
+                    self.getUsersCommentData(i);
+                }         
+                console.log(self.userObject);
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -87,13 +89,13 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     } // END self.getUserZips
 
 
-
+    // ADD A COMMENT
     self.postComment = (newComment) => {
         let commentPackage = {
             comment: newComment.comment,
             relatedDate: new Date(self.selectedDate.date).toLocaleDateString(),
             relatedZip: self.selectedZipData.zipId,
-            dateAdded: new Date().toLocaleString(),
+            dateAdded: new Date(),
         }
         $http({
             method: 'POST', 
@@ -109,6 +111,24 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         })
           
     }
+
+    // GET COMMENT BY ID
+    self.getUsersCommentData = (index) => {
+        $http({
+            method: 'GET',
+            url: `api/comment/${self.userObject.comments[index].commentId}`,
+        }).then(response => {
+            response.data.dateAdded = new Date(response.data.dateAdded).toLocaleString();
+                let comment = response.data;
+                let refIds = self.userObject.comments[index];
+                self.userObject.comments[index] = { refIds, comment };
+        }).catch(err => {
+            console.log(err);            
+        });
+    }
+    // router.get('/api/comment/')
+
+
 
     self.updateComment = (index, updatedComment) => {
         let commentId = self.datePie.comments[index]._id

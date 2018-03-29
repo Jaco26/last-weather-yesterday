@@ -28,10 +28,20 @@ router.post('/:userId', (req, res) => {
                     }
                 )
             }
-    })
+        });
     }
-    
-    
+}); 
+
+router.get('/:commentId', (req, res) => {
+    let commentId = req.params.commentId;
+    Comment.findById({"_id": commentId}).populate('users').exec((err, foundComment) => {
+        if(err){
+            console.log('ERROR on Comment.findById', err);
+            res.sendStatus(500);            
+        } else {
+            res.send(foundComment);
+        }
+    })
 })
 
 

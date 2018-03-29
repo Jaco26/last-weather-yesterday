@@ -68,7 +68,7 @@
             <ul>
                 <li ng-repeat="comment in vm.userService.datePie.comments">
                     <div ng-hide="comment.beingEdited">
-                        {{comment.comment}} <md-button ng-click="comment.beingEdited = true">edit</md-button>
+                        {{comment.comment.comment}} <md-button ng-click="comment.beingEdited = true">edit</md-button>
                         <!-- {{comment.comment}} <md-button ng-click="vm.edit($index)">edit</md-button> -->
                     </div>
 

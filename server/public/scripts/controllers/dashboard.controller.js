@@ -18,14 +18,13 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         console.log(UserService.userObject.zipcode);
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {
-                // console.log('zip.weatherData', zip.weatherData);
                 UserService.selectedZipData.zipcode = zip.weatherData.zipcode
                 UserService.selectedZipData.zipId = zip.weatherData._id
                 UserService.selectedZipData.weather = zip.weatherData.weather;
             }
         }
         for (let comment of UserService.userObject.comments) {
-            if(comment.relatedZip == UserService.selectedZipData.zipId){
+            if(comment.comment.relatedZip == UserService.selectedZipData.zipId){
                 UserService.selectedZipData.comments.push(comment);
             }
         }
@@ -47,6 +46,4 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     }
 
   
-
-
 }]); // END ManageController

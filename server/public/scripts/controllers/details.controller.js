@@ -11,20 +11,12 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.postComment = UserService.postComment;
     self.updateComment = UserService.updateComment;
 
-
     self.chartData = [
         { chartLabel: 'Temperature ˚F', chartColor: 'pink' },
         { chartLabel: 'Atmospheric Pressure (hPa)', chartColor: 'lightblue' },
         { chartLabel: '% Cloud Cover', chartColor: 'gray' },
         { chartLabel: 'Windspeed (miles/hour)', chartColor: 'lightgreen' }
     ];
-
-    // self.edit = (i) => {
-        
-    //     console.log(UserService.datePie.comments[i]);
-       
-        
-    // }
 
     self.goBack = () => {
         UserService.timeSlice = {};
@@ -95,7 +87,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             UserService.datePie.date.date = new Date(UserService.datePie.selectedDatesWeather[0].dt).toDateString();
             UserService.datePie.date.sunrise = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunrise).toLocaleTimeString();
             UserService.datePie.date.sunset = new Date(UserService.datePie.selectedDatesWeather[0].sys.sunset).toLocaleTimeString(); 
-            UserService.datePie.comments = UserService.selectedZipData.comments.filter(item => new Date(item.relatedDate).toLocaleString() == new Date(UserService.datePie.date.date).toLocaleString());
+            UserService.datePie.comments = UserService.selectedZipData.comments.filter(item => new Date(item.comment.relatedDate).toLocaleString() == new Date(UserService.datePie.date.date).toLocaleString());
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
