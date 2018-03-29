@@ -134,7 +134,30 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         let commentId = self.datePie.comments[index]._id
         console.log('index', commentId);
         console.log('updatedComment - - - - ', updatedComment );
-        
+        $http({
+            method: 'PUT',
+            url: `/api/user/edit-comment/${self.userObject._id}`,
+            data: {updatedComment},
+        }).then(response => {
+            self.getuser();
+        }).catch(err => {
+            alert(err.status + ' ' + err.statusText);
+        }); 
+    }
+
+    self.deleteComment = (index) => {
+        if(confirm('Are you sure??')){
+            let comment = self.datePie.comments[index];
+            $http({
+                method: 'DELETE',
+                url: `/api/user/comment/${comment._id}`,
+            }).then(response => {
+                alert('Comment successfully deleted!');
+                self.getuser();
+            }).catch(err => {
+                alert(err.status + ' ' + err.statusText);
+            });
+        }
     }
    
     // ngInit

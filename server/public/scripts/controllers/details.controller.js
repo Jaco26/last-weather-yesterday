@@ -8,8 +8,12 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.newComment = { comment: '' };
     self.updateComment = {comment: ''};
 
-    self.postComment = UserService.postComment;
+    self.addComment = UserService.addComment;
     self.updateComment = UserService.updateComment;
+<<<<<<< HEAD
+=======
+    self.deleteComment = UserService.deleteComment;
+>>>>>>> master
 
     self.chartData = [
         { chartLabel: 'Temperature ˚F', chartColor: 'pink' },
@@ -91,7 +95,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             for(let i = 0; i < self.chartData.length; i++){
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
-            self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));            
+            self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));     
+            console.log(UserService.selectedZipData.comments);
+                   
         } else {
             alert('No data')
         }
