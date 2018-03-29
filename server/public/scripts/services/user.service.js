@@ -55,7 +55,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         } else {
             $http({
                 method: 'POST',
-                url: `/database/zipcode/${self.userObject._id}`,
+                url: `/api/zipcode/${self.userObject._id}`,
                 data: self.newZip
             }).then(response => {
                 response.status == 201 ? alert("We've begun tracking " + self.newZip.zipcode + " for you!"): null;
@@ -73,7 +73,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         let zipcode = {};
         $http({
             method: 'GET',
-            url: `/database/zipcode/${self.userObject.zipcode[index].zipId}`
+            url: `/api/zipcode/${self.userObject.zipcode[index].zipId}`
         }).then(response => {
             zipcode.weatherData = response.data;
             for (let chunk of response.data.weather) {

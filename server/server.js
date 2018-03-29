@@ -15,6 +15,8 @@ const cron = require('./modules/cron');
 // Route includes
 const userRouter = require('./routes/user.router');
 const zipcodeRouter = require('./routes/zipcode.router');
+const commentRouter = require('./routes/comment.router');
+const photoRouter = require('./routes/photo.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -28,7 +30,10 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
-app.use('/database', zipcodeRouter);
+app.use('/api/zipcode', zipcodeRouter);
+app.use('/api/comment', commentRouter);
+app.use('api/photo', photoRouter);
+
 
 // Serve static files
 app.use(express.static('server/public'));

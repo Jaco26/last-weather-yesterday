@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const CommentSchema = require('./Comments');
-const PhotosSchema = require('./Photos');
+
 
 
 const UserSchema = new mongoose.Schema(
@@ -28,8 +27,16 @@ const UserSchema = new mongoose.Schema(
                 isPrimary: {type: Boolean, default: false},
             } 
         ],
-        comments: [CommentSchema],
-        photos: [PhotosSchema],
+        comments: [
+            {
+                commentId: mongoose.Schema.ObjectId,
+            }
+        ],
+        photos: [
+            {
+                photoId: mongoose.Schema.ObjectId,
+            }
+        ],
 }); 
 
 

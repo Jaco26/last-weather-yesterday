@@ -4,12 +4,11 @@ const userStrategy = require('../strategies/user.strategy');
 const router = express.Router();
 const axios = require('axios');
 const mongoose = require('mongoose');
-// Schemas
-const CommentSchema = require('../models/Comments');
 // Models
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
-const Comment = mongoose.model('Comment', CommentSchema);
+const Comment = require('../models/Comments');
+const Photo = require('../models/Photos');
 
 // database zipcode submission validation module
 const findZipcode = require('../modules/validate-zip-submissions');
@@ -135,7 +134,6 @@ function getWeatherForPrimaryZip(zipId, res, userInfo) {
         }
     }); // END Zipcode.findById
 }
-
 
 
 module.exports = router;
