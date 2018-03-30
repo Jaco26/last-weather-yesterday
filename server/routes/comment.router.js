@@ -29,19 +29,25 @@ router.post('/:userId', (req, res) => {
                 )
             }
         });
+    } else {
+        res.sendStatus(403);
     }
 }); 
 
 router.get('/:commentId', (req, res) => {
-    let commentId = req.params.commentId;
-    Comment.findById({"_id": commentId}).populate('users').exec((err, foundComment) => {
-        if(err){
-            console.log('ERROR on Comment.findById', err);
-            res.sendStatus(500);            
-        } else {
-            res.send(foundComment);
-        }
-    });
+    if(req.isAuthenticated()){
+        let commentId = req.params.commentId;
+        Comment.findById({ "_id": commentId }).populate('users').exec((err, foundComment) => {
+            if (err) {
+                console.log('ERROR on Comment.findById', err);
+                res.sendStatus(500);
+            } else {
+                res.send(foundComment);
+            }
+        });
+    } else {
+        res.sendStatus(403);
+    }
 });
 
 router.put('/:commentId', (req, res) => {
@@ -64,6 +70,37 @@ router.put('/:commentId', (req, res) => {
         res.sendStatus(403);
     }
 });
+
+router.delete('/:commentId/:objectId', (req, res) => {
+    if(req.isAuthenticated()) {
+        let commentId = req.params.commentId;
+        let objectId = req.params.objectId;
+        Comment.findByIdAndRemove(
+            {"_id": commentId},
+            (err, removedComment) => {
+                if(err){
+                    console.log('ERROR on Comment.findByIdAndRemove', err);
+                    res.sendStatus(500);
+                } else {
+                    User.findByIdAndUpdate(
+                        {"_id": req.user._id},
+                        {$pull: {comments: {_id: objectId}}},
+                        (err, deletedReference) => {
+                            if(err) {
+                                console.log('ERROR on User.findByIdAndUpdate $pull', err);
+                                res.sendStatus(500);
+                            } else {
+                                res.sendStatus(200);
+                            }
+                        }
+                    )
+                }
+            }
+        )
+    } else {
+        req.sendStatus(403);
+    }
+})
 
 
 

@@ -146,10 +146,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
 
     self.deleteComment = (index) => {
         if(confirm('Are you sure??')){
-            let comment = self.datePie.comments[index];
+            let commentId = self.datePie.comments[index].refIds.commentId;
+            let objectId = self.datePie.comments[index].refIds._id;
             $http({
                 method: 'DELETE',
-                url: `/api/user/comment/${comment._id}`,
+                url: `/api/comment/${commentId}/${objectId}`,
             }).then(response => {
                 alert('Comment successfully deleted!');
                 self.getuser();
