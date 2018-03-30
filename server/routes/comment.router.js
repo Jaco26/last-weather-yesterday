@@ -37,21 +37,22 @@ router.post('/:userId', (req, res) => {
 router.get('/blabla', (req, res) => {
     User.findById(req.user._id, (err, foundUser) => {
         if(err) {
-            console.log('ERROR on User.findById');
+            console.log('ERROR on User.findById', err);
             res.sendStatus(500);
         } else {
             console.log('foundUser.comments--------', foundUser.comments);
             let userComments = [];
-            for(let comment of foundUser.comments){
+            for(let i = 0; i < foundUser.comments.length; i++){
+                let comment = foundUser.comments[i];
                 Comment.findById({"_id": comment.commentId}).populate('users').exec((err, foundComment) => {
                     if(err){   
                         console.log('ERROR on Comment.findById', err);
                         res.sendStatus(500);
                     } else {
-                        userComments.push(foundComment);
+                        userComments.push({comment: foundComment, refIds: foundUser.comments[i]});
                         if(userComments.length == foundUser.comments.length){
                             res.send(userComments);
-                        }
+                        } 
                     }
                 });
             }

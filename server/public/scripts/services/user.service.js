@@ -25,10 +25,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 for(let i = 0; i < self.userObject.zipcode.length; i++){
                     self.getUsersZipcodeData(i);
                 }     
-                for(let i = 0; i < self.userObject.comments.length; i++){
-                    self.getUsersCommentData(i);
-                }         
-                console.log(self.userObject);
+                self.getUserComments();
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -83,7 +80,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                 let trackDate = self.userObject.zipcode.filter(zip => zip.zipId == response.data._id ? zip.startTrackDate : null);
                 zipcode.startTrackDate = new Date(trackDate[0].startTrackDate).toDateString();
             }
-            self.zipcodes.list = [...self.zipcodes.list, zipcode];
+            self.zipcodes.list = [...self.zipcodes.list, zipcode];;
         }).catch(error => {
             console.log(error);            
         });
@@ -113,38 +110,29 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         })
           
     }
-
+    // GET COMMENTS
     self.getUserComments = () => {
         $http({
             method: 'GET',
             url: `/api/comment/blabla`,
         }).then(response => {
-            console.log('******** response from getUserComments', response);
-            
+            // console.log('******** response.data from getUserComments', response.data);
+            self.userObject.comments = [];
+            for(let comment of response.data){
+                console.log('comment', comment);
+                
+                comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
+                self.userObject.comments.push(comment);
+            }
+            console.log('Success on getUserComments. datePie.comments is now:', self.selectedDate);
         }).catch(err => {
             console.log(err);
         });
     }
 
-    // GET COMMENT BY ID
-    self.getUsersCommentData = (index) => {
-        $http({
-            method: 'GET',
-            url: `api/comment/${self.userObject.comments[index].commentId}`,
-        }).then(response => {
-            response.data.dateAdded = new Date(response.data.dateAdded).toLocaleString();
-                let comment = response.data;
-                let refIds = self.userObject.comments[index];
-                self.userObject.comments[index] = { refIds, comment };
-        }).catch(err => {
-            console.log(err);            
-        });
-    }
-
-
     // UPDATE COMMENT
     self.updateComment = (index, updatedComment) => {
-        let commentId = self.datePie.comments[index].refIds.commentId;
+        let commentId = self.userObject.comments[index].refIds.commentId;
         // console.log('index', commentId);
         // console.log('updatedComment - - - - ', updatedComment );
         $http({
@@ -152,22 +140,22 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             url: `/api/comment/${commentId}`,
             data: {updatedComment: updatedComment},
         }).then(response => {
-            self.getuser();
-            
+            self.getUserComments();
         }).catch(err => {
             alert(err.status + ' ' + err.statusText);
         }); 
     }
 
     self.deleteComment = (index) => {
+        console.log(index);
+        
         if(confirm('Are you sure??')){
-            let commentId = self.datePie.comments[index].refIds.commentId;
-            let objectId = self.datePie.comments[index].refIds._id;
+            let commentId = self.userObject.comments[index].refIds.commentId;
+            let objectId = self.userObject.comments[index].refIds._id;
             $http({
                 method: 'DELETE',
                 url: `/api/comment/${commentId}/${objectId}`,
             }).then(response => {
-                alert('Comment successfully deleted!');
                 self.getuser();
             }).catch(err => {
                 alert(err.status + ' ' + err.statusText);
@@ -182,6 +170,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         self.selectedTime.time = {};
         self.selectedDate.date = '';
         self.selectedZipData.comments = [];
+
     }
    
 }]);
