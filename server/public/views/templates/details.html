@@ -60,7 +60,7 @@
         </md-card>
     
         <!-- COMMENTS -->
-        <!-- <md-card>
+        <md-card>
             <h3>Notes</h3>
             <p>Make a note about what you did on this day</p>
             <input type="text" ng-model="vm.newComment.comment">
@@ -68,17 +68,17 @@
             <ul>
                 <li ng-repeat="comment in vm.userService.datePie.comments">
                     <div ng-hide="comment.beingEdited">
-                        {{comment.comment}} 
+                        {{comment.comment.comment}} 
                         <md-button ng-click="comment.beingEdited = true">Edit</md-button>
                         <md-button ng-click="vm.deleteComment($index)">Delete</md-button>
                     </div>
 
-                    <input ng-model="comment.comment" ng-show="comment.beingEdited" ng-value="comment.comment" >
-                    <md-button ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment)">update</md-button>
+                    <input ng-model="comment.comment.comment" ng-show="comment.beingEdited" ng-value="comment.comment.comment" >
+                    <md-button ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment.comment)">update</md-button>
                     <md-button ng-show="comment.beingEdited" ng-click="comment.beingEdited = false">Cancel</md-button>
                  </li>
             </ul>
-        </md-card> -->
+        </md-card>
         <!-- END COMMENTS -->
     
     </md-content>

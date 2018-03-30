@@ -126,18 +126,17 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             console.log(err);            
         });
     }
-    // router.get('/api/comment/')
 
 
-
+    // UPDATE COMMENT
     self.updateComment = (index, updatedComment) => {
-        let commentId = self.datePie.comments[index]._id
-        console.log('index', commentId);
-        console.log('updatedComment - - - - ', updatedComment );
+        let commentId = self.datePie.comments[index].refIds.commentId;
+        // console.log('index', commentId);
+        // console.log('updatedComment - - - - ', updatedComment );
         $http({
             method: 'PUT',
-            url: `/api/user/edit-comment/${self.userObject._id}`,
-            data: {updatedComment},
+            url: `/api/comment/${commentId}`,
+            data: {updatedComment: updatedComment},
         }).then(response => {
             self.getuser();
         }).catch(err => {

@@ -10,10 +10,6 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
 
     self.addComment = UserService.addComment;
     self.updateComment = UserService.updateComment;
-<<<<<<< HEAD
-=======
-    self.deleteComment = UserService.deleteComment;
->>>>>>> master
 
     self.chartData = [
         { chartLabel: 'Temperature ˚F', chartColor: 'pink' },

@@ -41,8 +41,31 @@ router.get('/:commentId', (req, res) => {
         } else {
             res.send(foundComment);
         }
-    })
-})
+    });
+});
+
+router.put('/:commentId', (req, res) => {
+    if(req.isAuthenticated()){
+        let commentId = req.params.commentId;
+        Comment.findByIdAndUpdate(
+            {"_id": commentId},
+            {$set: {comment: req.body.updatedComment}},
+            (err, updatedComment) => {
+                if(err){
+                    console.log('ERROR on Comment.findByIdAndUpdate', err);
+                    res.sendStatus(500);
+                } else {
+                    console.log('updatedComment --------', updatedComment);
+                    res.sendStatus(200);
+                }
+            }
+        )
+    } else {
+        res.sendStatus(403);
+    }
+});
+
+
 
 
 module.exports = router;
