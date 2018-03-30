@@ -147,3 +147,5 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         });
     }
 }]);
+
+
