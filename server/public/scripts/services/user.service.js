@@ -11,6 +11,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.selectedZipData = {comments: [], photos: []}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
     self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
+    self.newComment = {comment: ''};
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
 
 
@@ -90,9 +91,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
 
 
     // ADD A COMMENT
-    self.postComment = (newComment) => {
+    self.postComment = () => {
         let commentPackage = {
-            comment: newComment.comment,
+            comment: self.newComment.comment,
             relatedDate: new Date(self.selectedDate.date).toLocaleDateString(),
             relatedZip: self.selectedZipData.zipId,
             dateAdded: new Date(),
@@ -103,13 +104,26 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             data: commentPackage,
         }).then(response => {
             // response.status == 201 ? alert('Note added!'): null;
-            self.getuser();
+            // self.getuser();
+            self.getUserComments();
             self.newComment.comment = '';
         }).catch(err => {
             console.log(err);
             alert(err.status + ' ' + err.statusText);
         })
           
+    }
+
+    self.getUserComments = () => {
+        $http({
+            method: 'GET',
+            url: `/api/comment/blabla`,
+        }).then(response => {
+            console.log('******** response from getUserComments', response);
+            
+        }).catch(err => {
+            console.log(err);
+        });
     }
 
     // GET COMMENT BY ID
@@ -139,6 +153,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             data: {updatedComment: updatedComment},
         }).then(response => {
             self.getuser();
+            
         }).catch(err => {
             alert(err.status + ' ' + err.statusText);
         }); 
