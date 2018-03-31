@@ -1,4 +1,4 @@
-myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location', function (UserService, $mdDialog , $location) {
+myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location', '$rootScope', function (UserService, $mdDialog , $location, $rootScope) {
     const self = this;
     self.userService = UserService;
 
@@ -21,7 +21,9 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         });
     };
 
-    self.organizeLocationDetails = (zipcode, city, startTrackDate) => {
+    $rootScope.organizeLocationDetails = (zipcode, city, startTrackDate) => {
+        console.log('in organizeLocationDetails');
+        
         UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
         // console.log(UserService.userObject.zipcode);
@@ -33,7 +35,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 UserService.selectedZipData.allWeather = zip.weatherData.weather;
                 self.findHowManyUniqueDatesForSelectedZipcode();
                 self.parseWeatherByDate();
-                self.parseCommentsByDate();
+                self.parseCommentsByZipcodeAndDate(zip.weatherData._id);
                 // console.log(UserService.selectedZipData.weatherByDate);
                 // console.log(UserService.selectedZipData.zipId);
                 // console.log(UserService.selectedZipData.startTrackDate);
@@ -49,10 +51,14 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         } else {
             alert('There\'s nothing here! Come back in an hour and you should see something...');
         }
+        console.log(UserService.selectedZipData);
+        
     }
 
     self.findHowManyUniqueDatesForSelectedZipcode = () => {
         UserService.selectedZipData.weatherByDate = [];
+        UserService.selectedZipData.commentsByDate = [];
+        UserService.selectedZipData.photosByDate = [];
         for (let i = 0; i < UserService.selectedZipData.allWeather.length; i++) {
             if(i > 0) {
                 let date = new Date(UserService.selectedZipData.allWeather[i].dt).toDateString();
@@ -84,17 +90,18 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         }
     }
 
-    self.parseCommentsByDate = () => {
+    self.parseCommentsByZipcodeAndDate = (zipcodeId) => {
         for(let commentObject of UserService.userObject.comments){
             for(let date of UserService.selectedZipData.commentsByDate){
-                if(new Date(commentObject.comment.relatedDate).toDateString() == date.date){
-                    commentObject.comment.relatedDate = new Date(commentObject.comment.relatedDate).toLocaleString();
-                    date.comments.push(commentObject);
-                }
+                if (zipcodeId === commentObject.comment.relatedZip) {
+                    if (new Date(commentObject.comment.relatedDate).toDateString() == date.date) {
+                        commentObject.comment.relatedDate = new Date(commentObject.comment.relatedDate).toLocaleString();
+                        date.comments.push(commentObject);
+                    }
+                }     
             }
         }
-        console.log(UserService.selectedZipData);
-        
+        // console.log(UserService.selectedZipData);
     }
   
 }]); // END ManageController

@@ -1,4 +1,4 @@
-myApp.service('UserService', ['$http', '$location', function ($http, $location) {
+myApp.service('UserService', ['$http', '$location', '$rootScope', function ($http, $location, $rootScope) {
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {
@@ -21,7 +21,12 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weather data
-    self.selectedDate = {date: '', weather: [], comments: [], photos: []}; // Holds the selected date for which to view weater data
+    self.selectedDate = {
+        date: '', 
+        weather: [], 
+        comments: [], 
+        photos: []
+    }; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
     // self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
@@ -40,8 +45,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                     self.getUsersZipcodeData(i);
                 }     
                 self.getUserComments();
-                console.log(self.userObject);
-                
+                // console.log(self.userObject);
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -52,7 +56,7 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             console.log('UserService -- getuser -- failure: ', response);
             $location.path("/login");
         });
-        
+
     },
 
     self.logout = function () {
@@ -116,9 +120,9 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             url: `api/comment/${self.userObject._id}`,
             data: commentPackage,
         }).then(response => {
-            // response.status == 201 ? alert('Note added!'): null;
-            // self.getuser();
-            self.getUserComments();
+            alert('Success!')
+            self.getuser();
+            
             self.newComment.comment = '';
         }).catch(err => {
             console.log(err);
@@ -128,18 +132,22 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     }
     // GET COMMENTS
     self.getUserComments = () => {
+        console.log('in getUserComments');
+        
         $http({
             method: 'GET',
             url: `/api/comment/blabla`,
         }).then(response => {
             self.userObject.comments = [];
             for(let comment of response.data){
-                console.log('comment', comment);
+                // console.log('comment', comment);
                 comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
                 self.userObject.comments.push(comment);
             }
-            console.log(self.userObject);
-            // console.log('Success on getUserComments. datePie.comments is now:', self.selectedDate);
+            let zipcode = self.selectedLocation.location.slice(self.selectedLocation.location.indexOf(',') + 2);
+            let city = self.selectedLocation.location.slice(0, self.selectedLocation.location.indexOf(','));
+            let startTrackDate = self.selectedZipData.startTrackDate;
+            // $rootScope.organizeLocationDetails(zipcode, city, startTrackDate)
         }).catch(err => {
             console.log(err);
         });
@@ -155,14 +163,14 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             url: `/api/comment/${commentId}`,
             data: {updatedComment: updatedComment},
         }).then(response => {
-            self.getUserComments();
+            self.getuser();
         }).catch(err => {
             alert(err.status + ' ' + err.statusText);
         }); 
     }
 
     self.deleteComment = (index) => {
-        console.log(index);
+        // console.log(index);
         
         if(confirm('Are you sure??')){
             let commentId = self.userObject.comments[index].refIds.commentId;

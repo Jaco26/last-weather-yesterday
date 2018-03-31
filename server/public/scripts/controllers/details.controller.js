@@ -25,6 +25,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             $location.path('/dashboard');
         } else {
             self.viewWeatherByDate();
+            $scope.viewCommentsByDate();
             // self.bakeDatePie();
         }
     }
@@ -34,6 +35,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         let nextDay = thisDay.setDate(thisDay.getDate() + 1);
         UserService.selectedDate.date = new Date(nextDay);
         self.viewWeatherByDate();
+        $scope.viewCommentsByDate();
         // self.bakeDatePie();
     }
 
@@ -43,6 +45,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         let prevDay = thisDay.setDate(thisDay.getDate() - 1);
         UserService.selectedDate.date = new Date(prevDay);
         self.viewWeatherByDate();
+        $scope.viewCommentsByDate();
         // self.bakeDatePie();
     }
 
@@ -85,7 +88,18 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         for (let i = 0; i < self.chartData.length; i++) {
             self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
         } 
-        console.log(UserService.selectedDate.weather);
+        // console.log(UserService.selectedDate.weather);
+    }
+
+    $scope.viewCommentsByDate = () => {
+        console.log('in viewCommentsByDate');
+        
+        let selectedDate = new Date(UserService.selectedDate.date).toDateString();
+        for(let date of UserService.selectedZipData.commentsByDate){
+            if(date.date === selectedDate){
+                UserService.selectedDate.comments = date.comments;
+            }
+        }
     }
 
     self.bakeDatePie = () => {
@@ -108,7 +122,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
                 self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
             } 
             self.selectedDatesTimes = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));     
-            console.log(UserService.selectedZipData.comments);
+            // console.log(UserService.selectedZipData.comments);
                    
         } else {
             alert('No data')

@@ -14,7 +14,7 @@
 
 
     <md-label for="choose-date">Select a date:</md-label>
-    <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.viewWeatherByDate()" md-placeholder="Enter date"
+    <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.viewWeatherByDate(); viewCommentsByDate()" md-placeholder="Enter date"
         md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
     <md-button ng-click="vm.prevDay()"> previous day </md-button>
     <md-button ng-click="vm.nextDay()"> next day </md-button>

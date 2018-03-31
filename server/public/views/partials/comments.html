@@ -7,12 +7,9 @@
         <input type="text" ng-model="vm.userService.newComment.comment">
         <button ng-click="vm.postComment()">clicky clicky</button>
         <ul>
-            <li ng-repeat="comment in vm.userService.userObject.comments">
-                <div ng-if="comment.comment.relatedDate | date: 'shortDate' == vm.userService.selectedDate.date | date: 'shortDate'" ng-hide="comment.beingEdited">
-                    {{comment.comment.relatedDate | date: 'shortDate'}}
-                    {{vm.userService.selectedDate.date | date: 'shortDate'}}
+            <li ng-repeat="comment in vm.userService.selectedDate.comments">
+                <div ng-hide="comment.beingEdited">
                     {{comment.comment.comment}} 
-                   
                     <md-button ng-click="comment.beingEdited = true">Edit</md-button>
                     <md-button ng-click="vm.deleteComment($index)">Delete</md-button>
                 </div>
