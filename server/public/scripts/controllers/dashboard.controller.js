@@ -33,6 +33,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 UserService.selectedZipData.allWeather = zip.weatherData.weather;
                 self.findHowManyUniqueDatesForSelectedZipcode();
                 self.parseWeatherByDate();
+                self.parseCommentsByDate();
                 // console.log(UserService.selectedZipData.weatherByDate);
                 // console.log(UserService.selectedZipData.zipId);
                 // console.log(UserService.selectedZipData.startTrackDate);
@@ -59,8 +60,14 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 if (date != dateBefore && UserService.selectedZipData.allWeather.length === 0) {
                     UserService.selectedZipData.weatherByDate.push({date: dateBefore, weather: []});
                     UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
+                    UserService.selectedZipData.commentsByDate.push({ date: dateBefore, comments: [] });
+                    UserService.selectedZipData.commentsByDate.push({date: date, comments: [] });
+                    UserService.selectedZipData.photosByDate.push({ date: dateBefore, photos: [] });
+                    UserService.selectedZipData.photosByDate.push({ date: date, comments: [] });
                 } else if (date != dateBefore){
                     UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
+                    UserService.selectedZipData.commentsByDate.push({ date: date, comments: [] });
+                    UserService.selectedZipData.photosByDate.push({ date: date, photos: [] });
                 }
             }  
         }
@@ -75,6 +82,19 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 }
             }     
         }
+    }
+
+    self.parseCommentsByDate = () => {
+        for(let commentObject of UserService.userObject.comments){
+            for(let date of UserService.selectedZipData.commentsByDate){
+                if(new Date(commentObject.comment.relatedDate).toDateString() == date.date){
+                    commentObject.comment.relatedDate = new Date(commentObject.comment.relatedDate).toLocaleString();
+                    date.comments.push(commentObject);
+                }
+            }
+        }
+        console.log(UserService.selectedZipData);
+        
     }
   
 }]); // END ManageController

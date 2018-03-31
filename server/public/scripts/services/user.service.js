@@ -1,7 +1,13 @@
 myApp.service('UserService', ['$http', '$location', function ($http, $location) {
     console.log('UserService Loaded');
     let self = this;
-    self.userObject = {}; // Holds username, _id, comments, zipcodes, and photos array
+    self.userObject = {
+        username: '',
+        _id: '',
+        zipcode: [],
+        comments: [],
+        photos: [],
+    }; // Holds username, _id, comments, zipcodes, and photos array
     // self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
     self.selectedZipData = {
@@ -34,6 +40,8 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
                     self.getUsersZipcodeData(i);
                 }     
                 self.getUserComments();
+                console.log(self.userObject);
+                
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -124,16 +132,14 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             method: 'GET',
             url: `/api/comment/blabla`,
         }).then(response => {
-            // console.log('******** response.data from getUserComments', response.data);
             self.userObject.comments = [];
             for(let comment of response.data){
                 console.log('comment', comment);
                 comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
                 self.userObject.comments.push(comment);
             }
-
-
-            console.log('Success on getUserComments. datePie.comments is now:', self.selectedDate);
+            console.log(self.userObject);
+            // console.log('Success on getUserComments. datePie.comments is now:', self.selectedDate);
         }).catch(err => {
             console.log(err);
         });
