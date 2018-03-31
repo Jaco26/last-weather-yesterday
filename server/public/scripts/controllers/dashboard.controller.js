@@ -15,12 +15,13 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     self.showDetails = (zipcode, city, startTrackDate) => {
         UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
-        console.log(UserService.userObject.zipcode);
+        // console.log(UserService.userObject.zipcode);
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {
                 UserService.selectedZipData.zipcode = zip.weatherData.zipcode
                 UserService.selectedZipData.zipId = zip.weatherData._id
                 UserService.selectedZipData.weather = zip.weatherData.weather;
+                self.findHowManyUniqueDatesForSelectedZipcode()
             }
         }
         for (let comment of UserService.userObject.comments) {
@@ -43,6 +44,23 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
 
     self.mleave = (x) => {
         document.querySelector(`#card-${x}`).style.backgroundColor = 'white'   
+    }
+
+    self.findHowManyUniqueDatesForSelectedZipcode = () => {
+        let distinctDates = [];
+        for (let i = 0; i < UserService.selectedZipData.weather.length; i++) {
+            if(i > 0) {
+                let date = new Date(UserService.selectedZipData.weather[i].dt).toDateString();
+                let dateBefore = new Date(UserService.selectedZipData.weather[i - 1].dt).toDateString();
+                if (date != dateBefore && distinctDates.length === 0) {
+                    distinctDates.push({date: dateBefore, weather: []});
+                    distinctDates.push({date: date, weather: []});
+                } else if (date != dateBefore){
+                    distinctDates.push({date: date, weather: []});
+                }
+            }  
+        }
+        console.log(distinctDates);
     }
 
   

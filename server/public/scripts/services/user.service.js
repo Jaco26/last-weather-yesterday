@@ -2,13 +2,13 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     console.log('UserService Loaded');
     let self = this;
     self.userObject = {}; // Holds username, _id, comments, zipcodes, and photos array
-    self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
+    // self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
-    self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weater data
+    self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weather data
     self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
-    self.selectedZipData = {comments: [], photos: []}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
+    self.selectedZipData = {weatherByDate: [], comments: [], photos: []}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
     self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     self.newComment = {comment: ''};
@@ -120,10 +120,11 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
             self.userObject.comments = [];
             for(let comment of response.data){
                 console.log('comment', comment);
-                
                 comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
                 self.userObject.comments.push(comment);
             }
+
+
             console.log('Success on getUserComments. datePie.comments is now:', self.selectedDate);
         }).catch(err => {
             console.log(err);
@@ -170,7 +171,6 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
         self.selectedTime.time = {};
         self.selectedDate.date = '';
         self.selectedZipData.comments = [];
-
     }
    
 }]);
