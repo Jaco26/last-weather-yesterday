@@ -20,8 +20,9 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
             if (zip.weatherData.zipcode == zipcode) {
                 UserService.selectedZipData.zipcode = zip.weatherData.zipcode
                 UserService.selectedZipData.zipId = zip.weatherData._id
-                UserService.selectedZipData.weather = zip.weatherData.weather;
-                self.findHowManyUniqueDatesForSelectedZipcode()
+                UserService.selectedZipData.allWeather = zip.weatherData.weather;
+                self.findHowManyUniqueDatesForSelectedZipcode();
+                console.log(UserService.selectedZipData.weatherByDate);
             }
         }
         for (let comment of UserService.userObject.comments) {
@@ -29,7 +30,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 UserService.selectedZipData.comments.push(comment);
             }
         }
-        if(UserService.selectedZipData.weather[0]){
+        if (UserService.selectedZipData.allWeather[0]){
             UserService.selectedZipData.startTrackDate = startTrackDate;
             $location.path('/details');
         } else {
@@ -47,21 +48,31 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     }
 
     self.findHowManyUniqueDatesForSelectedZipcode = () => {
-        let distinctDates = [];
-        for (let i = 0; i < UserService.selectedZipData.weather.length; i++) {
+        UserService.selectedZipData.weatherByDate = [];
+        for (let i = 0; i < UserService.selectedZipData.allWeather.length; i++) {
             if(i > 0) {
-                let date = new Date(UserService.selectedZipData.weather[i].dt).toDateString();
-                let dateBefore = new Date(UserService.selectedZipData.weather[i - 1].dt).toDateString();
-                if (date != dateBefore && distinctDates.length === 0) {
-                    distinctDates.push({date: dateBefore, weather: []});
-                    distinctDates.push({date: date, weather: []});
+                let date = new Date(UserService.selectedZipData.allWeather[i].dt).toDateString();
+                let dateBefore = new Date(UserService.selectedZipData.allWeather[i - 1].dt).toDateString();
+                if (date != dateBefore && UserService.selectedZipData.allWeather.length === 0) {
+                    UserService.selectedZipData.weatherByDate.push({date: dateBefore, weather: []});
+                    UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
                 } else if (date != dateBefore){
-                    distinctDates.push({date: date, weather: []});
+                    UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
                 }
             }  
         }
-        console.log(distinctDates);
+        self.parseWeatherByDate();
     }
 
+    self.parseWeatherByDate = () => {
+        for (let weatherObject of UserService.selectedZipData.allWeather){
+            for(let date of UserService.selectedZipData.weatherByDate) {
+                if (new Date(weatherObject.dt).toDateString() == date.date) {
+                    // console.log(date); 
+                    date.weather.push(weatherObject)
+                }
+            }     
+        }
+    }
   
 }]); // END ManageController

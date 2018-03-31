@@ -21,7 +21,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.rerouteOnRefresh = () => {
-        if(!UserService.selectedZipData.weather){
+        if(!UserService.selectedZipData.allWeather){
             $location.path('/dashboard');
         } else {
             self.bakeDatePie();
@@ -49,7 +49,7 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         zip = UserService.selectedLocation.location.slice(0,5);
         for(let zipcode of UserService.zipcodes.list){
             if(zipcode.weatherData.zipcode == zip){
-                UserService.selectedZipData.weather = zipcode.weatherData.weather;                
+                UserService.selectedZipData.allWeather = zipcode.weatherData.weather;                
             }
         }
     }
@@ -72,9 +72,9 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     self.bakeDatePie = () => {
         UserService.timeSlice = {};
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
-        if(UserService.selectedZipData.weather){
+        if(UserService.selectedZipData.allWeather){
             UserService.datePie.selectedDatesWeather = [];
-            for (let clump of UserService.selectedZipData.weather) {
+            for (let clump of UserService.selectedZipData.allWeather) {
                 let clumpDate = new Date(clump.dt).toDateString()
                 if (clumpDate == selectedDate) {
                     clump.dt = new Date(clump.dt).toLocaleString();
