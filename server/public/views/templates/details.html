@@ -14,7 +14,7 @@
 
 
     <md-label for="choose-date">Select a date:</md-label>
-    <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.bakeDatePie()" md-placeholder="Enter date"
+    <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.viewWeatherByDate()" md-placeholder="Enter date"
         md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
     <md-button ng-click="vm.prevDay()"> previous day </md-button>
     <md-button ng-click="vm.nextDay()"> next day </md-button>
@@ -44,18 +44,12 @@
             </md-card-content>
     
             <md-card-content flex flex-offset="10" layout-padding>
-                <p>
-                    <strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
-                <p>
-                    <strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
-                <p>
-                    <strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
-                <p>
-                    <strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
-                <p>
-                    <strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
-                <p>
-                    <strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
+                <p><strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+                <p><strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
+                <p><strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
+                <p><strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
+                <p><strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
+                <p><strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
             </md-card-content>
         </md-card>
     

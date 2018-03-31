@@ -21,10 +21,11 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.rerouteOnRefresh = () => {
-        if(!UserService.selectedZipData.allWeather){
+        if(!UserService.selectedZipData.allWeather[0]){
             $location.path('/dashboard');
         } else {
-            self.bakeDatePie();
+            self.viewWeatherByDate();
+            // self.bakeDatePie();
         }
     }
 
@@ -32,7 +33,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         let thisDay = UserService.selectedDate.date;
         let nextDay = thisDay.setDate(thisDay.getDate() + 1);
         UserService.selectedDate.date = new Date(nextDay);
-        self.bakeDatePie();
+        self.viewWeatherByDate();
+        // self.bakeDatePie();
     }
 
 
@@ -40,7 +42,8 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
         let thisDay = UserService.selectedDate.date;
         let prevDay = thisDay.setDate(thisDay.getDate() - 1);
         UserService.selectedDate.date = new Date(prevDay);
-        self.bakeDatePie();
+        self.viewWeatherByDate();
+        // self.bakeDatePie();
     }
 
     self.getZipData = () => {
@@ -55,19 +58,35 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
     }
 
     self.cutTimeSlice = (timePassedIn) => {
-        let time
+        let time = UserService.selectedTime.time;
         if(timePassedIn) {
             UserService.selectedTime.time = timePassedIn;
             time = UserService.selectedTime.time;
-        } else {
-            time = UserService.selectedTime.time;
-        }
-        for(let slice of UserService.datePie.selectedDatesWeather){
+        } 
+        // else {
+        //     time = UserService.selectedTime.time;
+        // }
+        for(let slice of UserService.selectedDate.weather){
             if (slice.dt.slice(slice.dt.indexOf(',') + 2) == time){
                 UserService.timeSlice = slice;
             }
         }
     }; // END self.cutTimeSlice
+
+    self.viewWeatherByDate = () => {
+        UserService.timeSlice = {};
+        let selectedDate = new Date(UserService.selectedDate.date).toDateString();
+        for(let date of UserService.selectedZipData.weatherByDate){
+            if(date.date === selectedDate){
+                UserService.selectedDate.weather = date.weather;
+            }  
+        }
+        self.selectedDatesTimes = UserService.selectedDate.weather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)); 
+        for (let i = 0; i < self.chartData.length; i++) {
+            self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
+        } 
+        console.log(UserService.selectedDate.weather);
+    }
 
     self.bakeDatePie = () => {
         UserService.timeSlice = {};
@@ -105,12 +124,12 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', fun
             { ctx: document.getElementById('windspeed') } 
         ];
         let dataPointsArray = [
-            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.temp) },
-            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.main.pressure) },
-            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.clouds.all) },
-            { dataPoints: UserService.datePie.selectedDatesWeather.map(item => item.wind.speed) },
+            { dataPoints: UserService.selectedDate.weather.map(item => item.main.temp) },
+            { dataPoints: UserService.selectedDate.weather.map(item => item.main.pressure) },
+            { dataPoints: UserService.selectedDate.weather.map(item => item.clouds.all) },
+            { dataPoints: UserService.selectedDate.weather.map(item => item.wind.speed) },
         ];
-        let timesArray = UserService.datePie.selectedDatesWeather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
+        let timesArray = UserService.selectedDate.weather.map(item => item.dt.slice(item.dt.indexOf(',') + 2));
         let ctx = ctxArray[i].ctx;
         return new Chart(ctx, {
             type: 'line',

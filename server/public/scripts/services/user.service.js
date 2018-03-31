@@ -4,12 +4,20 @@ myApp.service('UserService', ['$http', '$location', function ($http, $location) 
     self.userObject = {}; // Holds username, _id, comments, zipcodes, and photos array
     // self.primaryZipCurrentWeather = {}; // Holds the returned current weather for users primary zip
     self.zipcodes = {list: []}; // Holds a list of zipcodes––and associated weather data––associated with the user; each includes the date the user started tracking it.
+    self.selectedZipData = {
+        zipcode: '',
+        zipId: '',
+        startTrackDate: '',
+        allWeather: [],
+        weatherByDate: [],
+        commentsByDate: [],
+        photosByDate: []
+    }; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
     self.newZip = {zipcode: ''}; // For a user adds a new zipcode while they are logged on
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weather data
-    self.selectedDate = {date: ''}; // Holds the selected date for which to view weater data
+    self.selectedDate = {date: '', weather: [], comments: [], photos: []}; // Holds the selected date for which to view weater data
     self.selectedTime = { time: ''}; // Holds the selected time point for which to view weather data
-    self.selectedZipData = {allWeather: [], weatherByDate: [], commentsByDate: [], photosByDate: []}; // Holds all available weather objects for the selected zipcode (selectedLocation.location) and its startTrackDate 
-    self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
+    // self.datePie = { selectedDatesWeather: [], date: {}, comments: [], photos: []}; // Holds all weather objects for a selected date...these come from selectedZipData
     self.timeSlice = {}; // Holds all weather data for the selected time (selectedTime.time) 
     self.newComment = {comment: ''};
     // self.weatherQueryTimeInterval = {}; // NOT YET USED... MAY NOT USE...
