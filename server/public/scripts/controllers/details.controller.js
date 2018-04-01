@@ -81,7 +81,6 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', '$r
                 UserService.selectedDate.weather = date.weather;
             }  
         }
-        
         UserService.selectedDate.sunset = new Date(UserService.selectedDate.weather[0].sys.sunset).toLocaleTimeString();
         UserService.selectedDate.sunrise = new Date(UserService.selectedDate.weather[0].sys.sunrise).toLocaleTimeString();
         self.selectedDatesTimes = UserService.selectedDate.weather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)); 

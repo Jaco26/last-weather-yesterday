@@ -23,9 +23,8 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
 
 
 
-    $rootScope.organizeLocationDetails = (zipcode, city, startTrackDate) => {
+    self.organizeLocationDetails = (zipcode, city, startTrackDate) => {
         console.log('in organizeLocationDetails');
-        
         UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
         // console.log(UserService.userObject.zipcode);
@@ -48,7 +47,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         if (UserService.selectedZipData.allWeather[0]){
             $location.path('/details');
         } else {
-            alert('There\'s nothing here! Come back in an hour and you should see something...');
+            swal('There\'s nothing here! Come back in an hour and you should see something...');
         }
         console.log(UserService.selectedZipData);
         

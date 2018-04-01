@@ -159,9 +159,9 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
 
     // UPDATE COMMENT
     self.updateComment = (index, updatedComment) => {
-        let commentId = self.userObject.comments[index].refIds.commentId;
-        // console.log('index', commentId);
-        // console.log('updatedComment - - - - ', updatedComment );
+        let commentId = self.selectedDate.comments[index].refIds.commentId;
+        console.log('index', commentId);
+        console.log('updatedComment - - - - ', updatedComment );
         $http({
             method: 'PUT',
             url: `/api/comment/${commentId}`,
@@ -176,8 +176,8 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     self.deleteComment = (index) => {
         // console.log(index);
         if(confirm('Are you sure??')){
-            let commentId = self.userObject.comments[index].refIds.commentId;
-            let objectId = self.userObject.comments[index].refIds._id;
+            let commentId = self.selectedDate.comments[index].refIds.commentId;
+            let objectId = self.selectedDate.comments[index].refIds._id;
             $http({
                 method: 'DELETE',
                 url: `/api/comment/${commentId}/${objectId}`,
