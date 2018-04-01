@@ -55,20 +55,21 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
             if(i > 0) {
                 let date = new Date(UserService.selectedZipData.allWeather[i].dt).toDateString();
                 let dateBefore = new Date(UserService.selectedZipData.allWeather[i - 1].dt).toDateString();
-                if (date != dateBefore && UserService.selectedZipData.allWeather.length === 0) {
+                if (date != dateBefore && UserService.selectedZipData.weatherByDate.length === 0) {
                     UserService.selectedZipData.weatherByDate.push({date: dateBefore, weather: []});
                     UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
                     UserService.selectedZipData.commentsByDate.push({ date: dateBefore, comments: [] });
                     UserService.selectedZipData.commentsByDate.push({date: date, comments: [] });
                     UserService.selectedZipData.photosByDate.push({ date: dateBefore, photos: [] });
-                    UserService.selectedZipData.photosByDate.push({ date: date, comments: [] });
-                } else if (date != dateBefore){
+                    UserService.selectedZipData.photosByDate.push({ date: date, photos: [] });
+                } 
+                else if (date != dateBefore){
                     UserService.selectedZipData.weatherByDate.push({date: date, weather: []});
                     UserService.selectedZipData.commentsByDate.push({ date: date, comments: [] });
                     UserService.selectedZipData.photosByDate.push({ date: date, photos: [] });
                 }
             }  
-        }
+        }        
     }
 
     self.parseWeatherByDate = () => {
