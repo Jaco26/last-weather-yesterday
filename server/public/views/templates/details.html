@@ -6,9 +6,9 @@
     <md-toolbar class="md-toolbar-tools" layout="row">
         <h3 flex>{{vm.userService.selectedLocation.location}}</h3>
         <div layout="row" flex="40">
-            <span flex>{{vm.userService.datePie.date.date}}</span>
-            <span flex> <strong>Sunrise:</strong> {{vm.userService.datePie.date.sunrise}}</span>
-            <span flex><strong>Sunset:</strong> {{vm.userService.datePie.date.sunset}}</span>
+            <span flex>{{vm.userService.selectedDate.date | date : 'fullDate'}}</span>
+            <span flex> <strong>Sunrise:</strong> {{vm.userService.selectedDate.sunrise}}</span>
+            <span flex><strong>Sunset:</strong> {{vm.userService.selectedDate.sunset}}</span>
         </div>      
     </md-toolbar>
 

@@ -21,6 +21,8 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         });
     };
 
+
+
     $rootScope.organizeLocationDetails = (zipcode, city, startTrackDate) => {
         console.log('in organizeLocationDetails');
         
@@ -35,10 +37,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
                 UserService.selectedZipData.allWeather = zip.weatherData.weather;
                 self.findHowManyUniqueDatesForSelectedZipcode();
                 self.parseWeatherByDate();
-                self.parseCommentsByZipcodeAndDate(zip.weatherData._id);
-                // console.log(UserService.selectedZipData.weatherByDate);
-                // console.log(UserService.selectedZipData.zipId);
-                // console.log(UserService.selectedZipData.startTrackDate);
+                $rootScope.parseCommentsByZipcodeAndDate(zip.weatherData._id);
             }
         }
         for (let comment of UserService.userObject.comments) {
@@ -90,18 +89,21 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         }
     }
 
-    self.parseCommentsByZipcodeAndDate = (zipcodeId) => {
+    $rootScope.parseCommentsByZipcodeAndDate = (zipcodeId) => {        
+        // UserService.selectedZipData.commentsByDate.forEach(date => date.comments = []);
         for(let commentObject of UserService.userObject.comments){
             for(let date of UserService.selectedZipData.commentsByDate){
+                // console.log(date);
+                
                 if (zipcodeId === commentObject.comment.relatedZip) {
                     if (new Date(commentObject.comment.relatedDate).toDateString() == date.date) {
+                      
                         commentObject.comment.relatedDate = new Date(commentObject.comment.relatedDate).toLocaleString();
                         date.comments.push(commentObject);
                     }
                 }     
             }
         }
-        // console.log(UserService.selectedZipData);
     }
   
 }]); // END ManageController

@@ -23,6 +23,8 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     self.selectedLocation = { location: '' }; // Holds the selected location (City, Zipcode) for which to view weather data
     self.selectedDate = {
         date: '', 
+        sunrise: '',
+        sunset: '',
         weather: [], 
         comments: [], 
         photos: []
@@ -45,6 +47,7 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
                     self.getUsersZipcodeData(i);
                 }     
                 self.getUserComments();
+              
                 // console.log(self.userObject);
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
@@ -133,23 +136,27 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     // GET COMMENTS
     self.getUserComments = () => {
         console.log('in getUserComments');
-        
         $http({
             method: 'GET',
             url: `/api/comment/blabla`,
         }).then(response => {
             self.userObject.comments = [];
             for(let comment of response.data){
-                // console.log('comment', comment);
+                console.log('comment', comment);
                 comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
                 self.userObject.comments.push(comment);
+                
             }
-            let zipcode = self.selectedLocation.location.slice(self.selectedLocation.location.indexOf(',') + 2);
-            let city = self.selectedLocation.location.slice(0, self.selectedLocation.location.indexOf(','));
-            let startTrackDate = self.selectedZipData.startTrackDate;
-            // $rootScope.organizeLocationDetails(zipcode, city, startTrackDate)
+            if(new Date(self.selectedZipData.date)){
+                self.selectedZipData.commentsByDate.forEach(date => date.comments = []);
+                $rootScope.parseCommentsByZipcodeAndDate(self.selectedZipData.zipId);
+                $rootScope.viewCommentsByDate();
+                console.log('self.selectedZipData.commentsByDate', self.selectedZipData.commentsByDate);
+                console.log('self.selectedDate', self.selectedDate);
+            }
+           
         }).catch(err => {
-            console.log(err);
+        console.log(err);
         });
     }
 
@@ -171,7 +178,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
 
     self.deleteComment = (index) => {
         // console.log(index);
-        
         if(confirm('Are you sure??')){
             let commentId = self.userObject.comments[index].refIds.commentId;
             let objectId = self.userObject.comments[index].refIds._id;

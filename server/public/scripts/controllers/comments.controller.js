@@ -7,10 +7,10 @@ myApp.controller('CommentsController', ['UserService', function(UserService){
     self.deleteComment = UserService.deleteComment;
 
 
-    self.comments = UserService.datePie
+    // self.comments = UserService.datePie
 
     // Init
-    self.getUserComments()
+    // self.getUserComments()
 
 
 }])
