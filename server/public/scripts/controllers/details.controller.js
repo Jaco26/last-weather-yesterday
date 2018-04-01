@@ -26,27 +26,34 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', '$r
         } else {
             self.viewWeatherByDate();
             $rootScope.viewCommentsByDate();
-            // self.bakeDatePie();
         }
     }
 
     self.nextDay = () => {
         let thisDay = UserService.selectedDate.date;
-        let nextDay = thisDay.setDate(thisDay.getDate() + 1);
-        UserService.selectedDate.date = new Date(nextDay);
-        self.viewWeatherByDate();
-        $rootScope.viewCommentsByDate();
-        // self.bakeDatePie();
+        let nextDay = new Date(thisDay.setDate(thisDay.getDate() + 1)).toDateString();
+        if (new Date(nextDay) > new Date(UserService.selectedZipData.weatherByDate[UserService.selectedZipData.weatherByDate.length -1].date)){
+            new Date(thisDay.setDate(thisDay.getDate() - 1));
+            swal(`There\'s no data for ${new Date(nextDay).toLocaleDateString()}`)
+        } else {
+            UserService.selectedDate.date = new Date(nextDay);
+            self.viewWeatherByDate();
+            $rootScope.viewCommentsByDate();
+        }
     }
-
 
     self.prevDay = () => {
         let thisDay = UserService.selectedDate.date;
-        let prevDay = thisDay.setDate(thisDay.getDate() - 1);
-        UserService.selectedDate.date = new Date(prevDay);
-        self.viewWeatherByDate();
-        $rootScope.viewCommentsByDate();
-        // self.bakeDatePie();
+        let prevDay = new Date(thisDay.setDate(thisDay.getDate() - 1)).toDateString();
+        if(new Date(prevDay) < new Date(UserService.selectedZipData.weatherByDate[0].date)){
+            new Date(thisDay.setDate(thisDay.getDate() + 1));
+            swal(`There\'s no data for ${new Date(prevDay).toLocaleDateString()}`);
+        } else {
+            UserService.selectedDate.date = new Date(prevDay);
+            self.viewWeatherByDate();
+            $rootScope.viewCommentsByDate();
+        }
+    
     }
 
     self.getZipData = () => {
@@ -79,20 +86,20 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', '$r
         for(let date of UserService.selectedZipData.weatherByDate){
             if(date.date === selectedDate){
                 UserService.selectedDate.weather = date.weather;
-            }  
+            } 
         }
+        // if(!UserService.selectedDate.weather[0]){
+        //     swal('There\'s no data for today!');
+        // }
         UserService.selectedDate.sunset = new Date(UserService.selectedDate.weather[0].sys.sunset).toLocaleTimeString();
         UserService.selectedDate.sunrise = new Date(UserService.selectedDate.weather[0].sys.sunrise).toLocaleTimeString();
         self.selectedDatesTimes = UserService.selectedDate.weather.map(item => item.dt.slice(item.dt.indexOf(',') + 2)); 
         for (let i = 0; i < self.chartData.length; i++) {
             self.makeChart(i, self.chartData[i].chartLabel, self.chartData[i].chartColor);
         } 
-        // console.log(UserService.selectedDate.weather);
     }
 
     $rootScope.viewCommentsByDate = () => {
-        console.log('in viewCommentsByDate');
-        
         let selectedDate = new Date(UserService.selectedDate.date).toDateString();
         for(let date of UserService.selectedZipData.commentsByDate){
             if(date.date === selectedDate){

@@ -45,8 +45,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
                     self.getUsersZipcodeData(i);
                 }     
                 self.getUserComments();
-              
-                // console.log(self.userObject);
                 // console.log('UserService -- getuser -- User Data: ', self.userObject.username);
             } else {
                 console.log('UserService -- getuser -- failure');
@@ -121,7 +119,7 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
             url: `api/comment/${self.userObject._id}`,
             data: commentPackage,
         }).then(response => {
-            alert('Success!')
+            swal('Success!')
             self.getuser();
             self.newComment.comment = '';
         }).catch(err => {
@@ -139,21 +137,16 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
         }).then(response => {
             self.userObject.comments = [];
             for(let comment of response.data){
-                console.log('comment', comment);
                 comment.comment.dateAdded = new Date(comment.comment.dateAdded).toLocaleString();
                 self.userObject.comments.push(comment);
-                
             }
-            if(new Date(self.selectedZipData.date)){
+            if(self.selectedZipData.zipId){
                 self.selectedZipData.commentsByDate.forEach(date => date.comments = []);
                 $rootScope.parseCommentsByZipcodeAndDate(self.selectedZipData.zipId);
                 $rootScope.viewCommentsByDate();
-                console.log('self.selectedZipData.commentsByDate', self.selectedZipData.commentsByDate);
-                console.log('self.selectedDate', self.selectedDate);
             }
-           
         }).catch(err => {
-        console.log(err);
+            console.log(err);
         });
     }
 

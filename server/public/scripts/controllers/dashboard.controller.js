@@ -21,13 +21,9 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
         });
     };
 
-
-
     self.organizeLocationDetails = (zipcode, city, startTrackDate) => {
-        console.log('in organizeLocationDetails');
         UserService.selectedDate.date = new Date();
         UserService.selectedLocation.location = `${city}, ${zipcode}`;
-        // console.log(UserService.userObject.zipcode);
         for (let zip of UserService.zipcodes.list) {
             if (zip.weatherData.zipcode == zipcode) {
                 UserService.selectedZipData.zipcode = zip.weatherData.zipcode
@@ -48,9 +44,7 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
             $location.path('/details');
         } else {
             swal('There\'s nothing here! Come back in an hour and you should see something...');
-        }
-        console.log(UserService.selectedZipData);
-        
+        }        
     }
 
     self.findHowManyUniqueDatesForSelectedZipcode = () => {
@@ -89,14 +83,10 @@ myApp.controller('DashboardController', ['UserService', '$mdDialog', '$location'
     }
 
     $rootScope.parseCommentsByZipcodeAndDate = (zipcodeId) => {        
-        // UserService.selectedZipData.commentsByDate.forEach(date => date.comments = []);
         for(let commentObject of UserService.userObject.comments){
-            for(let date of UserService.selectedZipData.commentsByDate){
-                // console.log(date);
-                
+            for(let date of UserService.selectedZipData.commentsByDate){                
                 if (zipcodeId === commentObject.comment.relatedZip) {
                     if (new Date(commentObject.comment.relatedDate).toDateString() == date.date) {
-                      
                         commentObject.comment.relatedDate = new Date(commentObject.comment.relatedDate).toLocaleString();
                         date.comments.push(commentObject);
                     }
