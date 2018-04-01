@@ -1,9 +1,6 @@
-/* md-list {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-} */
-
+#login-form {
+    width: 400px;
+}
 
 md-toolbar {
     background-color: #525252 !important;

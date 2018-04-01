@@ -1,27 +1,43 @@
-<div class="container">
-    <h1 class="lead">Register User</h1>
-    <h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
-        <form ng-submit="vm.registerUser()">
-            <div>
+
+
+<md-content layout="column" layout-align="center center">
+
+    <md-card layout-padding id="register-form">
+        <div layout="column">
+            <h1 class="lead">Register User</h1>
+            <h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+        </div>
+
+        <form ng-submit="vm.login()" layout="column">
+
+            <md-input-container layout>
                 <label for="username">Username:</label>
                 <input type="text" id="username" ng-model="vm.user.username" />
-            </div>
-            <div>
+            </md-input-container>
+
+            <md-input-container layout>
                 <label for="password">Password:</label>
                 <input type="password" id="password" ng-model="vm.user.password" />
-            </div>
-            <div>
+            </md-input-container>
+
+            <md-input-container layout>
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" ng-model="vm.user.passwordConfirm">
-            </div>
+            </md-input-container>
 
-            <div>
+            <md-input-container layout>
                 <label for="firstZipcode">Choose a zipcode to track!</label>
                 <input type="text" id="firstZipcode" ng-model="vm.user.firstZipcode.zipcode">
-            </div>
+            </md-input-container>
 
-            <input class="btn btn-default" type="submit" name="submit" value="Register" />
-            <a href="#!login">Cancel</a>
+            <md-input-container layout>
+                <md-button class="md-raised" type="submit" name="submit">Register</md-button>
+                <md-button href="#!login">Cancel</md-button>
+            </md-input-container>
+
         </form>
 
-</div>
+    </md-card>
+
+</md-content>
+
