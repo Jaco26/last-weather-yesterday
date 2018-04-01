@@ -150,7 +150,14 @@ myApp.controller('DetailsController', ['UserService', '$location', '$scope', '$r
                     enabled: false,
                     mode: 'index',
                     intersect: true,
-                }
+                },
+                // scales: {
+                //     yAxes: [{
+                //         ticks: {
+                //             beginAtZero: true,
+                //         }
+                //     }],
+                // },
             }
         });
     }

@@ -1,13 +1,9 @@
-/* Details.html styles */
+/* md-list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+} */
 
-/* #text-data {
-    background-color: cyan;
-    min-width: 300px;
-} */
-/* 
-#charts {
-    min-width: 600px;
-} */
 
 md-toolbar {
     background-color: #525252 !important;
@@ -17,6 +13,7 @@ md-toolbar {
 .time-buttons {
     /* background-color: #d6d6d6; */
     font-size: 14px;
+    color: cornflowerblue;
     padding: 0px;
     margin: 0px;
     height: 30px;

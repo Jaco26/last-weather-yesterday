@@ -2,24 +2,59 @@
 
     <!-- COMMENTS -->
     <md-card>
-        <h3>Notes</h3>
-        <p>Make a note about what you did on this day</p>
-        <input type="text" ng-model="vm.userService.newComment.comment">
-        <button ng-click="vm.postComment()">clicky clicky</button>
-        <ul>
-            <li ng-repeat="comment in vm.userService.selectedDate.comments">
-                <div ng-hide="comment.beingEdited">
-                    {{comment.comment.comment}} 
-                    <md-button ng-click="comment.beingEdited = true">Edit</md-button>
-                    <md-button ng-click="vm.deleteComment($index)">Delete</md-button>
-                </div>
-    
-                <input ng-show="comment.beingEdited" ng-model="comment.comment.comment" ng-value="comment.comment.comment">
-                <md-button ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment.comment)">update</md-button>
-                <md-button ng-show="comment.beingEdited" ng-click="comment.beingEdited = false">Cancel</md-button>
-            </li>
-        </ul>
+        <md-card-content layout>
+            <h3 flex="100" >Notes</h3>
+        </md-card-content>
+     
+        <md-card-content layout>
+            <md-input-container flex="100">
+                <textarea ng-model="vm.userService.newComment.comment"></textarea>
+                <md-button class="md-raised" ng-click="vm.postComment()">Submit</md-button>
+            </md-input-container> 
+        </md-card-content>
+
+        <md-card-content layout>
+            <md-list>
+                <md-divider></md-divider>
+                <md-list-item layout ng-repeat="comment in vm.userService.selectedDate.comments">
+
+                    <div ng-hide="comment.beingEdited" layout-align="start" >
+                        {{comment.comment.comment}} 
+                    </div>
+
+                    <div ng-hide="comment.beingEdited" layout-align="end" >
+                        <md-button class="md-raised" ng-click="comment.beingEdited = true">Edit</md-button>
+                        <md-button class="md-raised" ng-click="vm.deleteComment($index)">Delete</md-button>
+                    </div>
+
+                    <div ng-show="comment.beingEdited" layout-align="start" >
+                        <md-input-container>
+                            <textarea md-detect-hidden ng-model="comment.comment.comment" ng-value="comment.comment.comment"></textarea>
+                        </md-input-container>
+                    </div>
+
+                    <div ng-show="comment.beingEdited" layout-align="end" >
+                        <md-button class="md-raised" id="update" ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment.comment)">update</md-button>
+                        <md-button class="md-raised" ng-show="comment.beingEdited" ng-click="comment.beingEdited = false">Cancel</md-button>
+                    </div> 
+                </md-list-item>
+                
+                
+            </md-list>
+
+        </md-card-content>
+       
     </md-card>
     <!-- END COMMENTS -->
 
 </div>
+
+<!-- <md-list>
+    <md-list-item class="md-2-line" ng-repeat="item in todos">
+        <md-checkbox ng-model="item.done"></md-checkbox>
+        <div class="md-list-item-text">
+            <h3>{{item.title}}</h3>
+            <p>{{item.description}}</p>
+        </div>
+    </md-list-item>
+</md-list> -->
