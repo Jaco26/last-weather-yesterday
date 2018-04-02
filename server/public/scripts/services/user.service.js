@@ -70,18 +70,18 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
 
     self.submitZip = () => {
         if (self.newZip.zipcode.match(/\D/) || self.newZip.zipcode.length !== 5){
-            alert('Enter a valid zipcode')
+            swal('Enter a valid zipcode!')
         } else {
             $http({
                 method: 'POST',
                 url: `/api/zipcode/${self.userObject._id}`,
                 data: self.newZip
             }).then(response => {
-                response.status == 201 ? alert("We've begun tracking " + self.newZip.zipcode + " for you!"): null;
+                response.status == 201 ? swal("We've begun tracking " + self.newZip.zipcode + " for you!"): null;
                 self.getuser();
                 self.newZip.zipcode = '';
             }).catch(error => {
-                error.status == 403 ? alert("You're already tracking that zipcode"): null;
+                error.status == 403 ? swal("You're already tracking that zipcode"): null;
                 console.log('error', error);
             });
         }
@@ -124,7 +124,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
             self.newComment.comment = '';
         }).catch(err => {
             console.log(err);
-            alert(err.status + ' ' + err.statusText);
         })
           
     }
@@ -162,24 +161,24 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
         }).then(response => {
             self.getuser();
         }).catch(err => {
-            alert(err.status + ' ' + err.statusText);
+            console.log(err);
         }); 
     }
 
     self.deleteComment = (index) => {
         // console.log(index);
-        if(confirm('Are you sure??')){
-            let commentId = self.selectedDate.comments[index].refIds.commentId;
-            let objectId = self.selectedDate.comments[index].refIds._id;
-            $http({
-                method: 'DELETE',
-                url: `/api/comment/${commentId}/${objectId}`,
-            }).then(response => {
-                self.getuser();
-            }).catch(err => {
-                alert(err.status + ' ' + err.statusText);
-            });
-        }
+    
+        let commentId = self.selectedDate.comments[index].refIds.commentId;
+        let objectId = self.selectedDate.comments[index].refIds._id;
+        $http({
+            method: 'DELETE',
+            url: `/api/comment/${commentId}/${objectId}`,
+        }).then(response => {
+            self.getuser();
+        }).catch(err => {
+            console.log(err);
+        });
+    
     }
    
     // ngInit

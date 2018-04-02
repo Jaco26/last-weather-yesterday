@@ -4,14 +4,27 @@ myApp.controller('CommentsController', ['UserService', function(UserService){
     self.getUserComments = UserService.getUserComments;
     self.postComment = UserService.postComment;
     self.updateComment = UserService.updateComment;
-    self.deleteComment = UserService.deleteComment;
 
 
-    // self.comments = UserService.datePie
+    self.deleteComment = (index) => {
+        swal({
+            text: 'Once deleted, this comment will be gone for good!',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        }).then( (willDelete) => {
+            if(willDelete){
+                UserService.deleteComment(index);
+                swal('Your comment is gone!!');
+            } else {
+                swal('Your comment is here to stay!!');
+            }
+        });
+    }
 
-    // Init
-    // self.getUserComments()
+    // self.postComment = () => {
 
+    // }
 
 }])
 

@@ -1,50 +1,67 @@
 <div ng-init="vm.userService.init()"></div>
+<div ng-include="'views/partials/nav.html'"></div>
 
-<md-content>
-    <div ng-include="'views/partials/nav.html'"></div>
+<md-content layout id="hellohello">
+
+     <md-content flex="50">
+    
+        <md-content layout="row">
+            <div id="dialogContainer" layout-margin>
+                <md-button style="background-color: grey;" class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
+                    Add Zip Code
+                </md-button>
+            </div>
+        </md-content>
+        
+        <!-- md-cards with zipcodes -->
+        <!-- <md-content layout="row" layout-margin layout-xs="column"> -->
+            <md-content layout="column" flex>
+                <md-card id="card-{{$index}}" layout flex="40" ng-repeat="zip in vm.userService.zipcodes.list" ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)" >
+                    <div layout="column" layout-align="start">
+                        <md-card-content layout="column">
+                            <ul style="list-style: none; padding-left: 0px;">
+                                <li>
+                                    <b>Zip Code: </b> {{zip.weatherData.zipcode}}</li>
+                                <li>
+                                    <b>City/Town: </b> {{zip.weatherData.weather[0].name}}</li>
+                                <li>
+                                    <b>Tracking Since: </b> {{zip.startTrackDate}}</li>
+                            </ul>
+                        </md-card-content>
+                    </div >
+                   
+                    <div layout="column" layout-align="start end" flex>
+                        <md-card-controls>
+                            <md-button class="md-raised" ng-click="vm.organizeLocationDetails(zip.weatherData.zipcode, zip.weatherData.weather[0].name, zip.startTrackDate)">View History</md-button>
+                        </md-card-controls>
+                    </div>
+                   
+                </md-card>
+            </md-content>
+            <!-- END .zipcode-card-container -->
+        <!-- </md-content> -->
+        <!--  -->
+        
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="add-zip">
+                <md-dialog layout-padding="">
+                    <form ng-submit="vm.userService.submitZip()">
+                        <h2>Add a zipcode</h2>
+                        <label for="zipcode">Enter a zipcode you wish to track</label>
+                        <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
+                        <input type="submit" name="submit" value="Submit">
+                    </form>
+                </md-dialog>
+            </div>
+        </div>
+    
+    </md-content>
+
+
+    
+    <md-content flex="50">
+        <h1>Hi</h1>
+    </md-content>
+  
 </md-content>
 
-<md-content layout>
-    <div id="dialogContainer">
-        <md-button style="background-color: grey;" class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
-            Add Zip Code
-        </md-button>
-    </div>
-</md-content>
-<!-- md-cards with zipcodes -->
-<md-content layout="row" layout-padding layout-align="center" layout-xs="column">
-    <div layout="column" flex="50" class="zipcode-card-container">
-        <md-card id="card-{{$index}}" layout="row" flex="40" ng-repeat="zip in vm.userService.zipcodes.list"  ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)">
-            <md-card-content layout="column" >
-                <ul style="list-style: none; padding-left: 0px;">
-                    <li><b>Zip Code: </b> {{zip.weatherData.zipcode}}</li>
-                    <li><b>City/Town: </b> {{zip.weatherData.weather[0].name}}</li>
-                    <li><b>Tracking Since: </b> {{zip.startTrackDate}}</li>
-                </ul>
-            </md-card-content>
-            <md-card-controls layout="column">
-                <md-button class="md-raised" ng-click="vm.organizeLocationDetails(zip.weatherData.zipcode, zip.weatherData.weather[0].name, zip.startTrackDate)">View History</md-button>
-            </md-card-controls> 
-        </md-card>
-    </div>
-    <!-- END .zipcode-card-container -->
-</md-content>
-
-
-
-
-<div style="visibility: hidden">
-    <div class="md-dialog-container" id="add-zip">
-        <md-dialog layout-padding="">
-            <form ng-submit="vm.userService.submitZip()">
-                    <h2>Add a zipcode</h2>
-                    <label for="zipcode">Enter a zipcode you wish to track</label>
-                    <input type="text" id="zipcode" ng-model="vm.userService.newZip.zipcode">
-                    <input type="submit" name="submit" value="Submit">
-            </form>
-        </md-dialog>
-    </div>
-</div>
-
-
-<!-- Current weather -->

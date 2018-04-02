@@ -15,9 +15,8 @@
 
         <md-card-content layout>
             <md-list>
-                <md-divider></md-divider>
                 <md-list-item layout ng-repeat="comment in vm.userService.selectedDate.comments">
-
+                
                     <div ng-hide="comment.beingEdited" layout-align="start" >
                         {{comment.comment.comment}} 
                     </div>
@@ -26,7 +25,7 @@
                         <md-button class="md-raised" ng-click="comment.beingEdited = true">Edit</md-button>
                         <md-button class="md-raised" ng-click="vm.deleteComment($index)">Delete</md-button>
                     </div>
-
+                    
                     <div ng-show="comment.beingEdited" layout-align="start" >
                         <md-input-container>
                             <textarea md-detect-hidden ng-model="comment.comment.comment" ng-value="comment.comment.comment"></textarea>
@@ -37,6 +36,9 @@
                         <md-button class="md-raised" id="update" ng-show="comment.beingEdited" ng-click="vm.updateComment($index, comment.comment.comment)">update</md-button>
                         <md-button class="md-raised" ng-show="comment.beingEdited" ng-click="comment.beingEdited = false">Cancel</md-button>
                     </div> 
+
+                    <md-divider></md-divider>
+
                 </md-list-item>
                 
                 
@@ -49,12 +51,3 @@
 
 </div>
 
-<!-- <md-list>
-    <md-list-item class="md-2-line" ng-repeat="item in todos">
-        <md-checkbox ng-model="item.done"></md-checkbox>
-        <div class="md-list-item-text">
-            <h3>{{item.title}}</h3>
-            <p>{{item.description}}</p>
-        </div>
-    </md-list-item>
-</md-list> -->
