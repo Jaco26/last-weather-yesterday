@@ -3,8 +3,10 @@
 
 <md-content layout id="hellohello">
 
+ 
+
      <md-content flex="50">
-    
+        
         <md-content layout="row">
             <div id="dialogContainer" layout-margin>
                 <md-button style="background-color: grey;" class="md-primary md-raised" ng-click="vm.showAddzipDialog($event)">
@@ -12,11 +14,11 @@
                 </md-button>
             </div>
         </md-content>
-        
+
         <!-- md-cards with zipcodes -->
         <!-- <md-content layout="row" layout-margin layout-xs="column"> -->
             <md-content layout="column" flex>
-                <md-card id="card-{{$index}}" layout flex="40" ng-repeat="zip in vm.userService.zipcodes.list" ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)" >
+                <md-card id="card-{{$index}}" layout flex="45" ng-repeat="zip in vm.userService.zipcodes.list" ng-mouseenter="vm.menter($index)" ng-mouseleave="vm.mleave($index)" >
                     <div layout="column" layout-align="start">
                         <md-card-content layout="column">
                             <ul style="list-style: none; padding-left: 0px;">
@@ -58,9 +60,10 @@
     </md-content>
 
 
-    
     <md-content flex="50">
-        <h1>Hi</h1>
+        <md-card layout flex="45">
+            <h1>Hi</h1>
+        </md-card>
     </md-content>
   
 </md-content>
