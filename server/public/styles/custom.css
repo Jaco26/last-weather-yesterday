@@ -25,3 +25,16 @@ md-toolbar {
     height: 30px;
     width: 30px;
 }
+
+.edit-btns {
+    color: darkgray;
+}
+
+.edit-btns:hover {
+    color: gray;
+}
+
+.newman {
+    height: 100%;
+    width: auto;
+}
