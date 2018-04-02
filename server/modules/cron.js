@@ -103,8 +103,7 @@ cron.schedule('0 */1 * * *', function () {
             console.log('ERROR ON cron.schedule', error);
         } else {
             let date = new Date();
-            console.log('----------In find zipcode', date.toLocaleString());
-            
+            // console.log('----------In find zipcode', date.toLocaleString());
             for (let zip of response) {
                 // console.log('------- ZIP of RESPONSE', zip);
                 getWeather(owmapiSearchByZip, zip, owmapiKey);

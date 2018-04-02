@@ -166,8 +166,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     }
 
     self.deleteComment = (index) => {
-        // console.log(index);
-    
         let commentId = self.selectedDate.comments[index].refIds.commentId;
         let objectId = self.selectedDate.comments[index].refIds._id;
         $http({
@@ -178,7 +176,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
         }).catch(err => {
             console.log(err);
         });
-    
     }
    
     // ngInit
