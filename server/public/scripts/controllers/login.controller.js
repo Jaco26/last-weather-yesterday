@@ -7,7 +7,11 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
         passwordConfirm: '',
         firstZipcode: {zipcode: ''},
     };
+    self.demoData = {weatherByDate: []};
+
     self.message = '';
+
+    
 
     self.getuser = UserService.getuser;
 
@@ -53,5 +57,18 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
                 });
         }
     }
+
+    self.getDemoWeatherData = () => {
+        $http({
+            method: 'GET',
+            url: '/api/zipcode'
+        }).then(response => {
+            
+        }).catch(err => {
+            console.log(err);            
+        }); 
+    }
+
+    self.getDemoWeatherData();
 
 }]);
