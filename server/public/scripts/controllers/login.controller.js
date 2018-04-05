@@ -63,12 +63,11 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
             method: 'GET',
             url: '/api/zipcode'
         }).then(response => {
-            
+            console.log('Weather Data For The Last Week:', response);
+            self.demoData.weatherByDate = response.data;
         }).catch(err => {
             console.log(err);            
         }); 
     }
-
-    self.getDemoWeatherData();
 
 }]);

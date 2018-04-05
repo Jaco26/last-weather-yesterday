@@ -37,68 +37,28 @@ router.post('/:userId', (req, res) => {
     }  
 });
 
+// This database query gets back the last weeks worth of weather data
+// for Minneapolis to be used on the demo section of the login page
+// so potential users don't have to create an account and wait a couple of days 
+// to start having fun! 
 router.get('/', (req, res) => {
-    let oneWeekAgo = new Date(moment().subtract(7, 'days'));
+    let oneWeekAgo = new Date(moment().subtract(8, 'days'));
     let today = new Date(moment());
     console.log('oneWeekAgo ---- - - -', oneWeekAgo);
     console.log('today ==== ---- - - -', today);
     Zipcode.aggregate([
-        // {"zipcode": /55404/},
-        // {"weather.dt": {$gt: oneWeekAgo}},
         {"$unwind": "$weather"},
-        { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } }, { "zipcode": /55404/ }] } }]).limit(10).exec(
-
-        // { weather: 
-        //     {$elemMatch: { dt: { $gte: oneWeekAgo, $lte: today } } } },
-        (err, response) => {
+        { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } }, { "zipcode": /55404/ }] } }])
+        .limit(200)
+        .exec( (err, response) => {
             if (err) {
                 console.log(err);
-
             } else {
-                console.log(response);
-                console.log(response[0].weather[0].dt);
-                console.log(response[0].weather[0]);
-                
-                // res.send(response)
+                res.send(response)
             }
         }
     )
 })
-
-// router.get('/ingredients/', function (req, res) {
-//     var ingredientName = req.params.name;
-//     // Limit to 20 results
-//     // Execute the query
-//     Recipes.aggregate([
-//         { "$unwind": "$ingredients" }, // Flattens the array of ingredients to allow for grouping
-//         {
-//             "$group": { // Re-group by ingredient name
-//                 "_id": "$ingredients.name", // Group by
-//                 "count": { "$sum": 1 } // Add one for each occurrence
-//             }
-//         },
-//     ]).limit(20).exec(function (err, foundRecipes) {
-//         if (err) {
-//             console.log(err);
-//             res.sendStatus(500);
-//         } else {
-//             res.send(foundRecipes);
-//         }
-//     });
-// });
-
-
-
-
-// db.inventory.find({
-//     qty: {
-//         $all: [
-//             { "$elemMatch": { size: "M", num: { $gt: 50 } } },
-//             { "$elemMatch": { num: 100, color: "green" } }
-//         ]
-//     }
-// })
-
 
 module.exports = router;
 

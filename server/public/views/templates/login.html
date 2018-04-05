@@ -1,31 +1,60 @@
 
-<md-content layout="column" layout-align="center center">
 
-    <md-card layout-padding id="login-form">
-        <div layout="column">
-            <h1 class="lead">Login</h1>
-            <h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+    <md-content layout="row" layout-padding flex-sm="none">
+        <h1 class="nav-header" flex-xs="100" flex="none">Last Weather Yesterday</h1>
+    </md-content>
+    
+    <span flex></span>
+    
+    <md-content layout="row" layout-padding layout-align="end center" flex-sm="none">
+
+        <div>
+            <p>
+                Last Weather Yesterday is a weather history tracker! It draws current weather data from
+                <br> the Open Weather Map API for any zipcode stored in the database every hour on the hour and
+                <br> then stores that data for you to reference whenever you'd like.
+                <br> Create an account and track weather for up to three different zipcodes in the US.
+                <br>
+                <br> Click below for a demo with weather data for the last week from Minneapolis, MN 55404
+            </p>
+            <md-button class="md-raised md-primary" ng-click="vm.getDemoWeatherData()">See Demo Data</md-button>
         </div>
         
-        <form ng-submit="vm.login()" layout="column">
-            <md-input-container layout>
-                <label for="username">Username:</label>
-                <input type="text" ng-model="vm.user.username" />
-            </md-input-container>
-        
-            <md-input-container layout>
-                <label for="password">Password:</label>
-                <input type="password" ng-model="vm.user.password" />
-            </md-input-container>
-        
-            <md-input-container layout>
-                <md-button class="md-raised" type="submit" name="submit">Log In</md-button>
-                <md-button ng-href="#!register">Register</md-button>
-            </md-input-container>
-        </form>
-    </md-card>
+        <span flex></span>
     
-</md-content>
+        <md-card layout-padding id="login-form">
+            <div layout="column">
+                <h1 class="lead">Login</h1>
+                <h1 class="lead alert alert-danger" role="alert" ng-if="vm.message != ''">{{vm.message}}</h2>
+            </div>
+    
+            <form ng-submit="vm.login()" layout="column">
+                <md-input-container layout>
+                    <label for="username">Username:</label>
+                    <input type="text" ng-model="vm.user.username" />
+                </md-input-container>
+    
+                <md-input-container layout>
+                    <label for="password">Password:</label>
+                    <input type="password" ng-model="vm.user.password" />
+                </md-input-container>
+    
+                <md-input-container layout>
+                    <md-button class="md-raised" type="submit" name="submit">Log In</md-button>
+                    <md-button ng-href="#!register">Register</md-button>
+                </md-input-container>
+            </form>
+        </md-card>
+    
+    </md-content>
+
+    
+
+
+
+
+
+
 
 
 
