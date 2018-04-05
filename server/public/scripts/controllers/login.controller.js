@@ -90,7 +90,6 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
     }
 
     function parseWeatherByDate (data) {
-        // console.log(data);
         for (let weatherObj of data) {
             for (let date of self.demoData.weatherByDate){
                 if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
@@ -99,8 +98,6 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
                 }
             }
         }
-        console.log(self.demoData.weatherByDate);
-        
     }
 
 }]);

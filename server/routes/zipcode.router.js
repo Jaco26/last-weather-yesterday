@@ -42,13 +42,9 @@ router.post('/:userId', (req, res) => {
 // so potential users don't have to create an account and wait a couple of days 
 // to start having fun! 
 router.get('/', (req, res) => {
-    // let oneWeekAgo = new Date(moment().subtract(8, 'days').calendar());
     let today = new Date().toDateString();
     today = new Date(today);
     let oneWeekAgo = new Date(today.setDate(today.getDate() - 7));
-    // let today = new Date().toDateString();
-    console.log('oneWeekAgo ---- - - -', oneWeekAgo);
-    console.log('today ==== ---- - - -', today);
     Zipcode.aggregate([
         {"$unwind": "$weather"},
         { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } }, { "zipcode": /55404/ }] } }])
@@ -61,7 +57,7 @@ router.get('/', (req, res) => {
             }
         }
     )
-})
+});
 
 module.exports = router;
 
