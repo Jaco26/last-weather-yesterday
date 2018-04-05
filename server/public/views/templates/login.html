@@ -6,8 +6,7 @@
     
     <span flex></span>
     
-    <md-content layout="row" layout-padding layout-align="end center" flex-sm="none">
-
+    <md-content layout="row" layout-padding layout-align="end start" flex-sm="none">
         <div>
             <p>
                 Last Weather Yesterday is a weather history tracker! It draws current weather data from
@@ -46,6 +45,98 @@
             </form>
         </md-card>
     
+    </md-content>
+
+
+    <md-content ng-show="vm.demoData.weatherByDate[0]">
+     
+        <md-content>
+            <md-toolbar class="md-toolbar-tools" layout="row">
+                <h3 flex>{{vm.userService.selectedLocation.location}}</h3>
+                <div layout="row" flex="40">
+                    <span flex>{{vm.userService.selectedDate.date | date : 'fullDate'}}</span>
+                    <span flex>
+                        <strong>Sunrise:</strong> {{vm.userService.selectedDate.sunrise}}</span>
+                    <span flex>
+                        <strong>Sunset:</strong> {{vm.userService.selectedDate.sunset}}</span>
+                </div>
+            </md-toolbar>
+        
+        
+            <md-label for="choose-date">Select a date:</md-label>
+            <md-datepicker id="choose-date" ng-model="vm.userService.selectedDate.date" ng-change="vm.viewWeatherByDate(); viewCommentsByDate()"
+                md-placeholder="Enter date" md-min-date="vm.minDate" md-max-date="vm.today"></md-datepicker>
+            <md-button ng-click="vm.prevDay()"> previous day </md-button>
+            <md-button ng-click="vm.nextDay()"> next day </md-button>
+        
+        </md-content>
+
+        <!-- Start time selector buttons -->
+        <md-content layout="row">
+            <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes" aria-label="time">
+                {{time}} </md-button>
+        </md-content>
+        <!-- End time selector buttons -->
+
+        
+        <md-content layout="row">
+            <!-- Start #text-data -->
+            <md-content flex="30" layout="column" id="text-data">
+            
+                <md-card layout>
+                    <md-card-content flex="20">
+                        <h4> {{vm.userService.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
+                        <div>
+                            <strong>General:</strong>
+                            <div ng-repeat="item in vm.userService.timeSlice.weather"> {{item.description}} </div>
+                        </div>
+                    </md-card-content>
+            
+                    <md-card-content flex flex-offset="10" layout-padding>
+                        <p><strong>Temperature:</strong> {{vm.userService.timeSlice.main.temp}}&deg;F </p>
+                        <p><strong>Pressure:</strong> {{vm.userService.timeSlice.main.pressure}} hPa </p>
+                        <p><strong>Humidity:</strong> {{vm.userService.timeSlice.main.humidity}}% </p>
+                        <p><strong>Wind Speed:</strong> {{vm.userService.timeSlice.wind.speed}}mph {{vm.userService.timeSlice.wind.deg}} </p>
+                        <p><strong>Cloud Cover:</strong> {{vm.userService.timeSlice.clouds.all}}% </p>
+                        <p><strong>Visibility:</strong> {{vm.userService.timeSlice.visibility}} miles </p>
+                    </md-card-content>
+                </md-card>
+            
+                <!-- COMMENTS -->
+                <div  ng-include="'views/partials/comments.html'"></div>
+                <!-- END COMMENTS -->
+            
+            </md-content>
+            <!-- END #text-data -->
+
+            
+            <md-content id="charts" >   
+                <div layout="row">
+                    <md-card class="canvas-card" flex>
+                        <canvas id="temp"></canvas>
+                    </md-card>
+                    
+                    <md-card class="canvas-card" flex>
+                        <canvas id="pressure"></canvas>
+                    </md-card>
+
+                </div>
+            
+                <div layout="row" flex>
+                    <md-card class="canvas-card" flex>
+                        <canvas id="clouds"></canvas>
+                    </md-card>
+                    
+                    <md-card class="canvas-card" flex>
+                        <canvas id="windspeed"></canvas>
+                    </md-card>
+                </div> 
+            </md-content>
+
+        </md-content>
+
+
+
     </md-content>
 
     

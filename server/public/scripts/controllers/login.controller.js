@@ -63,11 +63,44 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
             method: 'GET',
             url: '/api/zipcode'
         }).then(response => {
-            console.log('Weather Data For The Last Week:', response);
-            self.demoData.weatherByDate = response.data;
+            // console.log('Weather Data For The Last Week:', response);
+            // self.demoData.weatherByDate = response.data;
+            forWhichDatesDidWeGetData(response.data);
+
         }).catch(err => {
             console.log(err);            
         }); 
+    }
+
+    function forWhichDatesDidWeGetData (data) {
+        self.demoData.weatherByDate = [];
+        data.forEach( (object, i, dataArray) => {
+            if(i > 0){
+                let date = new Date(object.weather.dt).toDateString();
+                let dateBefore = new Date(dataArray[i - 1].weather.dt).toDateString();
+                if(date != dateBefore && self.demoData.weatherByDate.length === 0){
+                    self.demoData.weatherByDate.push({date: dateBefore, weather: []});
+                    self.demoData.weatherByDate.push({date: date, weather: []});
+                } else if (date != dateBefore) {
+                    self.demoData.weatherByDate.push({date: date, weather: []});
+                }
+            } 
+        });
+        parseWeatherByDate(data);
+    }
+
+    function parseWeatherByDate (data) {
+        // console.log(data);
+        for (let weatherObj of data) {
+            for (let date of self.demoData.weatherByDate){
+                if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
+                    weatherObj.weather.dt = new Date(weatherObj.weather.dt).toLocaleString();
+                    date.weather.push(weatherObj.weather)
+                }
+            }
+        }
+        console.log(self.demoData.weatherByDate);
+        
     }
 
 }]);
