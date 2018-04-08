@@ -1,0 +1,97 @@
+<!-- <md-content ng-controller="DemoController as vm"> -->
+
+    <div ng-init="vm.init()"></div>
+
+    <md-content>
+        <md-toolbar class="md-toolbar-tools" layout="row">
+            <h3 flex>Minneapolis, 55404</h3>
+            <div layout="row" flex="40">
+                <span flex>{{vm.selectedDate.date | date : 'fullDate'}}</span>
+                <span flex>
+                    <strong>Sunrise:</strong> {{vm.selectedDate.sunrise}}</span>
+                <span flex>
+                    <strong>Sunset:</strong> {{vm.selectedDate.sunset}}</span>
+            </div>
+        </md-toolbar>
+
+
+        <md-label for="choose-date">Select a date:</md-label>
+        <md-datepicker id="choose-date" ng-model="vm.selectedDate.date" ng-change="vm.viewWeatherByDate(); viewCommentsByDate()"
+            md-placeholder="Enter date" md-min-date="vm.lastAvailableDate" md-max-date="vm.today"></md-datepicker>
+        <md-button ng-click="vm.prevDay()"> previous day </md-button>
+        <md-button ng-click="vm.nextDay()"> next day </md-button>
+
+    </md-content>
+
+    <!-- Start time selector buttons -->
+    <md-content layout="row">
+        <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDate.times" aria-label="time">
+            {{time}} </md-button>
+    </md-content>
+    <!-- End time selector buttons -->
+
+
+    <md-content layout="row">
+        <!-- Start #text-data -->
+        <md-content flex="30" layout="column" id="text-data">
+
+            <md-card layout>
+                <md-card-content flex="20">
+                    <h4> {{vm.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
+                    <div>
+                        <strong>General:</strong>
+                        <div ng-repeat="item in vm.timeSlice.weather"> {{item.description}} </div>
+                    </div>
+                </md-card-content>
+
+                <md-card-content flex flex-offset="10" layout-padding>
+                    <p>
+                        <strong>Temperature:</strong> {{vm.timeSlice.main.temp}}&deg;F </p>
+                    <p>
+                        <strong>Pressure:</strong> {{vm.timeSlice.main.pressure}} hPa </p>
+                    <p>
+                        <strong>Humidity:</strong> {{vm.timeSlice.main.humidity}}% </p>
+                    <p>
+                        <strong>Wind Speed:</strong> {{vm.timeSlice.wind.speed}}mph {{vm.timeSlice.wind.deg}} </p>
+                    <p>
+                        <strong>Cloud Cover:</strong> {{vm.timeSlice.clouds.all}}% </p>
+                    <p>
+                        <strong>Visibility:</strong> {{vm.timeSlice.visibility}} miles </p>
+                </md-card-content>
+            </md-card>
+
+            <!-- COMMENTS -->
+            <div ng-include="'views/partials/comments.html'"></div>
+            <!-- END COMMENTS -->
+
+        </md-content>
+        <!-- END #text-data -->
+
+
+        <md-content id="charts">
+            <div layout="row">
+                <md-card class="canvas-card" flex>
+                    <canvas id="demo-temp"></canvas>
+                </md-card>
+
+                <md-card class="canvas-card" flex>
+                    <canvas id="demo-pressure"></canvas>
+                </md-card>
+
+            </div>
+
+            <div layout="row" flex>
+                <md-card class="canvas-card" flex>
+                    <canvas id="demo-clouds"></canvas>
+                </md-card>
+
+                <md-card class="canvas-card" flex>
+                    <canvas id="demo-windspeed"></canvas>
+                </md-card>
+            </div>
+        </md-content>
+
+    </md-content>
+
+
+<!-- </md-content> -->

@@ -1,5 +1,5 @@
 myApp.controller('DetailsController', ['UserService', '$location', '$scope', '$rootScope', function (UserService, $location, $scope, $rootScope) {
-    // console.log('DetailsController created');
+    console.log('DetailsController created');
     let self = this;
     self.userService = UserService;
     self.selectedDatesTimes = [];

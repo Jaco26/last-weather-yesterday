@@ -41,6 +41,9 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
             //         return UserService.getuser();
             //     }
             // }
+        }).when('/demo', {
+            templateUrl: 'views/templates/demo.html',
+            controller: 'DemoController as vm'
         })
         .otherwise({
             template: '<h1>404</h1>'

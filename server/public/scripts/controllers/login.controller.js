@@ -1,19 +1,16 @@
-myApp.controller('LoginController', ['$http', '$location', 'UserService', function ($http, $location, UserService) {
+myApp.controller('LoginController', ['$http', '$location', 'UserService', 'DemoService', '$scope', function ($http, $location, UserService, DemoService, $scope) {
     console.log('LoginController created');
     let self = this;
     self.user = {
         username: '',
         password: '',
         passwordConfirm: '',
-        firstZipcode: {zipcode: ''},
+        firstZipcode: { zipcode: '' },
     };
-    self.demoData = {weatherByDate: []};
-
     self.message = '';
 
-    
-
     self.getuser = UserService.getuser;
+    // self.viewWeatherByDate();
 
     self.login = function () {
         if (self.user.username === '' || self.user.password === '') {
@@ -58,46 +55,74 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', functi
         }
     }
 
-    self.getDemoWeatherData = () => {
+    self.prepareDemoData = function () {
         $http({
             method: 'GET',
             url: '/api/zipcode'
         }).then(response => {
-            // console.log('Weather Data For The Last Week:', response);
-            // self.demoData.weatherByDate = response.data;
             forWhichDatesDidWeGetData(response.data);
-
         }).catch(err => {
-            console.log(err);            
-        }); 
+            console.log(err);
+        });
     }
 
-    function forWhichDatesDidWeGetData (data) {
-        self.demoData.weatherByDate = [];
-        data.forEach( (object, i, dataArray) => {
-            if(i > 0){
+
+    function forWhichDatesDidWeGetData(data) {
+        DemoService.selectedDate.date = new Date();
+        DemoService.demoData.weatherByDate = [];
+        data.forEach((object, i, dataArray) => {
+            if (i > 0) {
                 let date = new Date(object.weather.dt).toDateString();
                 let dateBefore = new Date(dataArray[i - 1].weather.dt).toDateString();
-                if(date != dateBefore && self.demoData.weatherByDate.length === 0){
-                    self.demoData.weatherByDate.push({date: dateBefore, weather: []});
-                    self.demoData.weatherByDate.push({date: date, weather: []});
+                if (date != dateBefore && DemoService.demoData.weatherByDate.length === 0) {
+                    DemoService.demoData.weatherByDate.push({ date: dateBefore, weather: [] });
+                    DemoService.demoData.weatherByDate.push({ date: date, weather: [] });
                 } else if (date != dateBefore) {
-                    self.demoData.weatherByDate.push({date: date, weather: []});
+                    DemoService.demoData.weatherByDate.push({ date: date, weather: [] });
                 }
-            } 
+            }
         });
         parseWeatherByDate(data);
     }
 
-    function parseWeatherByDate (data) {
+    function parseWeatherByDate(data) {
         for (let weatherObj of data) {
-            for (let date of self.demoData.weatherByDate){
+            for (let date of DemoService.demoData.weatherByDate) {
                 if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
                     weatherObj.weather.dt = new Date(weatherObj.weather.dt).toLocaleString();
                     date.weather.push(weatherObj.weather)
                 }
             }
         }
+        DemoService.lastAvailableDate = new Date(DemoService.demoData.weatherByDate[0].date);
+        // self.viewWeatherByDate();
+        console.log(DemoService.demoData);
+        
+        $location.path('/demo')
+
     }
 
+   
+
 }]);
+
+// var pros = [
+//     'good work', 
+//     'good resume', 
+//     'job that pays money', 
+//     'you would be warm', 
+//     'get paid to do research', 
+//     'look good for PhD: fellowships look good on applications to academic things', 
+//     'You would like to do doctors without borders: would be good experice with underserved communities / communities that have experienced trauma'
+// ];
+// var cons = [
+//     'Have to move to florida', 
+//     'hurricanes', 
+//     'cockroaches in living space is very possible', 
+//     'beuraucracy in VA', 
+//     'potential changes to VA and fellowship being cut before you start',
+//     'It might be like when I moved to portland when I had panic attacks and cried every day', 
+//     'miss friends, me, grandpa', 
+//     'do not want to live along or with someone creepy or a jahovas witness', 
+//     'do not want to take a dog with me right away' 
+// ];
