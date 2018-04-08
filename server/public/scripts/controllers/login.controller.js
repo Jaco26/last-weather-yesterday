@@ -94,35 +94,8 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', 'DemoS
                 }
             }
         }
-        DemoService.lastAvailableDate.date = new Date(DemoService.demoData.weatherByDate[0].date);
-        // self.viewWeatherByDate();
-        console.log(DemoService.lastAvailableDate);
-        
+        DemoService.lastAvailableDate.date = new Date(DemoService.demoData.weatherByDate[0].date);        
         $location.path('/demo')
-
     }
 
-   
-
 }]);
-
-// var pros = [
-//     'good work', 
-//     'good resume', 
-//     'job that pays money', 
-//     'you would be warm', 
-//     'get paid to do research', 
-//     'look good for PhD: fellowships look good on applications to academic things', 
-//     'You would like to do doctors without borders: would be good experice with underserved communities / communities that have experienced trauma'
-// ];
-// var cons = [
-//     'Have to move to florida', 
-//     'hurricanes', 
-//     'cockroaches in living space is very possible', 
-//     'beuraucracy in VA', 
-//     'potential changes to VA and fellowship being cut before you start',
-//     'It might be like when I moved to portland when I had panic attacks and cried every day', 
-//     'miss friends, me, grandpa', 
-//     'do not want to live along or with someone creepy or a jahovas witness', 
-//     'do not want to take a dog with me right away' 
-// ];

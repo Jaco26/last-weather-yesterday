@@ -71,8 +71,6 @@ myApp.controller('DemoController', ['DemoService', '$http', '$scope', '$location
             { ctx: document.getElementById('demo-clouds') },
             { ctx: document.getElementById('demo-windspeed') }
         ];
-        // console.log(ctxArray);
-
         let dataPointsArray = [
             { dataPoints: DemoService.selectedDate.weather.map(item => item.main.temp) },
             { dataPoints: DemoService.selectedDate.weather.map(item => item.main.pressure) },
@@ -122,50 +120,3 @@ myApp.controller('DemoController', ['DemoService', '$http', '$scope', '$location
 }]);
 
 
-
-
-
-
-
-
-// self.getDemoWeatherData = () => {
-    //     $http({
-    //         method: 'GET',
-    //         url: '/api/zipcode'
-    //     }).then(response => {
-    //         forWhichDatesDidWeGetData(response.data);
-    //     }).catch(err => {
-    //         console.log(err);
-    //     });
-    // }
-
-    // function forWhichDatesDidWeGetData(data) {
-    //     self.selectedDate.date = new Date();
-    //     self.demoData.weatherByDate = [];
-    //     data.forEach((object, i, dataArray) => {
-    //         if (i > 0) {
-    //             let date = new Date(object.weather.dt).toDateString();
-    //             let dateBefore = new Date(dataArray[i - 1].weather.dt).toDateString();
-    //             if (date != dateBefore && self.demoData.weatherByDate.length === 0) {
-    //                 self.demoData.weatherByDate.push({ date: dateBefore, weather: [] });
-    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
-    //             } else if (date != dateBefore) {
-    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
-    //             }
-    //         }
-    //     });
-    //     parseWeatherByDate(data);
-    // }
-
-    // function parseWeatherByDate(data) {
-    //     for (let weatherObj of data) {
-    //         for (let date of self.demoData.weatherByDate) {
-    //             if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
-    //                 weatherObj.weather.dt = new Date(weatherObj.weather.dt).toLocaleString();
-    //                 date.weather.push(weatherObj.weather)
-    //             }
-    //         }
-    //     }
-    //     self.lastAvailableDate = new Date(self.demoData.weatherByDate[0].date);
-    //     self.viewWeatherByDate();
-    // }
