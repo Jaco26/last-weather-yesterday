@@ -2,16 +2,7 @@
 
     <div ng-init="vm.init()"></div>
 
-    <md-content layout="row" layout-align="start center">
-    
-        <md-nav-bar aria-label="navbar" flex>
-            <!-- <span flex="5"></span> -->
-            <h1 class="nav-header" flex="none">Last Weather Yesterday DEMO</h1>
-            <md-nav-item aria-label="login" md-nav-href="/#!login">Back to Login</md-nav-item>
-            <md-nav-item flex aria-label="about" md-nav-href="/#!about">Info</md-nav-item>
-        </md-nav-bar>
-    
-    </md-content>
+    <div ng-include="'views/partials/nav.html'"></div>
 
     <md-content>
         <md-toolbar class="md-toolbar-tools" layout="row">

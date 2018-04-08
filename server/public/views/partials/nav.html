@@ -4,11 +4,13 @@
     <md-nav-bar aria-label="navbar" flex>
         <span flex="5"></span>
         <h1 class="nav-header" flex="none">Last Weather Yesterday</h1>
-        <md-nav-item aria-label="dashboard" md-nav-href="/#!dashboard">dashboard</md-nav-item>
+        <md-nav-item ng-show="vm.userService.userObject.username" aria-label="dashboard" md-nav-href="/#!dashboard">dashboard</md-nav-item>
+        <md-nav-item ng-show="!vm.userService.userObject.username" aria-label="demo data" md-nav-href="/#!demo">Demo Data</md-nav-item>
         <md-nav-item flex aria-label="about" md-nav-href="/#!about">Info</md-nav-item>
-      
+        
         <h3 flex="none" class="nav-header">Hello {{vm.userService.userObject.username}}</h3>
-        <md-button  id="logout-btn" ng-click="vm.userService.logout()">Log Out</md-button>
+        <md-nav-item ng-show="!vm.userService.userObject.username" aria-label="back to login" md-nav-href="/#!login">Back to login</md-nav-item>
+        <md-button ng-show="vm.userService.userObject.username" id="logout-btn" ng-click="vm.userService.logout()">Log Out</md-button>
         <span flex="5"></span>
     </md-nav-bar>
 
