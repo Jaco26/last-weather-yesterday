@@ -81,7 +81,12 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
                 self.getuser();
                 self.newZip.zipcode = '';
             }).catch(error => {
-                error.status == 403 ? swal("You're already tracking that zipcode"): null;
+                error.status == 403 ? swal(`You've reached your maximum of three zipcodes to track!`, 
+                `Since this project was for a school assignment with a two week deadline, immediatly
+                followed by another work intersive project (which I am in the middle of now 4/8/2018) 
+                I have not yet written the database logic to allow you to manage your zipcodes once you have chosen them. 
+                You should be able to manage your zipcodes by mid-may. Until then, I hope you enjoy what you have :)`): null;
+                error.status == 401 ? swal("You're already tracking that zipcode"): null;
                 console.log('error', error);
             });
         }

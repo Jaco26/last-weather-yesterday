@@ -28,12 +28,18 @@ router.get('/:zipId', (req, res) => {
 // find user by id and update their zipcodeDate document with 
 // the ObjectId of the saved zipcode (see /models/User.js)
 router.post('/:userId', (req, res) => {
+    console.log(req.user.zipcode.length);
+    
     if(req.isAuthenticated()) {
-        let userId = req.params.userId;
-        let zipcodeToAdd = new Zipcode(req.body); // new instance of Zipcode model
-        validateZipcodeAndSave(zipcodeToAdd, userId, res);
+        if(req.user.zipcode.length < 3){
+            let userId = req.params.userId;
+            let zipcodeToAdd = new Zipcode(req.body); // new instance of Zipcode model
+            validateZipcodeAndSave(zipcodeToAdd, userId, res);
+        } else {
+            res.sendStatus(403)
+        }
     } else {
-        res.sendStatus(403);
+        res.sendStatus(401);
     }  
 });
 
@@ -44,7 +50,7 @@ router.post('/:userId', (req, res) => {
 router.get('/', (req, res) => {
     let today = new Date().toDateString();
     today = new Date(today);
-    let oneWeekAgo = new Date(today.setDate(today.getDate() - 7));
+    let oneWeekAgo = new Date(today.setDate(today.getDate() - 6));
     Zipcode.aggregate([
         {"$unwind": "$weather"},
         { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } }, { "zipcode": /55404/ }] } }])

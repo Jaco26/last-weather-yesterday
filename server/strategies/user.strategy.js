@@ -31,10 +31,10 @@ passport.use('local', new LocalStrategy({
     passReqToCallback: true,
     usernameField: 'username',
 }, ((req, username, password, done) => {
-    if (verbose) console.log('trying to log in:', username, password);
+    if (verbose) console.log('trying to log in:', username, password);    
     User.find({ username })
-        .then((result) => {
-            const user = result && result[0];
+        .then((result) => {            
+            const user = result && result[0];            
             if (verbose) console.log('using comparePassword:', password, user.password);
             if (user && encryptLib.comparePassword(password, user.password)) {
                 // all good! Passwords match!

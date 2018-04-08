@@ -40,7 +40,7 @@ router.get('/blabla', (req, res) => {
             console.log('ERROR on User.findById', err);
             res.sendStatus(500);
         } else {
-            console.log('foundUser.comments--------', foundUser.comments);
+            // console.log('foundUser.comments--------', foundUser.comments);
             let userComments = [];
             for(let i = 0; i < foundUser.comments.length; i++){
                 let comment = foundUser.comments[i];
