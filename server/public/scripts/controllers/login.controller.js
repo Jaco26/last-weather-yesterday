@@ -94,9 +94,9 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', 'DemoS
                 }
             }
         }
-        DemoService.lastAvailableDate = new Date(DemoService.demoData.weatherByDate[0].date);
+        DemoService.lastAvailableDate.date = new Date(DemoService.demoData.weatherByDate[0].date);
         // self.viewWeatherByDate();
-        console.log(DemoService.demoData);
+        console.log(DemoService.lastAvailableDate);
         
         $location.path('/demo')
 

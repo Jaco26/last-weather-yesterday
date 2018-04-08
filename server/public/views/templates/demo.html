@@ -2,22 +2,33 @@
 
     <div ng-init="vm.init()"></div>
 
+    <md-content layout="row" layout-align="start center">
+    
+        <md-nav-bar aria-label="navbar" flex>
+            <!-- <span flex="5"></span> -->
+            <h1 class="nav-header" flex="none">Last Weather Yesterday DEMO</h1>
+            <md-nav-item aria-label="login" md-nav-href="/#!login">Back to Login</md-nav-item>
+            <md-nav-item flex aria-label="about" md-nav-href="/#!about">Info</md-nav-item>
+        </md-nav-bar>
+    
+    </md-content>
+
     <md-content>
         <md-toolbar class="md-toolbar-tools" layout="row">
             <h3 flex>Minneapolis, 55404</h3>
             <div layout="row" flex="40">
-                <span flex>{{vm.selectedDate.date | date : 'fullDate'}}</span>
+                <span flex>{{vm.demoService.selectedDate.date | date : 'fullDate'}}</span>
                 <span flex>
-                    <strong>Sunrise:</strong> {{vm.selectedDate.sunrise}}</span>
+                    <strong>Sunrise:</strong> {{vm.demoService.selectedDate.sunrise}}</span>
                 <span flex>
-                    <strong>Sunset:</strong> {{vm.selectedDate.sunset}}</span>
+                    <strong>Sunset:</strong> {{vm.demoService.selectedDate.sunset}}</span>
             </div>
         </md-toolbar>
 
 
         <md-label for="choose-date">Select a date:</md-label>
-        <md-datepicker id="choose-date" ng-model="vm.selectedDate.date" ng-change="vm.viewWeatherByDate(); viewCommentsByDate()"
-            md-placeholder="Enter date" md-min-date="vm.lastAvailableDate" md-max-date="vm.today"></md-datepicker>
+        <md-datepicker id="choose-date" ng-model="vm.demoService.selectedDate.date" ng-change="vm.viewWeatherByDate()"
+            md-placeholder="Enter date" md-min-date="vm.demoService.lastAvailableDate.date" md-max-date="vm.demoService.today.date"></md-datepicker>
         <md-button ng-click="vm.prevDay()"> previous day </md-button>
         <md-button ng-click="vm.nextDay()"> next day </md-button>
 
@@ -25,7 +36,7 @@
 
     <!-- Start time selector buttons -->
     <md-content layout="row">
-        <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDate.times" aria-label="time">
+        <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.demoService.selectedDate.times" aria-label="time">
             {{time}} </md-button>
     </md-content>
     <!-- End time selector buttons -->
@@ -37,31 +48,40 @@
 
             <md-card layout>
                 <md-card-content flex="20">
-                    <h4> {{vm.timeSlice.dt.slice(vm.userService.timeSlice.dt.indexOf(',') + 2)}} </h4>
+                    <h4> {{vm.demoService.timeSlice.dt.slice(vm.demoService.timeSlice.dt.indexOf(',') + 2)}} </h4>
                     <div>
                         <strong>General:</strong>
-                        <div ng-repeat="item in vm.timeSlice.weather"> {{item.description}} </div>
+                        <div ng-repeat="item in vm.demoService.timeSlice.weather"> {{item.description}} </div>
                     </div>
                 </md-card-content>
 
                 <md-card-content flex flex-offset="10" layout-padding>
                     <p>
-                        <strong>Temperature:</strong> {{vm.timeSlice.main.temp}}&deg;F </p>
+                        <strong>Temperature:</strong> {{vm.demoService.timeSlice.main.temp}}&deg;F </p>
                     <p>
-                        <strong>Pressure:</strong> {{vm.timeSlice.main.pressure}} hPa </p>
+                        <strong>Pressure:</strong> {{vm.demoService.timeSlice.main.pressure}} hPa </p>
                     <p>
-                        <strong>Humidity:</strong> {{vm.timeSlice.main.humidity}}% </p>
+                        <strong>Humidity:</strong> {{vm.demoService.timeSlice.main.humidity}}% </p>
                     <p>
-                        <strong>Wind Speed:</strong> {{vm.timeSlice.wind.speed}}mph {{vm.timeSlice.wind.deg}} </p>
+                        <strong>Wind Speed:</strong> {{vm.demoService.timeSlice.wind.speed}}mph {{vm.demoService.timeSlice.wind.deg}} </p>
                     <p>
-                        <strong>Cloud Cover:</strong> {{vm.timeSlice.clouds.all}}% </p>
+                        <strong>Cloud Cover:</strong> {{vm.demoService.timeSlice.clouds.all}}% </p>
                     <p>
-                        <strong>Visibility:</strong> {{vm.timeSlice.visibility}} miles </p>
+                        <strong>Visibility:</strong> {{vm.demoService.timeSlice.visibility}} miles </p>
                 </md-card-content>
             </md-card>
 
             <!-- COMMENTS -->
-            <div ng-include="'views/partials/comments.html'"></div>
+            <md-card>
+                <md-card-content layout="column">
+                    <h3 flex="100">Notes</h3>
+                    <p flex="100">
+                        When you have an account, you can leave yourself notes for any given date. 
+                        This way you can keep track of what you did on a given day and/or supplement the 
+                        weather data from the app with your own observations
+                    </p>
+                </md-card-content>
+            </md-card>
             <!-- END COMMENTS -->
 
         </md-content>

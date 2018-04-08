@@ -1,54 +1,15 @@
-myApp.controller('DemoController', ['DemoService', '$http', '$scope', function(DemoService, $http, $scope){
+myApp.controller('DemoController', ['DemoService', '$http', '$scope', '$location', function (DemoService, $http, $scope, $location){
     const self = this;
-
+    self.demoService = DemoService;
   
     self.init = () => {
-        self.viewWeatherByDate();
+        if(!DemoService.demoData.weatherByDate[0]){
+            $location.path('/login');
+        } else {
+            self.viewWeatherByDate();
+        }
     }
-
-
-    // self.getDemoWeatherData = () => {
-    //     $http({
-    //         method: 'GET',
-    //         url: '/api/zipcode'
-    //     }).then(response => {
-    //         forWhichDatesDidWeGetData(response.data);
-    //     }).catch(err => {
-    //         console.log(err);
-    //     });
-    // }
-
-    // function forWhichDatesDidWeGetData(data) {
-    //     self.selectedDate.date = new Date();
-    //     self.demoData.weatherByDate = [];
-    //     data.forEach((object, i, dataArray) => {
-    //         if (i > 0) {
-    //             let date = new Date(object.weather.dt).toDateString();
-    //             let dateBefore = new Date(dataArray[i - 1].weather.dt).toDateString();
-    //             if (date != dateBefore && self.demoData.weatherByDate.length === 0) {
-    //                 self.demoData.weatherByDate.push({ date: dateBefore, weather: [] });
-    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
-    //             } else if (date != dateBefore) {
-    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
-    //             }
-    //         }
-    //     });
-    //     parseWeatherByDate(data);
-    // }
-
-    // function parseWeatherByDate(data) {
-    //     for (let weatherObj of data) {
-    //         for (let date of self.demoData.weatherByDate) {
-    //             if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
-    //                 weatherObj.weather.dt = new Date(weatherObj.weather.dt).toLocaleString();
-    //                 date.weather.push(weatherObj.weather)
-    //             }
-    //         }
-    //     }
-    //     self.lastAvailableDate = new Date(self.demoData.weatherByDate[0].date);
-    //     self.viewWeatherByDate();
-    // }
-
+    
     self.viewWeatherByDate = () => {
         DemoService.timeSlice = {};
         let selectedDate = new Date(DemoService.selectedDate.date).toDateString();
@@ -79,25 +40,25 @@ myApp.controller('DemoController', ['DemoService', '$http', '$scope', function(D
     }
 
     self.nextDay = () => {
-        let thisDay = self.selectedDate.date;
+        let thisDay = DemoService.selectedDate.date;
         let nextDay = new Date(thisDay.setDate(thisDay.getDate() + 1)).toDateString();
-        if (new Date(nextDay) > new Date(self.demoData.weatherByDate.slice(-1)[0].date)) {
+        if (new Date(nextDay) > new Date(DemoService.demoData.weatherByDate.slice(-1)[0].date)) {
             new Date(thisDay.setDate(thisDay.getDate() - 1));
             swal(`There's no data for ${new Date(nextDay).toLocaleDateString()}`);
         } else {
-            self.selectedDate.date = new Date(nextDay);
+            DemoService.selectedDate.date = new Date(nextDay);
             self.viewWeatherByDate();
         }
     }
 
     self.prevDay = () => {
-        let thisDay = self.selectedDate.date;
+        let thisDay = DemoService.selectedDate.date;
         let prevDay = new Date(thisDay.setDate(thisDay.getDate() - 1)).toDateString();
-        if (new Date(prevDay) < new Date(self.demoData.weatherByDate[0].date)) {
+        if (new Date(prevDay) < new Date(DemoService.demoData.weatherByDate[0].date)) {
             new Date(thisDay.setDate(thisDay.getDate() + 1));
             swal(`There\'s no data for ${new Date(prevDay).toLocaleDateString()}`);
         } else {
-            self.selectedDate.date = new Date(prevDay);
+            DemoService.selectedDate.date = new Date(prevDay);
             self.viewWeatherByDate();
         }
     }
@@ -159,3 +120,52 @@ myApp.controller('DemoController', ['DemoService', '$http', '$scope', function(D
     }
 
 }]);
+
+
+
+
+
+
+
+
+// self.getDemoWeatherData = () => {
+    //     $http({
+    //         method: 'GET',
+    //         url: '/api/zipcode'
+    //     }).then(response => {
+    //         forWhichDatesDidWeGetData(response.data);
+    //     }).catch(err => {
+    //         console.log(err);
+    //     });
+    // }
+
+    // function forWhichDatesDidWeGetData(data) {
+    //     self.selectedDate.date = new Date();
+    //     self.demoData.weatherByDate = [];
+    //     data.forEach((object, i, dataArray) => {
+    //         if (i > 0) {
+    //             let date = new Date(object.weather.dt).toDateString();
+    //             let dateBefore = new Date(dataArray[i - 1].weather.dt).toDateString();
+    //             if (date != dateBefore && self.demoData.weatherByDate.length === 0) {
+    //                 self.demoData.weatherByDate.push({ date: dateBefore, weather: [] });
+    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
+    //             } else if (date != dateBefore) {
+    //                 self.demoData.weatherByDate.push({ date: date, weather: [] });
+    //             }
+    //         }
+    //     });
+    //     parseWeatherByDate(data);
+    // }
+
+    // function parseWeatherByDate(data) {
+    //     for (let weatherObj of data) {
+    //         for (let date of self.demoData.weatherByDate) {
+    //             if (new Date(weatherObj.weather.dt).toDateString() == date.date) {
+    //                 weatherObj.weather.dt = new Date(weatherObj.weather.dt).toLocaleString();
+    //                 date.weather.push(weatherObj.weather)
+    //             }
+    //         }
+    //     }
+    //     self.lastAvailableDate = new Date(self.demoData.weatherByDate[0].date);
+    //     self.viewWeatherByDate();
+    // }
