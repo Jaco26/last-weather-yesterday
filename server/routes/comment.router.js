@@ -9,7 +9,6 @@ router.post('/:userId', (req, res) => {
     if(req.isAuthenticated()) {
         let userId = req.params.userId;
         let newComment = new Comment(req.body);
-        console.log(newComment);
         newComment.save((err, savedComment) => {
             if(err){
                 console.log('ERROR on newComment.save', err);
@@ -40,7 +39,6 @@ router.get('/blabla', (req, res) => {
             console.log('ERROR on User.findById', err);
             res.sendStatus(500);
         } else {
-            // console.log('foundUser.comments--------', foundUser.comments);
             let userComments = [];
             for(let i = 0; i < foundUser.comments.length; i++){
                 let comment = foundUser.comments[i];
@@ -87,7 +85,6 @@ router.put('/:commentId', (req, res) => {
                     console.log('ERROR on Comment.findByIdAndUpdate', err);
                     res.sendStatus(500);
                 } else {
-                    console.log('updatedComment --------', updatedComment);
                     res.sendStatus(200);
                 }
             }

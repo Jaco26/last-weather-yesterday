@@ -12,12 +12,13 @@ const validateZipcodeAndSave = require('../modules/validate-zip-submissions');
 // GET all user's zipcodes and associated weather data
 router.get('/:zipId', (req, res) => {
     let zipId = req.params.zipId;
-    Zipcode.findById({ "_id": zipId }).populate('users').exec((err, response) => {
+    Zipcode.findById({ "_id": zipId })
+    .populate('users')
+    .exec((err, response) => {
         if (err) {
             console.log('Error on find', err);
             res.sendStatus(500);
         } else {
-            // console.log('foundZipcodes:', response);
             res.send(response)
         }
     });
@@ -28,8 +29,6 @@ router.get('/:zipId', (req, res) => {
 // find user by id and update their zipcodeDate document with 
 // the ObjectId of the saved zipcode (see /models/User.js)
 router.post('/:userId', (req, res) => {
-    console.log(req.user.zipcode.length);
-    
     if(req.isAuthenticated()) {
         if(req.user.zipcode.length < 3){
             let userId = req.params.userId;
@@ -53,7 +52,7 @@ router.get('/', (req, res) => {
     let oneWeekAgo = new Date(today.setDate(today.getDate() - 6));
     Zipcode.aggregate([
         {"$unwind": "$weather"},
-        { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } }, { "zipcode": /55404/ }] } }])
+        { "$match": { "$and": [{ "weather.dt": { "$gte": oneWeekAgo } } , { "zipcode": /55404/ }] } }])
         .limit(200)
         .exec( (err, response) => {
             if (err) {

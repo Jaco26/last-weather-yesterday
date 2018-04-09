@@ -35,7 +35,7 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
 
 
     self.getuser = function () {
-        console.log('HEYYYYY UserService -- getuser');
+        console.log('UserService -- getuser');
         $http.get('/api/user').then(function (response) {
             if (response.data.userInfo.username) {
                 // user has a curret session on the server
@@ -134,7 +134,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     }
     // GET COMMENTS
     self.getUserComments = () => {
-        console.log('in getUserComments');
         $http({
             method: 'GET',
             url: `/api/comment/blabla`,
@@ -157,8 +156,6 @@ myApp.service('UserService', ['$http', '$location', '$rootScope', function ($htt
     // UPDATE COMMENT
     self.updateComment = (index, updatedComment) => {
         let commentId = self.selectedDate.comments[index].refIds.commentId;
-        console.log('index', commentId);
-        console.log('updatedComment - - - - ', updatedComment );
         $http({
             method: 'PUT',
             url: `/api/comment/${commentId}`,

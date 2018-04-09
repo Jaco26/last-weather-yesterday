@@ -34,7 +34,6 @@ md-toolbar {
     color: gray;
 }
 
-.newman {
-    height: 100%;
-    width: auto;
+.info-card {
+    width: 600px;
 }

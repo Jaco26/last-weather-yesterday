@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const encryptLib = require('../modules/encryption');
 const User = require('../models/User');
-let verbose = true; // will show explanations in console.logs
+let verbose = false; // will show explanations in console.logs
 
 passport.serializeUser((user, done) => {
     done(null, user.id);

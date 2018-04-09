@@ -1,9 +1,41 @@
 <div ng-include="'views/partials/nav.html'"></div>
 <div class="container">
     <md-content layout-padding>
-        <p>
-            Oh hello! Welcome to this app! The longer you wait, the sweeter it gets. Trust me. You're gonna love it!
-        </p>
+        <md-card class="info-card">
+            <h1>Welcome to Last Weather Yesterday!</h1>
+
+            <p>
+                This is the result of two weeks of solo work as part the Full Stack Software <br>
+                Engineering Certification course from <a href="https://primeacademy.io/">Prime Digital Academy</a>. <br>
+            </p>
+
+            <p>
+                Last Weather Yesterday is a weather history tracking tool. With an account,<br>
+                you can choose to track weather data up to three zip codes. When you enter <br> 
+                a zip code, we save it in our database and then every hour on the hour, we<br>
+                grab current weather data for that zip code from the <a href="http://openweathermap.org/">Open Weather Map</a> API <br> 
+                and store it in our database so that you can access an hour by hour weather <br>
+                history for any location (in the US) of your choosing.
+            </p>
+            <p>
+                In addition to the weather data we save for you, you can leave yourself notes <br>
+                about what you did on a given day or supplement the Open Weather Map <br>
+                data with your own observations.
+            </p>
+        </md-card>
+        <md-card class="info-card">
+            <h4>NOTE</h4>
+            <p>
+                As of this writing (April 8, 2018), this app does not include a way for <br> 
+                you to manage your zipcodes once you have entered them. So choose <br> 
+                wisely...for now. Come mid-May or early June, upon my successful <br>
+                completion of the Prime <a href="https://primeacademy.io/courses/engineering">curriculum</a>
+                and procurement of employment, <br>
+                you should have full control...
+            </p>
+        </md-card>
+        
+        
     </md-content>
    
 

@@ -7,7 +7,6 @@ const Zipcode = require('../models/Zipcode');
 
 
 function findZipcode(zipcodeToAdd, userId, res) {
-    // console.log(zipcode);
     Zipcode.find({ "zipcode": zipcodeToAdd.zipcode }, (error, foundZipcode) => {
         if (error) {
             console.log('ERROR ON UNIQUE ZIP TEST', error);
@@ -31,7 +30,6 @@ function saveZipcode(zipcodeToAdd, userId, res) {
             console.log('error on post zipcode', error);
             res.sendStatus(500);
         } else {
-            console.log('------------- savedZipcode:', savedZipcode);
             associateToUser(savedZipcode, userId, res);
         }
     });
@@ -45,7 +43,6 @@ function checkAlreadyTracking(zipcodeToCheck, userId, res) {
             // console.log('In else of checkAlreadyTracking: FOUND USER:', foundUser);
             let zipIdRe = new RegExp(zipcodeToCheck._id);
             let foundZipcode = foundUser[0].zipcode.filter(item => zipIdRe.test(item.zipId))[0];
-            console.log('-------- foundZipcode', foundZipcode);
             if (foundZipcode) {
                 console.log('------- ALREADY TRACKING:', foundZipcode);
                 res.sendStatus(403); // Forbidden, might not be the best code but...https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403 

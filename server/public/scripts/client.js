@@ -18,29 +18,13 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
         .when('/details', {
             templateUrl: '/views/templates/details.html',
             controller: 'DetailsController as vm',
-            // resolve: {
-            //     getuser: function (UserService) {
-            //         return UserService.getuser();
-            //     }
-            // }
         })
         .when('/about', {
             templateUrl: '/views/templates/about.html',
             controller: 'AboutController as vm',
-            // resolve: {
-            //     getuser: function (UserService) {
-            //         return UserService.getuser();
-            //     }
-            // }
         }).when('/dashboard', {
             templateUrl: 'views/templates/dashboard.html',
             controller: 'DashboardController as vm',
-            
-            // resolve: {
-            //     getuser: function(UserService) {
-            //         return UserService.getuser();
-            //     }
-            // }
         }).when('/demo', {
             templateUrl: 'views/templates/demo.html',
             controller: 'DemoController as vm'

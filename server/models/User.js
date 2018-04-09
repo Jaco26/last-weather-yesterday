@@ -35,14 +35,6 @@ const UserSchema = new mongoose.Schema(
                 }
             }
         ],
-        photos: [
-            {
-                photoId: {
-                    type: mongoose.Schema.ObjectId,
-                    ref: 'photos',
-                }
-            }
-        ],
 }); 
 
 

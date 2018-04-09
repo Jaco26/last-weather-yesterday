@@ -16,7 +16,6 @@ const cron = require('./modules/cron');
 const userRouter = require('./routes/user.router');
 const zipcodeRouter = require('./routes/zipcode.router');
 const commentRouter = require('./routes/comment.router');
-const photoRouter = require('./routes/photo.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -32,7 +31,6 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/zipcode', zipcodeRouter);
 app.use('/api/comment', commentRouter);
-app.use('api/photo', photoRouter);
 
 
 // Serve static files

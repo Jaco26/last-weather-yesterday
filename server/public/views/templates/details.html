@@ -23,7 +23,7 @@
 
 <!-- Start time selector buttons -->
 <md-content layout="row">
-    <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes" aria-label="time">
+    <md-button class="time-buttons" ng-click="vm.cutTimeSlice(time)" ng-repeat="time in vm.selectedDatesTimes track by $index" aria-label="time">
         {{time}} </md-button>
 </md-content>
 <!-- End time selector buttons -->

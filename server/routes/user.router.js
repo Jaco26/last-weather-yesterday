@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const Zipcode = require('../models/Zipcode');
 const Comment = require('../models/Comments');
-const Photo = require('../models/Photos');
 
 // database zipcode submission validation module
 const findZipcode = require('../modules/validate-zip-submissions');
@@ -74,26 +73,6 @@ function findUserByUsername(username, zipToSave, res) {
     }); // END User.find
 } // END findUserByUsername
 
-// function getWeatherForPrimaryZip(zipId, res, userInfo) {
-//     Zipcode.findById({ "_id": zipId }).populate('users').exec((error, foundZipcode) => {
-//         if (error) {
-//             console.log('Error on find', error);
-//         } else {
-//             console.log('foundZipcode.zipcode:', foundZipcode.zipcode);
-//             axios.get(owmapiSearchByZip + foundZipcode.zipcode + owmapiKey)
-//                 .then(response => {
-//                     let currentWeather = response.data;
-//                     console.log('CURRENT WEATHER!!!!', currentWeather);
-//                     res.send({ currentWeather: currentWeather, userInfo: userInfo })
-//                 }).catch(error => {
-//                     console.log('Error', error);
-//                 }); // END axios.get
-//         }
-//     }); // END Zipcode.findById
-// }
-
-
-
 
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
@@ -101,7 +80,6 @@ function findUserByUsername(username, zipToSave, res) {
 // this middleware will send a 404 if not successful
 router.post('/login', userStrategy.authenticate('local'), (req, res) => {
     if (verbose) console.log('logging in, req.body:', req.body);
-    
     res.sendStatus(200);
 });
 
