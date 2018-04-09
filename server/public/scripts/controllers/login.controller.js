@@ -43,7 +43,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', 'DemoS
         } else if (self.user.firstZipcode.zipcode.match(/\D/) || self.user.firstZipcode.zipcode.length !== 5) {
             self.message = 'Enter a valid zipcode';
         } else {
-            console.log('sending to server...', self.user);
+            console.log('sending to server...');
             $http.post('/api/user/register', self.user).then(function (response) {
                 console.log('success');
                 $location.path('/login');
