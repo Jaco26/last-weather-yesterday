@@ -10,7 +10,7 @@ let mongoURI = '';
 // are running on Heroku
 if(process.env.MONGODB_URI != undefined){
     // use the value from the environment variable
-    mongoURL = process.env.MONGODB_URI;
+    mongoURI = process.env.MONGODB_URI;
 } else {
     // use the local database
     mongoURI = 'mongodb://localhost:27017/' + databaseName;
