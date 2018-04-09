@@ -16,7 +16,7 @@ myApp.controller('LoginController', ['$http', '$location', 'UserService', 'DemoS
         if (self.user.username === '' || self.user.password === '') {
             self.message = "Enter your username and password!";
         } else {
-            console.log('sending to server...', self.user);
+            console.log('sending to server...');
             $http.post('/api/user/login', self.user).then(
                 function (response) {
                     if (response.status == 200) {
