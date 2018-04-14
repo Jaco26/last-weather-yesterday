@@ -7,12 +7,12 @@ https://lastweatheryesterday.herokuapp.com
 
 # Getting Started 
 
-* Prerequisites
+# Prerequisites
 
 To host the project locally, you'll need
 <a href="https://nodejs.org/en/">Node,</a> and <a href="https://www.mongodb.com/download-center?jmp=nav#community">Mongo</a> on your machine. You'll also need a free Open Weather Map API (OWMAPI) <a href="https://openweathermap.org/price">key</a> 
 
-* Installing
+# Installing
 
 - Download the zip
 - `npm install` 
